@@ -1,0 +1,10 @@
+RUNIT TEST PROTOCOL -- Thu Aug 30 13:03:46 2012 
+*********************************************** 
+Number of test functions: 3 
+Number of deactivated test functions: 2 
+Number of errors: 0 
+Number of failures: 0 
+
+ 
+1 Test Suite : 
+move unit testing - 3 test functions, 0 errors, 0 failures
