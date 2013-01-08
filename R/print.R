@@ -3,13 +3,13 @@ setGeneric("print")
 setMethod("print", ".MoveTrack", function(x){
 	  getMethod("print","Spatial")(x) 
 	  timeRange <- range(x@timestamps)
-	  cat("timestamps  :",paste(timeRange, collapse="..."),capture.output(round(difftime(timeRange[2],timeRange[1]))), " (start...end, duration) \n")  
+	  cat("timestamps  :",paste(timeRange, collapse=" ... "),capture.output(round(difftime(timeRange[2],timeRange[1]))), " (start ... end, duration) \n")  
 	  cat("sensors     :",paste(as.character(unique(x@sensor)), collapse=", "),"\n")
 	  cat("indiv. data :", paste(collapse=", ", names(x@idData)),"\n")
 })
 setMethod("print", "dBMvarianceTmp", function(x){
 	  cat("margin      :", x@margin,'\n')
-	  cat("window size :", x@window.size,'\n')# bart have to add means usw
+	  cat("window size :", x@window.size,'\n')# maybe add means usw here later
 })
 setMethod("print", ".MoveTrackSingle", function(x){
 	  callNextMethod()
