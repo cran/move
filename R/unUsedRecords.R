@@ -5,12 +5,17 @@ setMethod('unUsedRecords<-', c(obj='.MoveTrackSingle', value='logical'), functio
 	  unUsed<-as(obj, '.unUsedRecords')
 	  xNew<-obj[!value,]
 	  xOld<-obj[value,]
+	  df1<-unUsed@dataUnUsedRecords 
+	  df2<-xOld@data
+	  df2[,setdiff(names(df1),names(df2))] <- NA
+	  df1[,setdiff(names(df2),names(df1))] <- NA
+	  df3 <- rbind(df1,df2) 
 	  unUsedNew<-new('.unUsedRecords', 
 		      timestampsUnUsedRecords=ifelse(is.null(unUsed@timestampsUnUsedRecords), list(xOld@timestamps),list(c(unUsed@timestampsUnUsedRecords, xOld@timestamps)))[[1]],   
 		      sensorUnUsedRecords=factor(c(as.character(unUsed@sensorUnUsedRecords), as.character(xOld@sensor))),
-		      dataUnUsedRecords=rbind(unUsed@dataUnUsedRecords, xOld@data)
+		      dataUnUsedRecords=df3
 		      ) 
-	  new(class(obj), xNew, unUsedNew)
+	  new(class(obj), unUsedNew, xNew)
 })
 setMethod('unUsedRecords<-', c(obj='.MoveTrackStack', value='logical'), function(obj, value){
 	  if(sum(n.locs(obj))!=length(value))
@@ -18,13 +23,25 @@ setMethod('unUsedRecords<-', c(obj='.MoveTrackStack', value='logical'), function
 	  unUsed<-as(obj, '.unUsedRecordsStack')
 	  xNew<-obj[!value,]
 	  xOld<-obj[value,]
+	  df1<-unUsed@dataUnUsedRecords 
+	  df2<-xOld@data
+	  df2[,setdiff(names(df1),names(df2))] <- NA
+	  df1[,setdiff(names(df2),names(df1))] <- NA
+	  df3 <- rbind(df1,df2) 
 	  unUsedNew<-new('.unUsedRecordsStack', 
 		      timestampsUnUsedRecords=ifelse(is.null(unUsed@timestampsUnUsedRecords), list(xOld@timestamps),list(c(unUsed@timestampsUnUsedRecords, xOld@timestamps)))[[1]],   
 		      sensorUnUsedRecords=factor(c(as.character(unUsed@sensorUnUsedRecords), as.character(xOld@sensor))),
 		      trackIdUnUsedRecords=factor(c(as.character(unUsed@trackIdUnUsedRecords), as.character(xOld@trackId))),
-		      dataUnUsedRecords=rbind(unUsed@dataUnUsedRecords, xOld@data)
+		      dataUnUsedRecords=df3
 		      ) 
-	  new(class(obj), xNew, unUsedNew)
+	  new(class(obj),  unUsedNew, xNew)
 })
 
+setGeneric('unUsedRecords', function(obj,...){standardGeneric('unUsedRecords')})
+setMethod('unUsedRecords', c(obj='.unUsedRecordsStack'), function(obj, ...){
+	  as(obj, '.unUsedRecordsStack')
+})
+setMethod('unUsedRecords', c(obj='.unUsedRecords'), function(obj, ...){
+	  as(obj, '.unUsedRecords')
+})
 

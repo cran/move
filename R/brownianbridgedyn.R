@@ -101,6 +101,8 @@ setMethod(f = "brownian.bridge.dyn",
             if (missing(time.step)) {
               time.step <- (min(time.lag[-length(time.lag)])/15)
             }
+	    if(!is.numeric(time.step))
+		    stop('time.step is not numeric')
             
             T.Total <- sum(time.lag[object@interest])
             
@@ -148,7 +150,7 @@ setMethod(f = "brownian.bridge.dyn",
           function(object, raster, dimSize, location.error, ...) {
             # .extcalc already calculated the right raster extension for all tracks
             rm(dimSize)
-            ## is not needed anymore, because RasterLayer is already calculated
+            ## is not needed anymore, because RasterLayer is already calculated and the correct brownian.bridge.dyn is called
             moveUnstacked <- split(x = object)
             # split MoveStack into individual Move objects
             dbbmmLST <- list()

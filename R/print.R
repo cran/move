@@ -13,15 +13,17 @@ setMethod("print", "dBMvarianceTmp", function(x){
 })
 setMethod("print", ".MoveTrackSingle", function(x){
 	  callNextMethod()
-	      cat("indiv. value:", paste(apply(x@idData, 2,min)),"\n")
-	  try(silent=TRUE, if(length(x@timestampsUnUsedRecords)>=1)
-	      cat("unused rec. :", length(x@timestampsUnUsedRecords),"\n") )
+	  cat("indiv. value:", paste(apply(x@idData, 2,min)),"\n")
+	  print(unUsedRecords(x))
 })
 setMethod("print", ".MoveTrackStack", function(x){
 	  callNextMethod()
 	  cat("min ID Data :", paste(apply(x@idData, 2,min)),"\n")
 	  cat("max ID Data :", paste(apply(x@idData, 2,max)),"\n")
 	  cat("individuals :", paste(as.character(na.omit(unique(x@trackId)[1:15])), collapse=", "),"\n")
+	  print(unUsedRecords(x))
+})
+setMethod('print','.unUsedRecords', function(x){
 	  try(silent=TRUE, if(length(x@timestampsUnUsedRecords)>=1)
 	  cat("unused rec. :", length(x@timestampsUnUsedRecords),"\n") )
 })
@@ -43,7 +45,7 @@ setMethod("print", "MoveStack", function(x){
 })
 setMethod("print",".MoveTrackSingleBurst", function(x){
 	  callNextMethod()
-	  cat("bursts      :",paste(as.character(unique(x@burstId)), collapse=", "),"\n")
+	  cat("bursts      :", paste(levels(x@burstId),': ',unlist(lapply(lapply(levels(x@burstId), '==', x@burstId), sum)), sep='', collapse=', '),"\n")
 })
 setMethod("print",".MoveGeneral", function(x){
 	  if(length(x@license)!=0)
