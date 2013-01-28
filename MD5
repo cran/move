@@ -1,5 +1,5 @@
-3ab8dacc1592a3f6b6c160af019ceda3 *ChangeLog
-ceaf5e6c59958278eb3f2ef0b7b9fe1d *DESCRIPTION
+b6b626bf8520ac1895cf402ee08881da *ChangeLog
+98aa08f81e440e9998fba6712eeecf8f *DESCRIPTION
 3d3fed95f275a3ff3aaa4a320562c54a *NAMESPACE
 5b5b097a0fa126b226372766723cf588 *R/AAClass.R
 722f3510ae12cb8f6c37a79ca45a404b *R/Summary.R
@@ -20,7 +20,7 @@ eeb4533126d1efa7438410cd47047a25 *R/extractDBMvar.R
 8208015feee9a04a0cd7b707b5fbef20 *R/hrBootstrap.R
 59208ca5663641e767058a0190d380df *R/lineMidpoint.R
 78ad422b4621d5b8583ec61e4e6daeb3 *R/lines.R
-45dcb751f5e751d93e6f7e522f265526 *R/move.R
+28f18a231b8c7324324ed3c46e8e538f *R/move.R
 69f2ea55abba337d4ddf4b0a2aa1c485 *R/move2ade.R
 b0b5d2b49e5d41b4489dc4b98415de00 *R/moveStack.R
 acc7358a47435426f25e2e7e132eb0ba *R/nlocs.R
@@ -32,7 +32,7 @@ e5bdc58be0c984d11bcab5152041a7ef *R/points.R
 d3b41981d19a02a4ff3b780d6ceaa24e *R/raster2contour.R
 d3447bdca6730ac0093c081bfdb3f0a5 *R/seglength.R
 fc4df2590777a5477441a2295b316052 *R/show.R
-6848327f907c42b8a8b00001bd246ade *R/spTransform.R
+3a8b516010991229efbcbb8dd781b7f8 *R/spTransform.R
 4aadce91cd525430f450756250a46247 *R/spatialLines.R
 66312080d3a60d3e03355720c0a167eb *R/speed.R
 7da4002340ab4336fc5117ddca53babe *R/split.R
@@ -42,14 +42,17 @@ e29327f7d6c9c4d6ab3da47d97f2c7c2 *R/time.R
 4b1063e0cd20d24011a58a29afec034c *R/timestamps.R
 5b72efe5da80034c7f697b0310a3d3e0 *R/unUsedRecords.R
 7fe57a5a4d4e62671a0b9d26301b4e61 *inst/doc/browseMovebank.Rnw
-e8c13346a7133dbc14e3ef0565c6e507 *inst/doc/browseMovebank.pdf
+1fd3aa21d5e93f72f901227bbc96dcb7 *inst/doc/browseMovebank.pdf
 2ee4d1521f8b0a7c723c70d8edd85c83 *inst/doc/move.Rnw
-0b251920a5de1091f8b7a1d20c8f026a *inst/doc/move.pdf
+f0f6ffdff4ba684f5f8ac594d8b21750 *inst/doc/move.pdf
 0f47ed5c363c3221b34d34f55451855f *inst/extdata/createsRDataFile.R
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
 a1c8516f9d5eca2be788706beed10346 *inst/extdata/move.RData
 ad1aa24c02ec41346b9911cdb568e199 *inst/extdata/ricky.csv.gz
 334f0de6ed55dc79f59addf091097353 *inst/unitTests/Makefile
+b7a172b5fe1c8273837b8190072c9398 *inst/unitTests/report.html
+9ca9e40aef00b9cc8ff01c2a6c0524e7 *inst/unitTests/report.txt
+a3452e2153c786860f17eb80c9aa6e22 *inst/unitTests/reportSummary.txt
 a4af048cd9f6662ff5a1769c81adde07 *inst/unitTests/runit.brownianbridgedyn.R
 2de63a8254d7696f7bc9d9a8e565813f *inst/unitTests/runit.citations.R
 4b2596facec635783bf15e32ce23c1a1 *inst/unitTests/runit.move.R
