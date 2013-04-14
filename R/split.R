@@ -14,7 +14,7 @@ setMethod(f = "split",
 				    spdf,
 				    timestamps=x@timestamps[s],
 				    sensor=x@sensor[s])
-			  unUsedSub<-as(unUsed[unUsed@trackIdUnUsedRecords==ID,T],'.unUsedRecordsStack')
+			  unUsedSub<-as(unUsed[unUsed@trackIdUnUsedRecords==ID,],'.unUsedRecords')
 			  moveObj <- new(Class="Move", 
 					 mt,
 					 idData=x@idData[row.names(x@idData)==ID, ,drop=F],
@@ -49,6 +49,7 @@ setMethod(f = "split",
 				      interest=as.logical(x@DBMvar@interest[x@DBMvar@trackId==Id]),
 				      means=x@DBMvar@means[x@DBMvar@trackId==Id],
 				      in.windows=x@DBMvar@in.windows[x@DBMvar@trackId==Id],
+				      idData=x@DBMvar@idData[Id,],
 				      margin=x@DBMvar@margin)
 			  DBBMMObj <- new(Class="DBBMM",
 					  UD,
