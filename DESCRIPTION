@@ -1,7 +1,7 @@
 Package: move
 Type: Package
 Title: Visualizing and analyzing animal track data
-Version: 1.1.387
+Version: 1.1.392
 Date: 2013-01-28
 Author: Bart Kranstauber <bart.kranstauber@uni-konstanz.de>, Marco
         Smolla <msmolla@orn.mpg.de>
@@ -16,7 +16,7 @@ LazyLoad: yes
 Depends: sp, raster, rgdal, methods, geosphere, R (>= 2.14.0)
 Suggests: RCurl, RUnit, adehabitatHR, adehabitatLT, circular, ggmap,
         mapproj, maptools
-Packaged: 2013-04-14 14:03:02 UTC; bart
+Packaged: 2013-04-22 09:52:48 UTC; bart
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2013-04-14 16:53:55
+Date/Publication: 2013-04-22 16:24:25

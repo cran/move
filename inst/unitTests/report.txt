@@ -1,0 +1,41 @@
+RUNIT TEST PROTOCOL -- Mon Jan  7 11:54:55 2013 
+*********************************************** 
+Number of test functions: 6 
+Number of deactivated test functions: 1 
+Number of errors: 0 
+Number of failures: 0 
+
+ 
+1 Test Suite : 
+move unit testing - 6 test functions, 0 errors, 0 failures
+
+
+
+Details 
+*************************** 
+Test Suite: move unit testing 
+Test function regexp: ^test.+ 
+Test file regexp: ^runit.+\.[rR]$ 
+Involved directory: 
+/home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests 
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.brownianbridgedyn.R 
+test.brownian.bridge.dyn: (4 checks) ... OK (26.76 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.citations.R 
+test.citations: (4 checks) ... OK (0.03 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.move.R 
+test.move: (2 checks) ... OK (0.02 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.moveStack.R 
+test.moveStack: (10 checks) ... OK (0.42 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.seglength.R 
+test.seglength : DEACTIVATED, Need to look what we want here
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.spTransform.R 
+test.spTransfrom: (1 checks) ... OK (0.32 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.subSet.R 
+test.moveStack: (1 checks) ... OK (0.12 seconds)

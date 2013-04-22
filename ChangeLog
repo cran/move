@@ -1,3 +1,30 @@
---- pre 8-April-2013, version 1.1.379
-Added conversion for ltrajs
-Updates to movebank download function
+2013-04-22  bart
+
+	* fix to accomodate new rgdal
+
+2013-04-19  bart
+
+	* movebank files now read with strings as factors
+
+2013-04-12  bart
+
+
+2013-04-11  bart
+
+	* add spatialLines
+
+2013-04-10  bart
+
+	* speed up corridor example
+	* updated checks for R 3.1.0
+
+2013-04-08  bart
+
+
+2013-04-05  bart
+
+	* fix for web import in case of numeric indiviual names
+
+2013-04-04  bart
+
+
