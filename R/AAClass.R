@@ -1,4 +1,5 @@
 setClassUnion(".OptionalPOSIXct", c("POSIXct","NULL"))
+lapply(lapply(c('url','file','gzfile','unz','pipe','fifo'),c,'connection'), setOldClass,   where = environment())
 
 setClass(Class = ".MoveGeneral",
 	 representation = representation(
@@ -50,7 +51,7 @@ setClass(Class='.unUsedRecordsStack',contains='.unUsedRecords',# maybe at somest
 		 if(length(object@trackIdUnUsedRecords)!=nrow(object@dataUnUsedRecords))
 			 stop("TrackId and data length for unused records do not match")
 		 if(length(object@timestampsUnUsedRecords)>0)
-		 if(!all(unlist(tapply(object@timestampsUnUsedRecords, list(object@trackIdUnUsedRecords, object@sensorUnUsedRecords),diff))>0))
+		 if(!all(unlist(tapply(object@timestampsUnUsedRecords, list(object@trackIdUnUsedRecords, droplevels(object@sensorUnUsedRecords)),diff))>0))
 		 {
 			 tmp<-duplicated(cbind(object@timestampsUnUsedRecords, object@trackIdUnUsedRecords, object@sensorUnUsedRecords))# made new test in check for higher speed but have this one still here for more clear reporting
 			 stop("The data set includes double timestamps per ID in the unused records (first one:", object@trackIdUnUsedRecords[tmp][1]," ",object@sensorUnUsedRecords[tmp][1]," ",object@timestampsUnUsedRecords[tmp][1], ")")
@@ -95,11 +96,11 @@ setClass(Class = ".MoveTrackSingle",contains=c(".MoveTrack",'.unUsedRecords'),
 		 tmp <- c(T, tmp==0)|c(tmp==0,T)#only check for those that have the same time if the sensor is different
 		 if (any(dups <- duplicated(data.frame(format(object@timestamps[tmp],"%Y %m %d %H %M %OS4"), object@sensor[tmp]))))
 			 stop("The dataset includes double timestamps first one:", object@timestamps[tmp][dups][1], ")")
-		 if(nrow(object@idData)>1)
+		 if(nrow(idData(object, drop=F))>1)
 			 stop("More than 1 row are stored in the idData data.frame")
-		 if(nrow(object@idData)<1)
+		 if(nrow(idData(object, drop=F))<1)
 			 stop("Less than 1 row are stored in the idData data.frame")
-		 if(any(levels(object@sensorUnUsedRecords)!=levels(object@sensor)))
+		 if(!identical(levels(object@sensorUnUsedRecords),levels(object@sensor)))
 			 stop('Levels of unused records dont match with sensor')
 		 timestampsUnUsedDuplicated<-object@timestampsUnUsedRecords[object@timestampsUnUsedRecords %in% object@timestamps]
 		 if(length(timestampsUnUsedDuplicated)!=0)
@@ -139,7 +140,7 @@ setClass(Class = ".MoveTrackStack", contains = c(".MoveTrack", ".unUsedRecordsSt
 	 validity = function(object){
 		 if(length(object@trackId)!=nrow(object@coords))
 			 stop("Length of trackId does not match the number of coordinates")
-		 if(!all(unlist(tapply(object@timestamps, list(object@trackId, object@sensor),diff))>0))
+		 if(!all(unlist(tapply(object@timestamps, list(object@trackId, droplevels(object@sensor)),diff))>0))
 		 {
 			 tmp<-duplicated(cbind(object@timestamps, object@trackId, object@sensor))# made new test in check for higher speed but have this one still here for more clear reporting
 			 stop("The data set includes double timestamps per ID (first one:", object@trackId[tmp][1]," ",object@sensor[tmp][1]," ",object@timestamps[tmp][1], ")")
@@ -156,9 +157,9 @@ setClass(Class = ".MoveTrackStack", contains = c(".MoveTrack", ".unUsedRecordsSt
 			 stop("No match between rownames in idData and ids along track")} 
 		 if(!all(unique(object@trackIdUnUsedRecords)%in%unique(object@trackId)))
 			 stop("There are records for individuals where no real records are present")
-		 if(any(levels(object@sensorUnUsedRecords)!=levels(object@sensor)))
+		 if(!identical(levels(object@sensorUnUsedRecords),levels(object@sensor)))
 			 stop('Levels of unused records dont match with sensor')
-		 if(any(levels(object@trackIdUnUsedRecords)!=levels(object@trackId)))
+		 if(!identical(levels(object@trackIdUnUsedRecords),levels(object@trackId)))
 			 stop('Levels of unused records dont match with trackId')
 		 timestampsUnUsedDuplicated<-object@timestampsUnUsedRecords[object@timestampsUnUsedRecords %in% object@timestamps]
 		 if(length(timestampsUnUsedDuplicated)!=0)
@@ -171,6 +172,10 @@ setClass(Class = ".MoveTrackStack", contains = c(".MoveTrack", ".unUsedRecordsSt
 				 stop("A timestamps of a unused record coincides with a normal timestamps")
 
 		 }
+		 if(sum(diff(as.numeric(object@trackId))!=0)!=(nrow(idData(object, drop=F))-1))
+			 stop('The data in the MoveStack object are not grouped per individual')
+		 if(any(as.character(unique(object@trackId))!= rownames(idData(object, drop=F))))
+			 stop('Order of objects in the idData is not the same as in the trackId')
 		 #this check cant work since coordinates columns are not present in data
 		# if(any(names(object@data)!=names(object@dataUnUsedRecords)))
 		#	 stop('names of data and unused data records dont match')
@@ -213,6 +218,8 @@ setClass(Class = "dBMvarianceTmp",
 			 stop("Margin length not 1")
 		 if (length(object@window.size) != 1) 
 			 stop("Window size length not 1")
+		 if( any(is.na(object@means[object@interest])))
+			 stop('There are not variance estimates for segments of interest')
 		 return(TRUE)
 	 })
 
@@ -250,7 +257,7 @@ setClass(Class = ".UD", contains = c("RasterLayer"),
 			       method = as.character()), 
 	 validity = function(object) {
 		 if (!isTRUE(all.equal(tmp<-sum(values((object))), 1))) 
-			 stop("The used raster is not a UD (sum unequal to 1), sum is: ", sprintf("%.15f",tmp))
+			 stop("The used raster is not a UD (sum unequal to 1), sum is: ", sprintf("%.15f",tmp)," One possible cause is loss of accuracy due to writing raster to disk with dataType FLT4S this can be solved preventing disk usage or changing data type")
 		 return(TRUE)
 	 })
 

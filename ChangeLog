@@ -1,3 +1,118 @@
+2013-07-22  bart
+
+	* Resolve two notes in Rdevel about line length in manuals and
+	  inst/doc vs vignette directory
+	* Make vignettes indepenent of stamen servers and prepare for
+	  release
+
+2013-07-09  bart
+
+	* added checks for the move function and updated the documentation
+	  accordingly
+
+2013-07-08  bart
+
+	* There have been updates to the import function that allow to
+	  remove duplicated timestamps. The move function now accepts text
+	  connections and zip files from the annotation tool. There was
+	  also a bug fix to getMovebankData fixed by ordering the idData
+	  dataframe
+	* fix to documentation of corridor
+
+2013-07-02  bart
+
+	* update citation in coridor documentation
+	* made searchMovebankStudies return a character vector and
+	  specified it in the manual. Also clarified an error message in
+	  brownian bridge dyn
+
+2013-06-26  bart
+
+	* Update to some documentation. Some extra tests. Fix when multiple
+	  sensors are imported through the web interface (reported by B
+	  Carlson)
+
+2013-06-24  bart
+
+
+2013-06-21  bart
+
+	* new optimization for unique per id given that the previous would
+	  fail with repeated values in different individuals
+	* speed up in test for idData in .move
+
+2013-06-11  bart
+
+	* Bug fixed when no variance estimate is present for segment of
+	  interest reported by: Alexandra Bell
+
+2013-06-04  bart
+
+	* Updated documentation \n change printing of computational size to
+	  message \n reduced the number of installed datasets to also speed
+	  up things
+
+2013-06-03  bart
+
+	* added documentation for idData\n added some test for attached
+	  data and idData\n modified split functions for code reuse\n
+	  update documentation for download functions
+
+2013-05-29  bart
+
+	* further simplification of web import so getMovebank does not
+	  convert characters anymore. Also fix for making data frame with
+	  difftime object in the idData
+	* More improvements to web import making things more straight
+	  forward.
+
+2013-05-28  bart
+
+	* make burst return the burst if no factor is supplied
+
+2013-05-27  bart
+
+	* subset for columns with character
+
+2013-05-24  bart
+
+	* Fixes to the web import when haveing not a 1:1 relation between
+	  sensors, individuals & when there are indiv without data also
+	  drop sensor levels in unUsed
+
+2013-05-22  bart
+
+	* Make sure that subseting a movestack doesnt screw up order
+	* ensure order in idData is the same as order in trackId also
+	  ensure this is represented in color usage in the plot
+
+2013-05-21  bart
+
+	* let move function work if a movebank file only has unused records
+	  for individuals
+	* restricted line ploting to individuals with 2 or more datapoints
+
+2013-05-20  bart
+
+	* added export of id data when converting to dataframe
+	  function do access and modify the iddata + some small tests
+	  documents asp arugment for plot
+
+2013-05-16  bart
+
+	* ensure aspect ratio for plots
+
+2013-05-08  bart
+
+
+2013-04-29  bart
+
+	* Improved error reporting when movebank is down for maintainance
+
+2013-04-23  bart
+
+	* Suggest solution in error for UDs not summing to one
+
 2013-04-22  bart
 
 	* fix to accomodate new rgdal

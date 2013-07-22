@@ -13,8 +13,16 @@
   }
 
 \usage{
-  \S4method{plotBursts}{list}(object, add=TRUE, sizeFUN=function(x) {as.numeric(diff(range(timestamps(x))), units ="mins")}, col = NA, breaks = 3, ...)
-  \S4method{plotBursts}{.MoveTrackSingleBurst}(object, add=TRUE, sizeFUN=function(x) {as.numeric(diff(range(timestamps(x))), units ="mins")}, col = NA, breaks = 3, ...)
+  \S4method{plotBursts}{list}(object, add=TRUE, 
+			      sizeFUN=function(x) {as.numeric(diff(range(timestamps(x))), 
+							      units ="mins")}, 
+			      col = NA, breaks = 3, ...)
+  \S4method{plotBursts}{.MoveTrackSingleBurst}(object, add=TRUE, 
+					       sizeFUN=function(x) {
+					       as.numeric(diff(range(timestamps(x))), 
+								       units ="mins")
+					       }, 
+					       col = NA, breaks = 3, ...)
 }
 
 \arguments{
