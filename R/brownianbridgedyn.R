@@ -107,7 +107,7 @@ setMethod(f = "brownian.bridge.dyn",
             T.Total <- sum(time.lag[object@interest])
             
             compsize <- ncell(raster) * (sum(time.lag[object@interest])/time.step)
-            print(paste("Computational size:", sprintf("%.1e", compsize)))
+            message(paste("Computational size:", sprintf("%.1e", compsize)))
             
             interest <- (c(object@interest, 0) + c(0, object@interest))[1:length(object@interest)] != 0
             # Fortran agguments n.locs gridSize timeDiff total time x track y track
@@ -132,9 +132,11 @@ setMethod(f = "brownian.bridge.dyn",
             outerProbability <- outerProbability(dBBMM)
             
             if (is.na(outerProbability)) {
-              stop("The used extent is too large. Choose a smaller value for ext!")
-              # when did this occure Marco? # should we move these checks to the validity
+#              stop("The used extent is too large. Choose a smaller value for ext!")
+	    stop('outerProbability returned an NA value consider different values for ext')
+              # when did this occure Marco? # should we move these checks to the validity 
               # function of the dbbbmm object
+	    #one occurence i found is with a every small raster of 1 by 2 cells
             } else {
               if (outerProbability > 0.01) {
                 warning("Outer probability: ", outerProbability, " The used extent is too small. Choose an extent which includes more of the probabilities.")

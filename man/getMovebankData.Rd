@@ -2,6 +2,11 @@
 
 \alias{getMovebankData}
 \alias{getMovebankData,ANY,ANY,MovebankLogin-method}
+\alias{getMovebankData,ANY,ANY,missing-method}
+\alias{getMovebankData,character,ANY,MovebankLogin-method}
+\alias{getMovebankData,numeric,character,MovebankLogin-method}
+\alias{getMovebankData,numeric,missing,MovebankLogin-method}
+\alias{getMovebankData,numeric,numeric,MovebankLogin-method}
 
 \docType{methods}
 
@@ -27,6 +32,8 @@
 
 \note{
 See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images/Move_Package/browseMovebank.pdf}{move website download section}) for more information about security and how to use Movebank from within R. 
+
+It his possible to add the argument removeDuplictedTimestamps and set it to true which allows you delete the duplicated timestamps, it is strongly advised not to use this option because there is no control over which records are removed. Its better to edit the records in movebank.
 }
 
 
@@ -34,8 +41,11 @@ See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images
 
 \examples{
 \dontrun{
-getMovebankData(study="BCI Ocelot", login=login) #returns a MoveStack object from the specified study
-getMovebankData(study="BCI Agouti", login=login) #returns a Move object (there is only one individual in this study)
-getMovebankData(study=123413, animalName=c("Mancha","Yara"), login=login) #returns a MoveStack with two individuals
+getMovebankData(study="BCI Ocelot", login=login) 
+#returns a MoveStack object from the specified study
+getMovebankData(study="BCI Agouti", login=login) 
+#returns a Move object (there is only one individual in this study)
+getMovebankData(study=123413, animalName=c("Mancha","Yara"), login=login) 
+#returns a MoveStack with two individuals
 }
 }

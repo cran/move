@@ -4,6 +4,7 @@
 %\alias{move,character,ANY,ANY,ANY,ANY,ANY-method}
 %\alias{move,character,ANY,ANY,ANY,ANY-method}
 \alias{move,character,missing,missing,missing,missing-method}
+\alias{move,connection,missing,missing,missing,missing-method}
 \alias{move,numeric,numeric,POSIXct,data.frame,ANY-method}
 \alias{move,numeric,numeric,POSIXct,missing,ANY-method}
 %\alias{move,character-method}
@@ -16,11 +17,11 @@ Create a Move object
 }
 
 \description{
-The move method creates Move or MoveStack object from Movebank or other (compressed) csv files. If you use your own data you need to set the projection method with the 'proj' argument and specify in which column of your data the function finds locations and timestamps. 
+The move method creates Move or MoveStack object from Movebank or other (compressed) csv files, also zip files from the environmental annotation tool can be loaded. If you use your own data you need to set the projection method with the 'proj' argument and specify in which column of your data the function finds locations and timestamps. 
 }
 
 \usage{
-\S4method{move}{character,missing,missing,missing,missing}(x)
+\S4method{move}{connection,missing,missing,missing,missing}(x, removeDuplicatedTimestamps=F, ...)
 \S4method{move}{numeric,numeric,POSIXct,data.frame,ANY}(x, y, time, data, proj, sensor='unknown',animal='unnamed',...)
 }
 
@@ -32,6 +33,7 @@ The move method creates Move or MoveStack object from Movebank or other (compres
 \item{proj}{projection method for non-Movebank data; requires a valid CRS (see \code{\link{CRS-class}}) object, like CRS("+proj=longlat +ellps=WGS84"); default is NA}
 \item{sensor}{sensor name, either single character or a vector with length of the number of coordinates}
 \item{animal}{animal ID or name, either single character or a vector with length of the number of coordinates}
+\item{removeDuplicatedTimestamps}{It his possible to add the argument removeDuplicatedTimestamps and set it to true which allows you delete the duplicated timestamps, it is strongly advised not to use this option because there is no control over which records are removed. Its better to edit the records in movebank.}
 \item{...}{Additional arguments}  
 }
 
@@ -46,6 +48,7 @@ Because the SpatialPointsDataFrame function that creates the spatial data frame 
 If the data include double timestamps check your data for validity. You may want to consider a function to delete double timestamps, like: \cr \code{data <- data[which(!duplicated(data$timestamp)), ]}
 
 Due to convention all names are turned into 'good names' which means, without spaces ('Ricky T' becomes 'Ricky.T').
+
 }
 
 
@@ -56,8 +59,12 @@ Due to convention all names are turned into 'good names' which means, without sp
 data <- move(system.file("extdata","leroy.csv.gz",package="move"))
 
 ## create a move object from non-Movebank data
-file <- read.table(system.file("extdata","leroy.csv.gz",package="move"), header=TRUE, sep=",", dec=".")
-data <- move(x=file$location.long, y=file$location.lat, time=as.POSIXct(file$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"), data=file, proj=CRS("+proj=longlat"), animal="Leroy")
+file <- read.table(system.file("extdata","leroy.csv.gz",package="move"), 
+		   header=TRUE, sep=",", dec=".")
+data <- move(x=file$location.long, y=file$location.lat, 
+	     time=as.POSIXct(file$timestamp, 
+			     format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"), 
+	     data=file, proj=CRS("+proj=longlat"), animal="Leroy")
 \dontshow{
 move(x=file$location.long, y=file$location.lat, time=as.POSIXct(file$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"), data=file, proj=CRS("+proj=longlat"))
 move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1'),proj=CRS('+proj=longlat'))
