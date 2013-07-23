@@ -1,5 +1,14 @@
+2013-07-23  bart
+
+	* Decreased size corridor example
+	* small typo
+	* Limit some move checks, to occasions were only sed and zcat work
+
 2013-07-22  bart
 
+	* Cleaning up the svn & making subset work for extracting
+	  individuals from a stack where none used sensors are present in
+	  the factor levels
 	* Resolve two notes in Rdevel about line length in manuals and
 	  inst/doc vs vignette directory
 	* Make vignettes indepenent of stamen servers and prepare for
