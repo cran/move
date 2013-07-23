@@ -1,3 +1,31 @@
+2013-09-03  bart
+
+	* Removed extra imports that were not needed
+
+2013-09-02  bart
+
+	* Added function trackId for returning the id of individuals in a
+	  stack. Made the [[ subset function return a stack for multiple
+	  individuals and made it work for ligics and numbers. Also ensure
+	  order of factor levels is same as order of individuals. Use rbind
+	  spatial points in moveStack for consistency in column names
+	* Made examples match equal projection changes
+
+2013-08-26  bart
+
+	* Change the equal projection function, it did not work on objects
+	  with long projection strings it is now based on identicalCRS from
+	  the SP package
+
+2013-08-19  bart
+
+	* fixed various bugs noticed durring the animove course, speed
+	  summary (Runit added), double usage of spTransform
+
+2013-08-01  bart
+
+	* require newer version of R due to presence of paste0
+
 2013-07-23  bart
 
 	* Decreased size corridor example
