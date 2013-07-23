@@ -1,3 +1,18 @@
+2013-10-17  bart
+
+	* shortend some examples and fixed order problem when adding
+	  columns in moveStack
+	* Fixes to movestack to ensure orderd unused records, fixes to the
+	  import of unused records in the web import
+
+2013-10-07  bart
+
+	* some fixes for stacking unused records
+
+2013-09-17  bart
+
+	* make equal proj return true if none is set
+
 2013-09-03  bart
 
 	* Removed extra imports that were not needed
