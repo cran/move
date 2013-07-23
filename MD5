@@ -1,5 +1,5 @@
-2ac62a22ab7129875df2e2f8f9c86638 *ChangeLog
-90eda0b8cc07e22b5b08f38aae6b7c93 *DESCRIPTION
+a87e955d8d7c9943f3a26cb378c3864c *ChangeLog
+022f0db0d4b96f31d864d92fe511b046 *DESCRIPTION
 71c865d25c0a39b2c20cd0f348b7195a *NAMESPACE
 fa1ebdbae0ae5fdde9f0ea5dbdd973ec *R/AAClass.R
 722f3510ae12cb8f6c37a79ca45a404b *R/Summary.R
@@ -37,16 +37,16 @@ fc4df2590777a5477441a2295b316052 *R/show.R
 4aadce91cd525430f450756250a46247 *R/spatialLines.R
 66312080d3a60d3e03355720c0a167eb *R/speed.R
 f8dd9d676d32ee1fd3e9cfc816d85b7d *R/split.R
-cd371a8fd2f727eb030f6d179902a21b *R/subset.R
+15faad999112527628caa3e27ab78973 *R/subset.R
 e29327f7d6c9c4d6ab3da47d97f2c7c2 *R/time.R
 53d6de8460724e03bbe5224130d1b914 *R/timelag.R
 4b1063e0cd20d24011a58a29afec034c *R/timestamps.R
 1949f3dee19be224f4fb069c605c20f7 *R/turnAngle.R
 5b72efe5da80034c7f697b0310a3d3e0 *R/unUsedRecords.R
 7fe57a5a4d4e62671a0b9d26301b4e61 *inst/doc/browseMovebank.Rnw
-49700878a29895d8beaae3bc88238e69 *inst/doc/browseMovebank.pdf
+9b574ec717b98f1740758c60bbfb6965 *inst/doc/browseMovebank.pdf
 f051fa96802dea971c7dd512a1439d39 *inst/doc/move.Rnw
-95794c57aff7944f857cba3a58acf67c *inst/doc/move.pdf
+b8c55b0c21b085eef3905b529f6c8499 *inst/doc/move.pdf
 91019b45c78b9eab26b8e4c1df1acf27 *inst/extdata/createsRDataFile.R
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
 e5d2a9fb1604bd9b1664c02cb3cb14e3 *inst/extdata/move.RData
@@ -55,7 +55,7 @@ ad1aa24c02ec41346b9911cdb568e199 *inst/extdata/ricky.csv.gz
 a4af048cd9f6662ff5a1769c81adde07 *inst/unitTests/runit.brownianbridgedyn.R
 2de63a8254d7696f7bc9d9a8e565813f *inst/unitTests/runit.citations.R
 da686247eeb8f402318b417891f743b4 *inst/unitTests/runit.idData.R
-85cbfa44fabdf71e1c68cbb815004f78 *inst/unitTests/runit.move.R
+01ca675ab6eb7d83bb5bd6dd766da948 *inst/unitTests/runit.move.R
 48f40be3cc2683e59e4f6455209f632b *inst/unitTests/runit.moveAde.R
 28c6f729e1a3c14a27e0979757b59cbb *inst/unitTests/runit.moveStack.R
 9816d40cdbb3e91ed9754d3398bfcece *inst/unitTests/runit.seglength.R
@@ -78,7 +78,7 @@ b7640f9c22f1f2c19a3320928f6b2b62 *man/MovebankLogin-class.Rd
 3e3f88623f782b9535975ca9d9ce98ba *man/citations.Rd
 f09079d9d6ece511b839d368bd0ed015 *man/contour.Rd
 b0139114494d2a67684a12e7b2dc0479 *man/coordinates.Rd
-65bcb58eeb9ebbf51d1383121d983372 *man/corridor.Rd
+f3b7e6b5d579b68574d2f3cd385b19ab *man/corridor.Rd
 0a6d85ba7e33995217c3fe8b4976a5b6 *man/dBMvarianceTmp-class.Rd
 1013d07aef5baa5afb536ab249f923e9 *man/distance.Rd
 9cb0362b13ca5130cdd4d7e95fa2af6f *man/equalProj.Rd
