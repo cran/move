@@ -1,4 +1,10 @@
 #importFrom(graphics, "plot")
+#import(geosphere)
+import(sp)
+import(methods)
+import(geosphere)
+import(raster)
+import(rgdal)
 exportClasses(DBBMM, DBBMMStack, Move, MovebankLogin, MoveStack, .UD, .UDStack,.MoveTrack, 
               .MoveTrackSingle, .MoveTrackSingleBurst,.MoveGeneral, dBMvarianceTmp, MoveBurst, 
               .unUsedRecords,.unUsedRecordsStack)
