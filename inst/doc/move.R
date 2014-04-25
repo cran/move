@@ -173,7 +173,7 @@ plotBursts(leroy_b, breaks=3, add=FALSE, pch=19)
 ###################################################
 r <- spTransform(ricky[1:500,], center=T)
 ricky_dbbmm <- brownian.bridge.dyn(r, dimSize=150, location.error=23, 
-                                   ext=.3, time.step=60)
+                                   ext=.3, time.step=60, margin=13)
 
 
 ###################################################
@@ -229,6 +229,6 @@ area
 ###################################################
 ### code chunk number 31: hrBootstrap
 ###################################################
-hrBootstrap(x=leroy, rep=100, unin='km', unout='km2')
+hrBootstrap(x=leroy, rep=25, unin='km', unout='km2')
 
 

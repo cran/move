@@ -1,0 +1,59 @@
+RUNIT TEST PROTOCOL -- Tue Mar  4 14:32:12 2014 
+*********************************************** 
+Number of test functions: 12 
+Number of deactivated test functions: 1 
+Number of errors: 0 
+Number of failures: 0 
+
+ 
+1 Test Suite : 
+move unit testing - 12 test functions, 0 errors, 0 failures
+
+
+
+Details 
+*************************** 
+Test Suite: move unit testing 
+Test function regexp: ^test.+ 
+Test file regexp: ^runit.+\.[rR]$ 
+Involved directory: 
+/home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests 
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.brownianbridgedyn.R 
+test.brownian.bridge.dyn: (8 checks) ... OK (53.08 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.citations.R 
+test.citations: (4 checks) ... OK (0.06 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.idData.R 
+test.idData: (6 checks) ... OK (0.39 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.interpolateTime.R 
+test.interpolateTime: (10 checks) ... OK (4.52 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.measures.R 
+test.measures: (12 checks) ... OK (0.43 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.moveAde.R 
+test.moveAde: (6 checks) ... OK (5.16 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.move.R 
+test.move: (13 checks) ... OK (17.43 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.moveStack.R 
+test.moveStack: (10 checks) ... OK (0.47 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.seglength.R 
+test.seglength : DEACTIVATED, Need to look what we want here
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.spTransform.R 
+test.spTransfrom: (2 checks) ... OK (0.26 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.storedData.R 
+test.storedData: (1 checks) ... OK (0.21 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.subSet.R 
+test.subSet: (7 checks) ... OK (0.82 seconds)
+--------------------------- 
+Test file: /home/bart/bmisc/small_projects/move/pkg/move/tests/../inst/unitTests/runit.turnAngle.R 
+test.turnAngle: (1 checks) ... OK (1 seconds)

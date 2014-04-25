@@ -92,7 +92,7 @@ setMethod(f = "brownian.bridge.dyn",
 	  if(any(is.na(location.error)))
 		  stop("The location error contains NAs")
             # check for aeqd projection of the coordinates
-            if(isLonLat(object)) stop("You can not use longitude latitude projection for this function. To transform your cooridnates use the spTransform function. \n")
+            if(isLonLat(object)) stop("You can not use longitude latitude projection for this function. To transform your coordinates use the spTransform function. \n")
             if(!equalProj(list(raster,object))) #check equal projection of raster and Move
               stop(paste("The projection of the raster and the Move object are not equal. \n raster:", proj4string(raster), "\n object:", proj4string(object), "\n"))
             
@@ -150,15 +150,12 @@ setMethod(f = "brownian.bridge.dyn",
 setMethod(f = "brownian.bridge.dyn", 
           signature = c(object = "MoveStack", raster = "RasterLayer", dimSize = "missing", location.error = "numeric"), 
           function(object, raster, dimSize, location.error, ...) {
-            # .extcalc already calculated the right raster extension for all tracks
-            rm(dimSize)
-            ## is not needed anymore, because RasterLayer is already calculated and the correct brownian.bridge.dyn is called
             moveUnstacked <- split(x = object)
             # split MoveStack into individual Move objects
             dbbmmLST <- list()
             omitMove <- c()
             for (i in names(moveUnstacked)) {
-              if (nrow(moveUnstacked[[i]]@coords) > (window.size + margin)) {
+              if (n.locs(moveUnstacked[[i]]) > (2*window.size - 2*margin)) {
                 dbbmmLST[[i]] <- brownian.bridge.dyn(moveUnstacked[[i]], raster = raster, location.error = location.error, margin = margin, window.size = window.size, ext = ext, ...)
               } else {
                 omitMove <- c(omitMove, i)
@@ -183,3 +180,41 @@ setMethod(f = "brownian.bridge.dyn",
             DBBMMStack <- new("DBBMMStack", DBMvar = dBMvarianceStack, rasterStack)
             return(DBBMMStack)
           })
+
+setMethod(f = "brownian.bridge.dyn", signature = c(object = "dBMvarianceBurst", raster = "RasterLayer", 
+						   dimSize = "missing", location.error = "numeric"), definition = function(object, 
+						   raster, location.error, ext, time.step, burstType, ...) {
+	burstVarList <- split(object)
+	if (!missing(burstType)) {
+		burstVarList <- burstVarList[names(burstVarList) %in% burstType]
+	}
+	varList <- lapply(burstVarList, as, "dBMvariance")
+
+	if(!all(sel<-unlist( lapply(lapply(lapply(lapply(varList, slot,"interest"),rev), '[',-1), any))))
+	{warning("Some burst are omitted for variance calculation since there are not segements of interest")
+	varList<-varList[sel]
+	}
+	if (missing(time.step)) {
+		time.step <- min(unlist(lapply(varList, time.lag, units = "mins")))/15
+	}
+	locErrSplit<-lapply(mapply('%in%', MoreArgs=list(row.names(object)), table=lapply(varList, row.names),SIMPLIFY=F),function(x,i)x[i], x=location.error)
+	t<-mapply(brownian.bridge.dyn,varList,
+		  location.error = locErrSplit, 
+		  MoreArgs=list(ext = ext, 
+		  raster = raster, 
+		  time.step = time.step, ...), SIMPLIFY=F)
+	for(i in 1:length(t))
+		names(t[[i]])<-paste0(names(t[i]),'_',i)
+
+	res <- stack(t)
+	rm(t)
+	t<-( as.difftime(unlist(lapply(varList, function(x){
+				     interest <- (c(x@interest, 0) + c(0, x@interest))[1:length(x@interest)] != 0
+				     return(as.numeric(diff(range(timestamps(x)[interest])),units='days'))})), units='days'))
+	res<-stack(res*(as.numeric(t, units='days')/sum(as.numeric(t,units='days'))))
+
+res<-setZ(res, t)
+	res <- new("DBBMMBurstStack", DBMvar = object, (res), ext = ext)
+	return(res)
+	 })
+

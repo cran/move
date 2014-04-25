@@ -1,3 +1,91 @@
+2014-04-25  bart
+
+	* Changes for new release, the release adds the bivariate gaussian
+	  bridges, brownian bridges per burst and many small changes
+
+2014-04-24  bart
+
+	* fix getMotion variance
+	* fix to minimal margins brownian bridge dyn stack
+
+2014-04-23  bart
+
+	* start adding getMotionVariance
+	* match ud calculation between dbgb and dbbmm
+
+2014-04-16  bart
+
+	* update email adres
+
+2014-04-15  bart
+
+	* make test more relyable
+	* fix documentation
+	* speed up dynBGB example
+	* Check for error with projections for bridge calculations
+	* move tests brownian bridge to testthat
+
+2014-04-14  bart
+
+
+2014-04-10  bart
+
+	* small cleanup
+
+2014-04-08  bart
+
+	* Fix bug in identifying unique columns in idData when stacking
+	  move objects, reported by Stef Sijben
+
+2014-04-04  bart
+
+	* remove unused variables for window calculation
+
+2014-04-03  bart
+
+	* Make it work with new sp where there is stronger checking in the
+	  CRS function
+
+2014-03-04  bart
+
+	* Updating test improving speed of examples
+
+2014-02-26  bart
+
+	* introducing testthat
+
+2014-02-25  bart
+
+	* Update to documentation and testing of dBGB
+
+2014-02-21  bart
+
+	* Start with including BGB functions in move
+	* use n.locs in brownianbridgedyn
+
+2014-01-29  bart
+
+	* bug in line mid points causing wrong plot in plotBursts
+
+2014-01-24  bart
+
+	* Fix error to movestack introduced in last change. Make dependency
+	  to new geosphere for right distRhumb function
+
+2014-01-20  bart
+
+	* Switch to usage of validNames in raster (adds dependency on
+	  recent raster version)
+	* added bursted dbbmm tests and speeded up some examples
+	* adding initial documentation for interpolation and bursted dbbmm
+	* Fixes to bursted dBBMM
+	* functions for dealing with dBMvarianceBurst objects
+	* Added linear time interpolation function
+	* added bursted brownian bridges
+
+2013-10-21  bart
+
+
 2013-10-17  bart
 
 	* shortend some examples and fixed order problem when adding

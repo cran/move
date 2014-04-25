@@ -196,6 +196,24 @@ setClass(Class = "MoveStack", contains = c(".MoveTrackStack",".MoveGeneral"),
 		 return(TRUE)
 	 }
 	 )
+setClass(Class = ".MoveTrackSingleBurst", contains = c(".MoveTrackSingle"), 
+	 representation = representation(
+					 burstId = "factor"), 
+	 prototype = prototype(
+			       burstId = factor()), 
+	 validity = function(object) {
+		 if(any(levels(object@burstId)!=validNames(levels(object@burstId))))
+			 stop('no good names')
+		 if(length(object@burstId)!=(length(object@timestamps)-1))
+			 stop("Burst ids need to be one shorter than the number of coordinates since it is a segment property")
+		 return(TRUE)
+	 })
+
+
+setClass(Class = "MoveBurst", contains = c(".MoveTrackSingleBurst", ".MoveGeneral"), 
+	 validity = function(object) {
+		 return(TRUE)
+	 })
 
 
 setClass(Class = "dBMvarianceTmp", 
@@ -222,6 +240,8 @@ setClass(Class = "dBMvarianceTmp",
 			 stop("Window size length not 1")
 		 if( any(is.na(object@means[object@interest])))
 			 stop('There are not variance estimates for segments of interest')
+		 if( tail(object@interest,1))
+			 stop('The last value of interest cant be true since interest has the same length as the number of locations in the object and the last value thus does not refer to a segment')
 		 return(TRUE)
 	 })
 
@@ -233,6 +253,12 @@ setClass(Class = "dBMvariance", contains = c(".MoveTrackSingle", "dBMvarianceTmp
 		 return(TRUE)
 	 })
 
+setClass(Class = "dBMvarianceBurst", contains = c(".MoveTrackSingleBurst", "dBMvarianceTmp"), 
+	 validity = function(object) {
+		 if (length(object@means) != nrow(object@coords)) 
+			 stop("Number of coordinates does not match the number of means")
+		 return(TRUE)
+	 })
 
 setClass(Class = "dBMvarianceStack", contains = c(".MoveTrackStack", "dBMvarianceTmp"), 
 	 validity = function(object) {
@@ -240,6 +266,9 @@ setClass(Class = "dBMvarianceStack", contains = c(".MoveTrackStack", "dBMvarianc
 			 stop("Number of coordinates does not match the number of means")
 		 return(TRUE)
 	 })
+########################
+########## UD ##########
+########################
 
 
 setClass(Class = ".UDStack", contains = c("RasterStack"), 
@@ -252,6 +281,22 @@ setClass(Class = ".UDStack", contains = c("RasterStack"),
 			 stop("One or more of the used rasters are not a UD, because they sum not to 1)")
 	 })
 
+setClass(Class = ".UDBurstStack", contains = c("RasterStack"), 
+	 representation = representation(method = "character"), 
+	 prototype = prototype(
+			       method = as.character()), 
+	 validity = function(object) {
+		 #if (!all(apply(values(object), MARGIN = 2, FUN = function(X) isTRUE(all.equal(sum(X), 1, check.attributes=F))))) 
+		 if(!all.equal(1,sum(s<-cellStats(object,'sum')), check.attributes=F)) 
+			 stop("All values in a burst stack need to sum up to one")
+		 if(class(z<-getZ(object))!='difftime')
+			 stop('The Z vector needs to represent the time contribution in the for of a difftime vector')
+		 if(!
+		    all.equal( s , as.numeric(z, units='mins')/sum(as.numeric(z, units='mins')), check.attributes=F)
+		    )
+			 stop('The Z vector need to correspond to the sum of the layers')
+		 return(TRUE)
+	 })
 
 setClass(Class = ".UD", contains = c("RasterLayer"), 
 	 representation = representation(method = "character"), 
@@ -284,23 +329,41 @@ setClass(Class = "DBBMM", contains = c(".UD"),
 	 prototype = prototype(
 			       ext = as.numeric())
 	 )
-
-
-setClass(Class = ".MoveTrackSingleBurst", contains = c(".MoveTrackSingle"), 
+setClass(Class = "DBBMMBurstStack", contains = ".UDBurstStack", 
 	 representation = representation(
-					 burstId = "factor"), 
-	 prototype = prototype(
-			       burstId = factor()), 
+						 DBMvar = "dBMvarianceBurst", 
+						 ext = "numeric"), 
+	 prototype = prototype(ext = as.numeric()), 
 	 validity = function(object) {
-		 if(any(levels(object@burstId)!=validNames(levels(object@burstId))))
-			 stop('no good names')
-		 if(length(object@burstId)!=(length(object@timestamps)-1))
-			 stop("Burst ids need to be one shorter than the number of coordinates since it is a segment property")
+		 validObject(object@DBMvar)
+		 return(T)
+	 })
+## dynBGB classes ##
+setClass(Class = "dBGBvarianceTmp", 
+	 representation = representation(windowSize = "numeric", 
+					 margin = "numeric", paraSd = "numeric", orthSd = "numeric", nEstim = "numeric", 
+					 segInterest = "logical"), prototype = prototype(windowSize = numeric(), margin = numeric(), 
+					 paraSd = numeric(), orthSd = numeric(), nEstim = numeric(), segInterest = logical()), 
+	 validity = function(object) {
+		 if (length(unique(c(length(object@paraSd), length(object@orthSd), length(object@nEstim), 
+				     length(object@segInterest)))) != 1) 
+			 stop("Length is not the same between segInterest, orthSd, paraSt, nEstim")
+		 if (length(object@margin) != 1) 
+			 stop("Margin length not 1")
+		 if (length(object@windowSize) != 1) 
+			 stop("Window size length not 1")
+		 if (2 != sum(uneq <- rev(object@segInterest) != object@segInterest)) 
+			 stop("something wrong with segInterest")
+		 if (any(uneq != rev(uneq))) 
+			 stop("something wrong with segInterest")
 		 return(TRUE)
 	 })
 
-
-setClass(Class = "MoveBurst", contains = c(".MoveTrackSingleBurst", ".MoveGeneral"), 
+setClass(Class = "dBGBvariance", contains = c(".MoveTrackSingle", "dBGBvarianceTmp"), 
 	 validity = function(object) {
+		 if (length(object@segInterest) != nrow(object@coords)) 
+			 stop("Number of coordinates does not match the number of means")
 		 return(TRUE)
 	 })
+setClass("dynBGB", contains=c(".UD"), representation(var="dBGBvariance"))
+

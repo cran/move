@@ -17,11 +17,9 @@ setMethod(f = "moveStack",
 				 return(x[[z]])}, x=x, nnames=nnames)
 			  warning("Detected duplicated names. Renamed the duplicated individuals accordingly.")
 		  }
-		  #		  length <- lapply(lapply(x, coordinates), nrow)
-		  #	  coords <- do.call(rbind, lapply(x, coordinates))
-		  #	  colnames(coords) <- c("location.long", "location.lat")
+
 		  allData <- lapply(x, function(y) slot(y, "data"))
-		  allColumns <- unique(c(unlist(sapply(allData, names))))
+		  allColumns <- unique(unlist(lapply(allData, names)))
 
 		  ###DATA
 		  DATA <- do.call("rbind", lapply(allData, FUN = function(entry) {
@@ -32,7 +30,7 @@ setMethod(f = "moveStack",
 
 		  ###idData
 		  allidData <- lapply(x, function(y) slot(y, "idData"))
-		  allidColumns <- unique(unlist(sapply(allidData, names)))
+		  allidColumns <- unique(unlist(lapply(allidData, names)))
 		  IDDATA <- do.call("rbind", lapply(allidData, FUN = function(entry) {
 						    missingColumns <- allidColumns[which(!allidColumns %in% names(entry))]
 						    entry[, missingColumns] <- NA
