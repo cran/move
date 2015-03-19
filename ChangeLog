@@ -1,3 +1,70 @@
+2015-03-19  bart
+
+	* Deprecated time.lag function please use timeLag now
+
+2015-03-13  bart
+
+	* Some small updates to Description file
+	* Addressing some issues with notes for new R versions, to prepare
+	  for new release. Improved error reporting for brownian bridge
+	  function. Prepare for new movebank download. Preparing tests for
+	  SP keeping rownames.
+
+2015-01-22  bart
+
+	* moved seglength test
+
+2015-01-16  bart
+
+	* Adhere to new namespace checks
+	* Made character string or vector of location errors worki on
+	  stacks thanks to reporting of JW. Beeman
+
+2015-01-07  bart
+
+
+2014-11-17  bart
+
+	* Add function to find number of individuals
+
+2014-10-06  bart
+
+	* More clear error message BGBvar fun
+
+2014-08-18  bart
+
+	* improved error reporting for dbbmm
+
+2014-08-04  bart
+
+	* Update documentation
+	* Add functions for extracting sensor data and trackId from
+	  unUsedStack
+	* Updates the removeDuplicatedTimestamps to also remove records
+	  that are in the real records from the unUsedRecords
+
+2014-07-22  bart
+
+	* compressed move.RData
+
+2014-07-02  bart
+
+	* Make sure locations are read as numeric even if it has many
+	  decimals, this accomodates a change in R 3.1.0
+
+2014-06-11  bart
+
+
+2014-06-10  bart
+
+	* define a split method for a UDStack and make the number of
+	  contour plots square
+	* improve error reporting when object is smaller than the window
+	  size
+
+2014-05-21  bart
+
+
 2014-04-25  bart
 
 	* Changes for new release, the release adds the bivariate gaussian

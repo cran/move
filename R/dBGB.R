@@ -5,6 +5,8 @@ setMethod("windowApply", signature(x = ".MoveTrackSingle", FUN = "function",
 				   SUMFUN = "function", windowSize = "numeric"), 
 	  function(x, FUN, SUMFUN, windowSize, 
 		   segmentWise = T, cluster = NULL, ...) {
+		  if(n.locs(x)<windowSize)
+			  stop("The window size can't be larger then the number of locations in move object")
 		  # windowSize is the number of segments a window is long+1
 		  RUNFUN <- function(x, windowSize, obj, WINFUN, segmentWise, ...) {
 			  #		  message(x)# progress statement for debuging
@@ -70,7 +72,7 @@ setGeneric("BGBvar", function(move, sdPara, sdOrth, locErr) {
 setMethod("BGBvar", signature(move = ".MoveTrackSingle", sdPara = "numeric", 
 			      sdOrth = "numeric", locErr = "numeric"), function(move, sdPara, sdOrth, locErr) {
 	if ((n.locs(move)%%2) != 1) 
-		stop("not an uneven number of locations to BGBvar")
+		stop("not an odd number of locations to BGBvar")
 	g <- expand.grid(sdPara = sdPara, sdOrth = sdOrth)
 	g$res <- NA
 	t <- as.numeric(move@timestamps)/60#timestamps function
@@ -263,7 +265,7 @@ setMethod("BGB",
 setMethod("BGB", 
 	  signature(move = ".MoveTrackSingle", raster = "RasterLayer", locErr = "numeric"), 
 	  function(move, raster, locErr) {
-		  time.step <- min(time.lag(move, units="mins"))/15.123
+		  time.step <- min(timeLag(move, units="mins"))/15.123
 		  x <- coordinates(move)[, 1]
 		  y <- coordinates(move)[, 2]
 		  location.error <- rep(locErr, length(x))
