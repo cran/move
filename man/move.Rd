@@ -5,7 +5,9 @@
 %\alias{move,character,ANY,ANY,ANY,ANY-method}
 \alias{move,character,missing,missing,missing,missing-method}
 \alias{move,connection,missing,missing,missing,missing-method}
-\alias{move,numeric,numeric,POSIXct,data.frame,ANY-method}
+\alias{move,numeric,numeric,POSIXct,data.frame,character-method}
+\alias{move,numeric,numeric,POSIXct,data.frame,CRS-method}
+\alias{move,numeric,numeric,POSIXct,data.frame,missing-method}
 \alias{move,numeric,numeric,POSIXct,missing,ANY-method}
 %\alias{move,character-method}
 %\alias{move,numeric,numeric,POSIXct,data.frame,CRS-method}
@@ -22,7 +24,7 @@ The move method creates Move or MoveStack object from Movebank or other (compres
 
 \usage{
 \S4method{move}{connection,missing,missing,missing,missing}(x, removeDuplicatedTimestamps=F, ...)
-\S4method{move}{numeric,numeric,POSIXct,data.frame,ANY}(x, y, time, data, proj, sensor='unknown',animal='unnamed',...)
+\S4method{move}{numeric,numeric,POSIXct,data.frame,CRS}(x, y, time, data, proj, sensor='unknown',animal='unnamed',...)
 }
 
 \arguments{
@@ -65,9 +67,9 @@ file <- read.table(filePath,
 data <- move(x=file$location.long, y=file$location.lat, 
 	     time=as.POSIXct(file$timestamp, 
 			     format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"), 
-	     data=file, proj=CRS("+proj=longlat"), animal="Leroy")
+	     data=file, proj=CRS("+proj=longlat +ellps=WGS84"), animal="Leroy")
 \dontshow{
-move(x=file$location.long, y=file$location.lat, time=as.POSIXct(file$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"), data=file, proj=CRS("+proj=longlat"))
-move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1'),proj=CRS('+proj=longlat'))
-move(x=1:10,y=1:10,time=as.POSIXct(c(1:5,1:5), origin='1970-1-1'),proj=CRS('+proj=longlat'), animal=c(rep('a',5),rep('b',5)))}
+move(x=file$location.long, y=file$location.lat, time=as.POSIXct(file$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"), data=file, proj=CRS("+proj=longlat +ellps=WGS84"))
+move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1'),proj=CRS('+proj=longlat +ellps=WGS84'))
+move(x=1:10,y=1:10,time=as.POSIXct(c(1:5,1:5), origin='1970-1-1'),proj=CRS('+proj=longlat +ellps=WGS84'), animal=c(rep('a',5),rep('b',5)))}
 }

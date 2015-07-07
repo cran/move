@@ -1,3 +1,49 @@
+2015-07-07  bart
+
+	* the time.lag function is removed
+
+2015-07-06  bart
+
+	* Updated the test to present the new distance calculations which
+	  are on an ellipsoid
+
+2015-06-29  bart
+
+	* import inorder to meet devel checks
+	* lines for burst also allow to color segments
+	* fix test for citation and lineMidpoints, the last now returns
+	  numberd names in the coordinates
+	* Removed warnings due to duplicated names in hrBootstrap sampling
+	  due to tracking of coordinates names in spatial opject
+	* Added function burstId to retrieve burst Ids
+
+2015-06-23  bart
+
+	* change hrBootstrap from print to message
+
+2015-05-27  bart
+
+	* Some updates to corridor function when no corridor points are
+	  found
+
+2015-04-15  bart
+
+	* Update tests
+
+2015-04-14  bart
+
+	* Additional tests
+	* fix bug on windows
+	* Also allow missing projection in move function
+	* Updated move function to accomodate character and numeric input
+	* Removing most warning messages from tests
+	* Move doesnt assume the utm column in movebank output any more
+	* Move all test to testthat and add some
+
+2015-03-23  bart
+
+	* Specify ellipsoid everywhere to accomodate new proj library (4.9)
+
 2015-03-19  bart
 
 	* Deprecated time.lag function please use timeLag now

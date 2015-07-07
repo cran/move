@@ -1,11 +1,13 @@
-setGeneric("hrBootstrap", function(x, rep=100, plot=TRUE, level=95, levelMax=100, unin='km', unout='m2',...){standardGeneric("hrBootstrap")})
+setGeneric("hrBootstrap", function(x, rep=100, plot=TRUE, level=95, levelMax=100, unin='km', unout='m2', ...){standardGeneric("hrBootstrap")})
 setMethod("hrBootstrap", 
 	  signature=c(x="SpatialPoints"),
 	  definition=function(x, ...){
 		  if (class(x)=="SpatialPoints") nlocs <- length(x) else nlocs <- n.locs(x)
 		  j <- round(exp(log(10)*seq(log10(5),log10(nlocs),by=0.1)))
-		  print(j)
-		  locs <- lapply(j, function(js,coords) {replicate(n=rep,SpatialPoints(coords[sample(1:nlocs,size=js,replace=T),]) )}, coords=coordinates(x))
+		  message(paste(j, collapse=" "))
+		  crds<-coordinates(x)
+		  dimnames(crds)<-NULL
+		  locs <- lapply(j, function(js,coords) {replicate(n=rep,SpatialPoints(coords[sample(1:nlocs,size=js,replace=T),]) )}, coords=crds)
 		  if (requireNamespace("adehabitatHR", quietly = TRUE)) {
 			  mcps <- lapply(locs, lapply, adehabitatHR::mcp.area, percent=level, plotit=F,unin=unin,unout=unout)
 			  quant <- lapply(lapply(mcps, unlist), quantile, probs=seq(0,1,.25))

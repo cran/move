@@ -146,7 +146,7 @@ head(as(leroy, "data.frame"))
 ### code chunk number 21: transformData
 ###################################################
 proj4string(leroy)
-leroy_t <- spTransform(x=leroy, CRSobj="+proj=aeqd", center=TRUE)  
+leroy_t <- spTransform(x=leroy, CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)  
 proj4string(leroy_t)
 
 

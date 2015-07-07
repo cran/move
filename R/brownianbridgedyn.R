@@ -157,6 +157,8 @@ setMethod(f = "brownian.bridge.dyn",
 			  location.error<-split(rep(location.error,sum(n.locs(object))), 
 						rep(levels(trackId(object)),n.locs(object)))
 		  }else{
+        if(length(location.error)!=sum(n.locs(object)))
+          stop('Location error needs to be the same length as the number of locations')
 			  location.error<-split(location.error, 
 						rep(levels(trackId(object)),n.locs(object)))
 		  }
@@ -204,7 +206,7 @@ setMethod(f = "brownian.bridge.dyn", signature = c(object = "dBMvarianceBurst", 
 	varList<-varList[sel]
 	}
 	if (missing(time.step)) {
-		time.step <- min(unlist(lapply(varList, time.lag, units = "mins")))/15
+		time.step <- min(unlist(lapply(varList, timeLag, units = "mins")))/15
 	}
 	locErrSplit<-lapply(mapply('%in%', MoreArgs=list(row.names(object)), table=lapply(varList, row.names),SIMPLIFY=F),function(x,i)x[i], x=location.error)
 	t<-mapply(brownian.bridge.dyn,varList,

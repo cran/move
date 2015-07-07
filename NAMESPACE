@@ -4,6 +4,18 @@ import(methods)
 import(geosphere)
 import(raster)
 import(rgdal)
+importFrom(stats, sd)
+importFrom(stats, var)
+importFrom(stats, optim)
+importFrom(stats, optimize)
+importFrom(utils, read.csv)
+importFrom(utils, unzip)
+importFrom(utils, capture.output)
+importFrom(graphics, par)
+importFrom(graphics, abline)
+importFrom(graphics, segments)
+importFrom(grDevices, rgb)
+importFrom(parallel, parLapply)
 exportClasses(
 	DBBMM,
 	DBBMMStack,
@@ -32,6 +44,7 @@ exportMethods(
 	angleSummary,
 	brownian.bridge.dyn,
 	burst,
+	burstId,
 	citations,
 	"citations<-",
 	contour,
@@ -72,7 +85,7 @@ exportMethods(
 	summary,
 	searchMovebankStudies,
 	timeSummary,
-	time.lag,
+	#time.lag,
 	timeLag,
 	trackId,
 	brownian.motion.variance.dyn,
