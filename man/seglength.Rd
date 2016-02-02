@@ -22,15 +22,14 @@
 }
 
 \value{
-  If the SpatialPointsDataFrame is projected in longitude latitude coordinates, the returned values are in meters. If not, the distances are calculated with the Pythagoras' theorem and the distances are Euclidean distances in map units.
+  If the SpatialPointsDataFrame is projected in longitude latitude coordinates, the returned values are in meters. If not, the distances are Euclidean distances in map units. Distances are calculates with the \code{pointDistance} from the package raster. Note that in stacks distances are not split between animals.
 }
 
 \author{Marco Smolla}
 
 \examples{
-  load(system.file("extdata", "move.RData", package="move"), .GlobalEnv)
-  stack <- moveStack(list(leroy,leroy))
-  
-  head(seglength(leroy)) #Move object in longlat projection
-  head(seglength(stack)) #MoveStack object in aeqd projection
+data(leroy)
+data(fishers)  
+head(seglength(leroy)) #Move object in longlat projection
+head(seglength(fishers)) #MoveStack object in aeqd projection
 }

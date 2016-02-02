@@ -2,6 +2,8 @@
 
 \alias{turnAngleGc}
 \alias{turnAngleGc,.MoveTrackSingle-method}
+\alias{turnAngleGc,.MoveTrackStack-method}
+
 
 \docType{methods}
 
@@ -28,6 +30,6 @@
 }
 
 \examples{
-  load(system.file("extdata", "move.RData", package="move"), .GlobalEnv)  
-  turnAngleGc(leroy)
+data(leroy)
+turnAngleGc(leroy)
 }

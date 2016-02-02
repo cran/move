@@ -20,20 +20,44 @@ expect_equivalent(n.locs(m), as.array(c(a=4,b=6)))
 }
   )
 test_that('unUsed',{
-  load(system.file("extdata", "move.RData", package="move"))
+data(leroy)
   expect_is(unUsedRecords(leroy),".unUsedRecords")
   expect_true(validObject(unUsedRecords(leroy)))
-  b<-ricky
-  expect_error(unUsedRecords(b)<-T,'Selection length does not match with number of locations')
+  expect_error(unUsedRecords(leroy)<-T,'Selection length does not match with number of locations')
 })
 
 test_that('linemidpoint',{
   a<-destPoint(4:5,5,1000)
   b<-destPoint(unlist(a), 123,2000)
   d<-destPoint(unlist(b), 13,1000)
-  spdf<-SpatialPointsDataFrame(rbind(4:5,a,b,d),,data = data.frame(a=4:7),proj4string = CRS('+proj=longlat +ellps=WGS84'),match.ID = F)
+  spdf<-SpatialPointsDataFrame(rbind(4:5,a,b,d),data = data.frame(a=4:7),proj4string = CRS('+proj=longlat +ellps=WGS84'),match.ID = F)
   
   u<-move:::lineMidpoint(spdf)
   uu<-move:::lineMidpoint(spdf[2:3,])
   expect_equal(u,uu)
+  })
+
+test_that('spatialLines',{
+  data(leroy)
+  crds<-coordinates(leroy)
+  rownames(crds)<-NULL # coordinates methods for lines removes rownames
+    expect_equal(crds, coordinates(as(leroy,'SpatialLines'))[[1]][[1]])
+    expect_equal(crds, coordinates(as(leroy,'SpatialLinesDataFrame'))[[1]][[1]])
+  
+data(fishers)
+
+
+expect_equal(lapply(lapply(split(fishers), coordinates), function(x) {rownames(x)<-NULL;x}),lapply(coordinates(spldf<-as(fishers,'SpatialLinesDataFrame')),'[[',1))
+  expect_equal(idData(fishers), data.frame(spldf))
+  expect_equal(as(fishers,'SpatialLines'), as(spldf,'SpatialLines'))
+  })
+
+test_that('data.frame',{
+data(leroy)  
+    d<-slot(leroy,name = 'data')
+    expect_equivalent(d, as(leroy,'data.frame')[,names(d)])
+    data(fishers)
+    dd<-slot(fishers,name = 'data')
+    expect_equivalent(dd, as(fishers,'data.frame')[,names(dd)])
+    
   })

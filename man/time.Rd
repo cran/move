@@ -23,11 +23,10 @@
 \author{Marco Smolla}
 
 \examples{
-  load(system.file("extdata", "move.RData", package="move"), .GlobalEnv)
-  stack <- moveStack(list(leroy,leroy))
-  
+  data(fishers)
+  data(leroy)
   timeLag(leroy)
-  timeLag(stack)
-  timeSummary(ricky) # summary of time measures of a Move object
-  timeSummary(stack, units="hours") # summary of time measures of a MoveStack object
+  timeLag(fishers)
+  timeSummary(leroy) # summary of time measures of a Move object
+  timeSummary(fishers, units="hours") # summary of time measures of a MoveStack object
 }

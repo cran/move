@@ -15,16 +15,18 @@ leroy <- move(system.file("extdata","leroy.csv.gz",package="move"))
 ###################################################
 ### code chunk number 3: importNonMovebank
 ###################################################
-data <- read.csv(system.file("extdata","ricky.csv.gz",package="move"))
-ricky <- move(x=data$location.long, y=data$location.lat, time=as.POSIXct(data$timestamp, 
+data <- read.csv(system.file("extdata","leroy.csv.gz",package="move"))
+leroy <- move(x=data$location.long, y=data$location.lat, time=as.POSIXct(data$timestamp, 
             format="%Y-%m-%d %H:%M:%OS", tz="UTC"), proj=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"), 
             data=data, animal=data$individual.local.identifier, sensor=data$sensor)
-ricky 
+leroy
 
 
 ###################################################
 ### code chunk number 4: StackMoveObjects
 ###################################################
+data(ricky)
+data(leroy)
 list <- list(leroy, ricky)
 stack <- moveStack(list)
 stack

@@ -33,7 +33,7 @@
   \item{window.size}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior.}
   \item{ext}{Describes the amount of extension of the bounding box around the animal track. It can be numeric (same extension into all four directions), vector of two (first x, then y directional extension) or vector of four  (xmin, xmax, ymin, ymax extension). Default is .25 (extends the bounding box by 25\%). Only considered in combination with a numeric raster argument or the dimSize argument. }
   \item{bbox}{vector with 4 numbers defining a bounding box for the raster}
-  \item{...}{for additional arguments, for example burstType which is a character vector with the name of burst type for which the UD needs to be calculates in case a bursted brownian bridge is calculated}
+  \item{...}{for additional arguments, for example burstType which is a character vector with the name of burst type for which the UD needs to be calculates in case a bursted brownian bridge is calculated. Also the argument \code{verbose=FALSE} can be used to suppress printing messages about the computational size}
 }
 
 \details{
@@ -65,16 +65,15 @@
 
 \examples{
 ## create a move object
-data <- move(system.file("extdata","leroy.csv.gz",package="move"))[1:90,]
-
+data(leroy)
 ## change projection method to aeqd and center the coordinate system to the track
-data2 <- spTransform(data, CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)
+data2 <- spTransform(leroy[1:90,], CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)
 
 ## create a DBBMM object
 dbbmm <- brownian.bridge.dyn(object=data2, location.error=12, dimSize=45, ext=.3, 
 			     time.step=600, margin=15)
 \dontshow{
-  load(system.file("extdata", "move.RData", package="move"), .GlobalEnv)
+data(ricky)
   leroy <- leroy[1:50]
   ricky <- ricky[1:50]
   stack <- moveStack(list(leroy,ricky))
