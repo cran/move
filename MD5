@@ -1,5 +1,5 @@
-ad7c3e35af069846a292e04d0b67a3e1 *ChangeLog
-b1274a5d28c9d9337c55d2a66c3c5ea3 *DESCRIPTION
+c333898f47c989aaf60d488ebd200298 *ChangeLog
+2e9d5c966149a51a04180f3836bfdc0f *DESCRIPTION
 b16d90f9a62325cd9c8350838a8f8835 *NAMESPACE
 25837771a579510acd4939386b4769dc *R/AAClass.R
 948f8535ded89077669c034109793e74 *R/Summary.R
@@ -59,10 +59,10 @@ c5df095c0b2e75920c88f8637da5d4ae *data/fishers.RData
 5d2f69c22e63ce3b38c9a87186d4cfa7 *data/ricky.RData
 00a40b22f33b9a845c7bb9322c1e7a32 *inst/doc/browseMovebank.R
 a71aab380a9bd9fd49a67232f6663458 *inst/doc/browseMovebank.Rnw
-d107446e79cc818dc80ecea9d50696d7 *inst/doc/browseMovebank.pdf
+afcd3bc65a12dd7142f181887191df38 *inst/doc/browseMovebank.pdf
 6715a46fec7a8ae158852014ce8ae335 *inst/doc/move.R
 b19974c9863ae9bb4f79c9473e6201ff *inst/doc/move.Rnw
-a44881424b76f1d346e1a1cfc053c017 *inst/doc/move.pdf
+704d24398a47b5c2743c0c120c3886f2 *inst/doc/move.pdf
 25e4e59039de7996100c46211f63a4e2 *inst/extdata/createsRDataFile.R
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
 ea7fc52e7f78d30c37a2fa2e1d177d5a *inst/extdata/move.RData
@@ -156,7 +156,7 @@ d50fed7acab92924ac9f871865cf8863 *tests/testthat/test.interpolateTime.R
 3269c81779918fa4923e8cfa9aa4e0e3 *tests/testthat/test.moveAde.R
 b86647804c47d809b4c86536d06e93cd *tests/testthat/test.moveStack.R
 aee19bd3786456ccf8b8c039789997d9 *tests/testthat/test.seglength.R
-414f4f395455db9e12ee7dc3a2fca1b6 *tests/testthat/test.smallFunctions.R
+7c8086903630046cf3ca3c1132df7ab0 *tests/testthat/test.smallFunctions.R
 fc26d61947a6a231c48f0f505755a00b *tests/testthat/test.spTransform.R
 2ee00023735f327a8b9882a4b71400ec *tests/testthat/test.storedData.R
 4ec399945bd9086042b58a211cf85298 *tests/testthat/test.subSet.R

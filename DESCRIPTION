@@ -1,7 +1,7 @@
 Package: move
 Type: Package
 Title: Visualizing and Analyzing Animal Track Data
-Version: 1.6.539
+Version: 1.6.541
 Date: 2016-02-01
 Author: Bart Kranstauber <bart.kranstauber@uni-konstanz.de>, Marco Smolla <marco.smolla@postgrad.manchester.ac.uk>
 Maintainer: Bart Kranstauber <bart.kranstauber@uni-konstanz.de>
@@ -16,6 +16,6 @@ Suggests: adehabitatHR, adehabitatLT, circular, ggmap, mapproj,
         maptools, testthat
 Imports: httr
 NeedsCompilation: yes
-Packaged: 2016-02-02 11:06:20 UTC; bart
+Packaged: 2016-02-08 10:36:48 UTC; bart
 Repository: CRAN
-Date/Publication: 2016-02-02 15:42:08
+Date/Publication: 2016-02-08 13:37:51
