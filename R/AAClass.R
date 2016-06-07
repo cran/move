@@ -96,7 +96,7 @@ setClass(Class = ".MoveTrackSingle",contains=c(".MoveTrack",'.unUsedRecords'),
 	 prototype = prototype(),
 	 validity = function(object){
 		 if(any((tmp <- timeLag(object))<0))
-			 stop("The dataset includes unsorted timestamps")
+			 stop("The dataset includes timestamps that are not ascending")
 		 tmp <- c(T, tmp==0)|c(tmp==0,T)#only check for those that have the same time if the sensor is different
 		 if (any(dups <- duplicated(data.frame(format(object@timestamps[tmp],"%Y %m %d %H %M %OS4"), object@sensor[tmp]))))
 			 stop("The dataset includes double timestamps first one:", object@timestamps[tmp][dups][1], ")")
@@ -144,9 +144,9 @@ setClass(Class = ".MoveTrackStack", contains = c(".MoveTrack", ".unUsedRecordsSt
 	 validity = function(object){
 		 if(length(object@trackId)!=nrow(object@coords))
 			 stop("Length of trackId does not match the number of coordinates")
-		 if(!all(unlist(tapply(object@timestamps, list(trackId(object), droplevels(object@sensor)),diff))>0))
+		 if(any(unlist(tapply(object@timestamps, list(trackId(object), droplevels(object@sensor)),diff))==0))
 		 {
-			 tmp<-duplicated(cbind(object@timestamps, trackId(object), object@sensor))# made new test in check for higher speed but have this one still here for more clear reporting
+		   tmp<-duplicated(cbind(object@timestamps, trackId(object), object@sensor))# made new test in check for higher speed but have this one still here for more clear reporting
 			 stop("The data set includes double timestamps per ID (first one:", object@trackId[tmp][1]," ",object@sensor[tmp][1]," ",object@timestamps[tmp][1], ")")
 		 }
 		 if(any(unlist(lapply(tapply(object@timestamps,object@trackId, order),diff))!=1))
@@ -276,7 +276,7 @@ setClass(Class = "dBMvarianceStack", contains = c(".MoveTrackStack", "dBMvarianc
 
 
 setClass(Class = ".UDStack", contains = c("RasterStack"), 
-	 representation = representation(method = "character"), 
+	 slots = c(method = "character"), 
 	 prototype = prototype(
 			       method = as.character()), 
 	 validity = function(object) {
@@ -286,7 +286,7 @@ setClass(Class = ".UDStack", contains = c("RasterStack"),
 	 })
 
 setClass(Class = ".UDBurstStack", contains = c("RasterStack"), 
-	 representation = representation(method = "character"), 
+	 slots =   c(method = "character"), 
 	 prototype = prototype(
 			       method = as.character()), 
 	 validity = function(object) {

@@ -19,6 +19,7 @@ importFrom(graphics, abline)
 importFrom(graphics, segments)
 importFrom(grDevices, rgb)
 importFrom(parallel, parLapply)
+importFrom(Rcpp,sourceCpp) # to statify check
 exportClasses(
 	DBBMM,
 	DBBMMStack,
@@ -96,6 +97,7 @@ exportMethods(
 	"unUsedRecords<-",
 	unUsedRecords,
 	idData,
+	UDStack,
 	'idData<-',
   "dynBGB",
   "dynBGBvariance",

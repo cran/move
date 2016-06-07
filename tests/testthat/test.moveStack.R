@@ -44,5 +44,9 @@ test_that('moveStack',
   expect_equal(kk<-capture.output(print(mm)), kl<-capture.output(show(mm)))
 	expect_equal(unique(timeLag(mm,units='mins')), list(c(1,1,1,1)/60))
   expect_identical(names(idData(mm)),c('groupID','groupDay'))
+  expect_error(move(1:3,1:3, Sys.time()+3:1, animal=c("b","b","a")),regexp = "Not ordered")
+expect_error(move(1:3,1:3, Sys.time()+c(1,1,2), animal=c("b","b","a")),regexp = "The data set includes double timestamps")
+expect_error(move(1:4,1:4, Sys.time()+c(1,2,1,2), animal=c("b","b","b","a")),regexp = "Not ordered")
+
 }
 )

@@ -65,7 +65,7 @@ setMethod("deltaParaOrth", signature(mu = "matrix", directionPoint = "matrix",
 	as.matrix(data.frame(deltaPara = A * cos(theta1),deltaOrth = A * sin(theta1)))
 
 	  })
-
+# used for non dynamic variance calculation
 setGeneric("BGBvar", function(move, sdPara, sdOrth, locErr) {
 	   standardGeneric("BGBvar")
 	  })
@@ -91,7 +91,7 @@ setMethod("BGBvar", signature(move = ".MoveTrackSingle", sdPara = "numeric",
 			      alphas * (1 - alphas) * (t[is + 1] - t[is - 1]))  # check if sdPara needs to be squared
 	    sdOrthTmp <- sqrt(alphas^2 * locErr[is + 1]^2 + (1 - alphas)^2 * locErr[is - 1]^2 + sdOrth^2 * 
 			      alphas * (1 - alphas) * (t[is + 1] - t[is - 1]))
-	    g[ii, ]$res <- llBGBvar(cbind(sdParaTmp, sdOrthTmp)^2, paraOrth)
+	    g[ii, ]$res <- .Call("llBGBvar",cbind(sdParaTmp, sdOrthTmp)^2, paraOrth)
     }
     return(g)
 	  })
@@ -102,15 +102,16 @@ setMethod("BGBvar", signature(move = ".MoveTrackSingle", sdPara = "missing",
 			      }, move = move, locErr = locErr, method = "L-BFGS-B", lower = 0, upper = 10^10)
 	return(BGBvar(move, locErr = locErr, tmp$par[1], tmp$par[2]))
 	  })
-setGeneric("llBGBvar", function(sigm, paraOrth) {
-	   # sigm is a matrix of variance values
-	   standardGeneric("llBGBvar")
-	  })
-setMethod("llBGBvar", 
-	  signature(sigm = "matrix", paraOrth = "matrix"), 
-	  function(sigm, paraOrth) {
-		  .Call('llBGBvar',sigm, paraOrth)
-	  })
+# comments function and call C method directly makes it an order of magnitude quicker
+# setGeneric("llBGBvar", function(sigm, paraOrth) {
+# 	   # sigm is a matrix of variance values
+# 	   standardGeneric("llBGBvar")
+# 	  })
+# setMethod("llBGBvar", 
+# 	  signature(sigm = "matrix", paraOrth = "matrix"), 
+# 	  function(sigm, paraOrth) {
+# 		  .Call('llBGBvar',sigm, paraOrth)
+# 	  })
 # setMethod('llBGBvar', signature(sigm = 'matrix', paraOrth = 'matrix'),
 # function(sigm, paraOrth) { return(sum(unlist(lapply(1:nrow(sigm), function(i,
 # sigm, paraOrth) { -log(2 * pi) - 0.5 * log(det(diag(2) * sigm[i, ])) - 0.5 *
@@ -129,7 +130,7 @@ setMethod("llBGBvarbreak",
 		   orthBefore, paraOrth, errs, sdMul) {
 		  sdOrthTmp <- errs + orthBefore^2 * sdMul
 		  sdParaTmp <- errs + paraBefore^2 * sdMul
-		  return(llBGBvar(cbind(sdParaTmp, sdOrthTmp), paraOrth))
+		  return(.Call("llBGBvar",cbind(sdParaTmp, sdOrthTmp), paraOrth))
 	  })
 setMethod("llBGBvarbreak", 
 	  signature(
@@ -139,7 +140,7 @@ setMethod("llBGBvarbreak",
 		  para <- c(rep(paraBefore, paraBreak), rep(paraAfter, length(errs) - paraBreak))
 		  sdOrthTmp <- errs + orthBefore^2 * sdMul
 		  sdParaTmp <- errs + para^2 * sdMul
-		  return(llBGBvar(cbind(sdParaTmp, sdOrthTmp), paraOrth))
+		  return(.Call("llBGBvar",cbind(sdParaTmp, sdOrthTmp), paraOrth))
 	  })
 setMethod("llBGBvarbreak", 
 	  signature(paraBreak = "numeric",orthBreak="numeric" ), 
@@ -149,7 +150,7 @@ setMethod("llBGBvarbreak",
 		  orth <- c(rep(orthBefore, orthBreak), rep(orthAfter, length(errs) - orthBreak))
 		  sdOrthTmp <- errs + orth^2 * sdMul
 		  sdParaTmp <- errs + para^2 * sdMul
-		  return(llBGBvar(cbind(sdParaTmp, sdOrthTmp), paraOrth))
+		  return(.Call("llBGBvar",cbind(sdParaTmp, sdOrthTmp), paraOrth))
 	  })
 setMethod("llBGBvarbreak", 
 	  signature(
@@ -158,8 +159,9 @@ setMethod("llBGBvarbreak",
 		  orth <- c(rep(orthBefore, orthBreak), rep(orthAfter, length(errs) - orthBreak))
 		  sdOrthTmp <- errs + orth^2 * sdMul
 		  sdParaTmp <- errs + paraBefore^2 * sdMul
-		  return(llBGBvar(cbind(sdParaTmp, sdOrthTmp), paraOrth))
+		  return(.Call("llBGBvar",cbind(sdParaTmp, sdOrthTmp), paraOrth))
 	  })
+# used for dynamic variance calculation
 setGeneric("BGBvarbreak", 
 	   function(move, locErr, margin, paraBreaks, orthBreaks, ...) {
 		   standardGeneric("BGBvarbreak")
@@ -183,6 +185,7 @@ setMethod("BGBvarbreak",
 		  errs <- alphas^2 * locErr[is + 1]^2 + (1 - alphas)^2 * locErr[is - 1]^2
 		  sdMul <- alphas * (1 - alphas) * (t[is + 1] - t[is - 1])
 		  optims <- list()
+		  # loop over all possible breaks
 		  for (i in 1:nrow(breaks)) {
 			  paraBreak <- breaks[i, "paraBreaks"]
 			  orthBreak <- breaks[i, "orthBreaks"]

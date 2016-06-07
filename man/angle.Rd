@@ -36,7 +36,7 @@ data(leroy)
 data(fishers)
   angle(leroy) #angles from a Move object 
   angle(fishers) #angles from a MoveStack object
-  angleSummary(leroy) # summary of angle measures of a Move object
-  angleSummary(fishers) # summary of angle measures of a MoveStack object
+#  angleSummary(leroy) # summary of angle measures of a Move object
+#  angleSummary(fishers) # summary of angle measures of a MoveStack object
 }# failed on cran build
 }

@@ -1,7 +1,4 @@
-## Making dBMvar a generic funtion if (!isGeneric('dBMvar')) {
-## setGeneric('dBMvar', function(BMvars, BMvar, n.locs, break.list)
-## standardGeneric('dBMvar')) } if (!isGeneric('brownian.motion.variance.dyn'))
-            brownian.motion.variance <- function(time.lag, location.error, x, y) {
+brownian.motion.variance <- function(time.lag, location.error, x, y) {
               # Creating NULL vectors to store data
               n.locs <- unique(c(length(time.lag), length(location.error), length(x), length(y)))
               if (length(n.locs) != 1) 

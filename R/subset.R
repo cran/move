@@ -84,8 +84,12 @@ setMethod("[",
           signature(x = ".MoveTrackSingleBurst"), 
           definition=function(x, i, j, ...) {
             if (!missing(i)) {
-              tmp<- x@burstId[i]
-              x@burstId <-tmp[-length(tmp)]
+              tmp<- x@burstId
+              tmp1<-tmp[c(1,1:length(tmp))][i][-1]
+              tmp2<-head(tmp[c(1:length(tmp), length(tmp))][i],-1)
+              if(any(tmp1!=tmp2))
+                stop("Subsetting the burst object leads to ambiguities what the new bursting should be (specific segments can't be assigned to one burst type)")
+              x@burstId <-tmp1
             } else {
               i <- T
             }

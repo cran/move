@@ -2,6 +2,7 @@ setGeneric("distanceSummary", function(x){standardGeneric("distanceSummary")})
 setMethod("distanceSummary", 
           signature=".MoveTrackSingle",
           definition=function(x){ 
+		  .Deprecated(msg="distanceSummary function is scheduled to be removed or drastically changed")
             track <- coordinates(x)
             if(nrow(track)>2){
               Dists <- seglength(x) #vector of all distances in km
@@ -22,6 +23,7 @@ setMethod("distanceSummary",
 setMethod("distanceSummary", 
           signature=".MoveTrackStack", 
           definition=function(x){
+            .Deprecated(msg="distanceSummary function is scheduled to be removed or drastically changed")
             lst <- lapply(split(x), distanceSummary)
             return(lst)
           })
@@ -29,7 +31,7 @@ setMethod("distanceSummary",
 
 #setGeneric("distance")#, function(x){standardGeneric("distance")})
 setMethod("distance", 
-          signature=".MoveTrackSingle",
+          signature=c(x=".MoveTrackSingle",y="missing"),
           definition=function(x){ 
  #           if(n.locs(track)>2){
               Dists <- seglength(x) #vector of all distances in km IF PROJECTION IS LONLAT!!!
@@ -38,7 +40,7 @@ setMethod("distance",
           })
 
 setMethod("distance", 
-          signature=".MoveTrackStack", 
+          signature=c(".MoveTrackStack",y="missing"), 
           definition=function(x){
             lst <- lapply(split(x), distance)
             return(lst)

@@ -112,23 +112,34 @@ setMethod(f = "brownian.bridge.dyn",
 if(verbose)
 		  		  message(paste("Computational size:", sprintf("%.1e", compsize)))
 
-		  interest <- (c(object@interest, 0) + c(0, object@interest))[1:length(object@interest)] != 0
-		  # Fortran agguments n.locs gridSize timeDiff total time x track y track
-		  # variance estimates loc error x raster y raster interpolation time step prop
-		  # vector filled
-		  ans <- .Fortran("dBBMM", as.integer(1 + sum(object@interest)), 
-				  as.integer(ncell(raster)), 
-				  as.double(c(time.lag[object@interest], 0)), 
-				  as.double(T.Total), 
-				  as.double(coordinates(object)[interest, 1]), 
-				  as.double(coordinates(object)[interest, 2]), 
-				  as.double(c(object@means[object@interest],0)), 
-				  as.double(location.error[interest]), 
-				  as.double(coordinates(raster)[, 1]), 
-				  as.double(coordinates(raster)[, 2]), 
-				  as.double(time.step), as.double(rep(0, ncell(raster))))
-
-		  raster <- setValues(raster, ans[[12]])
+		  # we need either next and previous location of segments
+	ans<-.Call('dbbmm2', coordinates(object)[, 1],
+			coordinates(object)[, 2], 
+			c(object@means,0),
+			(as.numeric(timestamps(object))-min(as.numeric(timestamps(object))))/60,
+			location.error, 
+			xFromCol(raster,1:ncol(raster)), 
+			yFromRow(raster,nrow(raster):1), 
+			time.step, 4, object@interest)# last argument is how many sds away one want to calculate
+    
+		ans<-ans/sum(ans)
+    raster <- setValues(raster, ans)
+#		  # Fortran agguments n.locs gridSize timeDiff total time x track y track
+#		  # variance estimates loc error x raster y raster interpolation time step prop
+#		  # vector filled
+#		  ans <- .Fortran("dBBMM", as.integer(1 + sum(object@interest)), 
+#				  as.integer(ncell(raster)), 
+#				  as.double(c(time.lag[object@interest], 0)), 
+#				  as.double(T.Total), 
+#				  as.double(coordinates(object)[interest, 1]), 
+#				  as.double(coordinates(object)[interest, 2]), 
+#				  as.double(c(object@means[object@interest],0)), 
+#				  as.double(location.error[interest]), 
+#				  as.double(coordinates(raster)[, 1]), 
+#				  as.double(coordinates(raster)[, 2]), 
+#				  as.double(time.step), as.double(rep(0, ncell(raster))))
+#
+#		  raster <- setValues(raster, ans[[12]])
 
 		  dBBMM <- new("DBBMM", DBMvar = object, method = "Dynamic Brownian Bridge Movement Model", 
 			       raster, ext = ext)
@@ -224,9 +235,9 @@ setMethod(f = "brownian.bridge.dyn", signature = c(object = "dBMvarianceBurst", 
 
 	res <- stack(t)
 	rm(t)
-	t<-( as.difftime(unlist(lapply(varList, function(x){
-					       interest <- (c(x@interest, 0) + c(0, x@interest))[1:length(x@interest)] != 0
-					       return(as.numeric(diff(range(timestamps(x)[interest])),units='days'))})), units='days'))
+	t<-as.difftime(unlist(lapply(varList, function(x){
+					       dt<-sum(as.numeric(timeLag(x,units="days")[head(x@interest,-1)], units="days"))
+					       return(dt)})), units="days")
 	res<-stack(res*(as.numeric(t, units='days')/sum(as.numeric(t,units='days'))))
 
 	res<-setZ(res, t)

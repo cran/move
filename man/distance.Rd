@@ -2,8 +2,8 @@
 
 \alias{distance}
 \alias{distanceSummary}
-\alias{distance,.MoveTrackSingle-method}
-\alias{distance,.MoveTrackStack-method}
+\alias{distance,.MoveTrackSingle,missing-method}
+\alias{distance,.MoveTrackStack,missing-method}
 \alias{distanceSummary,.MoveTrackSingle-method}
 \alias{distanceSummary,.MoveTrackStack-method}
 
@@ -14,8 +14,8 @@
 \description{DistanceSummary returns a summary of distance related measurements of a track or track stack, or for the distance function the distance between locations.}
 
 \usage{
-  \S4method{distance}{.MoveTrackSingle}(x)
-  \S4method{distance}{.MoveTrackStack}(x)
+  \S4method{distance}{.MoveTrackSingle,missing}(x)
+  \S4method{distance}{.MoveTrackStack,missing}(x)
   \S4method{distanceSummary}{.MoveTrackSingle}(x)
   \S4method{distanceSummary}{.MoveTrackStack}(x)
 }
@@ -35,6 +35,6 @@ All values are returned in meters if the projection of the coordinates is longla
   data(leroy)
   distance(leroy) #distances from a Move object 
   distance(fishers) #distances from a MoveStack object
-  distanceSummary(leroy) # summary of distance measures of a Move object
-  distanceSummary(fishers) # summary of distance measures of a MoveStack object
+  #distanceSummary(leroy) # summary of distance measures of a Move object
+  #distanceSummary(fishers) # summary of distance measures of a MoveStack object
 }

@@ -67,17 +67,17 @@
 ## create a move object
 data(leroy)
 ## change projection method to aeqd and center the coordinate system to the track
-data2 <- spTransform(leroy[1:90,], CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)
+data2 <- spTransform(leroy[30:90,], CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)
 
 ## create a DBBMM object
-dbbmm <- brownian.bridge.dyn(object=data2, location.error=12, dimSize=45, ext=.3, 
-			     time.step=600, margin=15)
+dbbmm <- brownian.bridge.dyn(object=data2, location.error=12, dimSize=155, ext=.45, 
+			     time.step=19.1, margin=15)
 \dontshow{
 data(ricky)
   leroy <- leroy[1:50]
   ricky <- ricky[1:50]
   stack <- moveStack(list(leroy,ricky))
-  t <- brownian.bridge.dyn(spTransform(stack, center=TRUE), location.error=23.5, dimSize=25, 
-			   time.step=6000, ext=1.2)
+  t <- brownian.bridge.dyn(spTransform(stack, center=TRUE), location.error=23.5, dimSize=1125, 
+			   time.step=6, ext=1.2)
 }
 }

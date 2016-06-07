@@ -2,6 +2,7 @@ setGeneric("speedSummary", function(x){standardGeneric("speedSummary")})
 setMethod("speedSummary", 
 	  signature=".MoveTrackSingle",
 	  definition=function(x){
+		  .Deprecated(msg="speedSummary function is scheduled to be removed or drastically changed")
 		  if(length(seglength(x)>0)){
 			  Speed <- speed(x) #meter per sec
 			  df  <- data.frame(AverSpeed=mean(Speed, na.rm=TRUE))
@@ -13,6 +14,7 @@ setMethod("speedSummary",
 setMethod("speedSummary", 
 	  signature=".MoveTrackStack", 
 	  definition=function(x){
+		  .Deprecated(msg="speedSummary function is scheduled to be removed or drastically changed")
 		  lst <- lapply(split(x), speedSummary)
 		  df <- do.call("rbind", lst)
 		  return(lst)

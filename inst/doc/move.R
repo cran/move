@@ -175,7 +175,7 @@ plotBursts(leroy_b, breaks=3, add=FALSE, pch=19)
 ###################################################
 r <- spTransform(ricky[1:500,], center=T)
 ricky_dbbmm <- brownian.bridge.dyn(r, dimSize=150, location.error=23, 
-                                   ext=.3, time.step=60, margin=13)
+                                   ext=1, time.step=60, margin=13)
 
 
 ###################################################

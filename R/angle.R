@@ -2,6 +2,7 @@ setGeneric("angleSummary", function(x){standardGeneric("angleSummary")})
 setMethod("angleSummary", 
           signature=".MoveTrackSingle",
           definition=function(x){
+            .Deprecated(msg="angleSummary function is scheduled to be removed or drastically changed")
             if(nrow(coordinates(x))>=3){
               if (!requireNamespace('circular')) 
                 stop("You need to install the circular package to proceed") #var.circular
@@ -16,7 +17,8 @@ setMethod("angleSummary",
 setMethod("angleSummary", 
           signature=".MoveTrackStack", 
           definition=function(x){
-            lst <- lapply(split(x), angleSummary)
+            .Deprecated(msg="angleSummary function is scheduled to be removed or drastically changed")
+                        lst <- lapply(split(x), angleSummary)
             return(lst)
           })
 

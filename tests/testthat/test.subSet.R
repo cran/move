@@ -3,6 +3,7 @@ test_that('subSet',
 {
 	a<-move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1'),proj=CRS('+proj=longlat +ellps=WGS84'))
 	b<-move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1'),proj=CRS('+proj=longlat +ellps=WGS84'),animal='b') 
+	expect_true(validObject(a[-4,]))
 	s<-moveStack(list(a,j=b))
 	sl<-moveStack(list(l=a,j=b, k=a,p=b ))
 	bb<-s[['j']]
@@ -31,3 +32,12 @@ test_that('subSet',
 	
 
 })
+test_that("subset burst",{
+  b<-burst(move(1:9,1:9, as.POSIXct(1:9, origin="1970-1-1")), gl(3,3)[-1])
+expect_true(validObject(b[1:7]))
+expect_true(validObject(b[1:7,]))
+expect_true(validObject(b[-7]))
+expect_true(validObject(b[-7,]))
+expect_error(b[-3])
+
+    })
