@@ -4,6 +4,8 @@ import(methods)
 import(geosphere)
 import(raster)
 import(rgdal)
+importFrom("stats", "as.dist")
+importFrom("utils", "combn")
 importFrom(httr, GET)
 importFrom(httr, add_headers)
 importFrom(httr, content)
@@ -45,7 +47,9 @@ exportMethods(
 	angleSummary,
 	brownian.bridge.dyn,
 	burst,
+emd,
 	burstId,
+	"burstId<-",
 	citations,
 	"citations<-",
 	contour,

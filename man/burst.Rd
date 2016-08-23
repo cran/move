@@ -1,10 +1,11 @@
 \name{burst}
 
 \alias{burst}
-\alias{burst,Move,character-method}
+\alias{burst,ANY,character-method}
 \alias{burst,Move,factor-method}
-\alias{burst,Move,numeric-method}
+\alias{burst,ANY,numeric-method}
 \alias{burst,.MoveTrackSingleBurst,missing-method}
+\alias{burst,.MoveTrackSingleBurst,factor-method}
 
 \docType{methods}
 
@@ -13,7 +14,7 @@
 \description{Bursting a track by specified variable}
 
 \usage{
-  \S4method{burst}{Move,character}(x, f, ...)
+  \S4method{burst}{Move,factor}(x, f, ...)
 }
 
 \arguments{

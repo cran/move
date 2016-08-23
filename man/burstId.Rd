@@ -1,8 +1,11 @@
 \name{burstId}
 
 \alias{burstId}
+\alias{burstId<-}
 \alias{burstId,MoveBurst-method}
 \alias{burstId,.MoveTrackSingleBurst-method}
+\alias{burstId<-,.MoveTrackSingleBurst,factor-method}
+\alias{burstId<-,.MoveTrackSingleBurst,character-method}
 
 \docType{methods}
 
@@ -12,10 +15,13 @@
 
 \usage{
   \S4method{burstId}{MoveBurst}(x)
+  \S4method{burstId}{.MoveTrackSingleBurst,factor}(x)<-value
+
 }
 
 \arguments{
-  \item{x}{a MoveStack object}
+  \item{x}{a MoveBurst object}
+  \item{value}{Replacement values for the burst factor, either a factor or a character}
 }
 
 \value{

@@ -14,3 +14,8 @@ setMethod("UDStack",
           definition=function(x,method,...){
             callGeneric(stack(x),...)
           })
+setMethod("UDStack", 
+          signature=".UDBurstStack",
+          definition=function(x,method="unknown",...){
+            callGeneric(x/cellStats(x,sum), ...)
+          })

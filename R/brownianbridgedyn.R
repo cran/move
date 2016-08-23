@@ -87,6 +87,7 @@ setMethod(f = "brownian.bridge.dyn",
 setMethod(f = "brownian.bridge.dyn", 
 	  signature = c(object = "dBMvariance", raster = "RasterLayer", dimSize = "missing", location.error = "numeric"), 
 	  definition = function(object, raster, location.error,  ext, time.step, verbose=TRUE,...) {
+		  if (length(location.error) == 1) location.error <- rep(x = location.error, times = n.locs(object))
 		  if(n.locs(object)!= length(location.error))
 			  stop("The location error vector has not the same length as the move object")
 		  if(any(is.na(location.error)))
