@@ -18,8 +18,14 @@ setMethod("print", ".MoveTrackSingle", function(x){
 })
 setMethod("print", ".MoveTrackStack", function(x){
 	  callNextMethod()
-	  cat("min ID Data :", paste(apply(x@idData, 2,min)),"\n")
-	  cat("max ID Data :", paste(apply(x@idData, 2,max)),"\n")
+	  if(ncol(idData(x, drop=F))!=0){
+	  d<-apply(idData(x, drop=F), 2, range)
+	  nc<- apply(nchar(d),2, max)
+	  nc<-paste0("%",nc, "s")
+	  mapply(sprintf, d, nc)
+	  cat("min ID Data :", paste(sprintf(sub("%NAs","%s",nc), d[1,]), collapse=', '),"\n")
+	  cat("max ID Data :", paste(sprintf(sub("%NAs","%s",nc), d[2,]), collapse=', '),"\n")
+	  }
 	  cat("individuals :", paste(as.character((unique(x@trackId)[1:min(c(15,n.indiv(x)))])), collapse=", "),"\n")
 	  print(unUsedRecords(x))
 })
@@ -55,9 +61,9 @@ setMethod("print",".MoveGeneral", function(x){
 		  cat("license     :",x@license,"\n")
 	  }
 	  if(length(x@citation)!=0)
-		  cat("citation     :",x@citation,"\n")
+		  cat("citation    :",x@citation,"\n")
 	  if(length(x@study)!=0)
-		  cat("study name   :",x@study,"\n")
+		  cat("study name  :",x@study,"\n")
 	  cat("date created:",format(x@dateCreation),"\n")
 
 })

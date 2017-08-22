@@ -61,3 +61,17 @@ data(leroy)
     expect_equivalent(dd, as(fishers,'data.frame')[,names(dd)])
     
   })
+test_that('equalproj',{
+  data(leroy)
+  data("ricky")
+m<-  move(1:3,1:3, Sys.time()+1:3)
+  re<-spTransform(ricky, center=T)
+  expect_true(equalProj(list(leroy, ricky)))
+  expect_false(equalProj(list(leroy, re)))
+  expect_true(equalProj(list(m)))
+  expect_true(equalProj(list(re)))
+  expect_false(equalProj(list(leroy, ricky,re)))
+  expect_false(equalProj(list(re,leroy, ricky)))
+  expect_false(equalProj(list(m,leroy, ricky)))
+  
+  })

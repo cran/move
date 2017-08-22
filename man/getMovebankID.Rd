@@ -6,33 +6,38 @@
 
 \docType{methods}
 
-\title{Study ID}
+\title{Movebank Study ID}
 
-\description{Returns the numeric study ID that corresponds to the character study name stored on Movebank}
+\description{This function returns the numeric Movebank ID of the study which corresponds to the character study name stored on Movebank}
 
 \usage{
   getMovebankID(study,login)
 }
 
 \arguments{
-  \item{study}{character, full name of the study, as stored on Movebank}
-  \item{login}{an object of the \code{\link{MovebankLogin-class}}, if empty you'll be asked to enter your username or password}
+  \item{study}{character; full name of the study, as stored on Movebank}
+  \item{login}{a \code{\link[=MovebankLogin-class]{MovebankLogin}} object, if empty you'll be asked to enter your username and password}
 }
 
 \details{
-  \code{getMovebankID} belongs to the Movebank browsing functions and returns the ID of a study as it is stored on Movebank.org.
+  \code{getMovebankID} belongs to the Movebank browsing functions and returns the Movebank ID of a study as it is stored on \href{http://www.movebank.org}{Movebank}. This number can also be found on the \emph{Study Details} page of the study on Movebank.
 }
 
 \seealso{\code{\link{movebankLogin}}}
 \note{
-See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images/Move_Package/browseMovebank.pdf}{move website download section}) for more information about security and how to use Movebank from within R. 
+The character study name on Movebank can be potentially edited and changed at any time by the \emph{Data Manager(s)}, whereas the \emph{Movebank ID} is uniquely assigned to each study when it is uploaded to Movebank, and cannot be modified afterwards.
+
+See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 }
 
+\value{
+The function returns one '\code{numeric}' value.}
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
 \dontrun{
+
 #obtain a login
 login<-movebankLogin()
 getMovebankID(study="BCI Ocelot", login=login)

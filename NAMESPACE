@@ -7,7 +7,11 @@ import(rgdal)
 importFrom("stats", "as.dist")
 importFrom("utils", "combn")
 importFrom(httr, GET)
+importFrom(httr, HEAD)
 importFrom(httr, add_headers)
+importFrom(httr, parse_url)
+importFrom(httr, modify_url)
+importFrom(httr, write_disk)
 importFrom(httr, content)
 importFrom(stats, sd)
 importFrom(stats, var)
@@ -21,6 +25,9 @@ importFrom(graphics, abline)
 importFrom(graphics, segments)
 importFrom(grDevices, rgb)
 importFrom(parallel, parLapply)
+importFrom(xml2,xml_find_all)
+importFrom(xml2,xml_contents)
+importFrom(xml2,xml_attr)
 importFrom(Rcpp,sourceCpp) # to statify check
 exportClasses(
 	DBBMM,
@@ -44,7 +51,7 @@ exportClasses(
 )
 exportMethods(
 	angle,
-	angleSummary,
+	getDataRepositoryData,
 	brownian.bridge.dyn,
 	burst,
 emd,
@@ -56,12 +63,13 @@ emd,
 	corridor,
 	turnAngleGc,
 	distance,
-	distanceSummary,
 	equalProj,
+	getDuplicatedTimestamps,
 	getMovebank,
 	getMovebankAnimals,
 	getMovebankData,
 	getMovebankID,
+	getMovebankNonLocationData,
 	getMovebankSensors,
 	getMovebankSensorsAttributes,
 	getMovebankStudies,
@@ -70,6 +78,8 @@ emd,
 	getVolumeUD,
 	hrBootstrap,
 	lines,
+  licenseTerms,
+  "licenseTerms<-",
 	move,
 	move2ade,
 	movebankLogin, 
@@ -85,12 +95,9 @@ emd,
 	show,
 	sensor,
 	speed,
-	speedSummary,
 	split,
 	summary,
 	searchMovebankStudies,
-	timeSummary,
-	#time.lag,
 	timeLag,
 	trackId,
 	brownian.motion.variance.dyn,
@@ -107,7 +114,7 @@ emd,
   "dynBGBvariance",
 	interpolateTime
 )
-useDynLib(move)
+useDynLib(move, .registration=T)
 
 
            

@@ -1,3 +1,15 @@
+
+Version 3.0.0
+	* Remove contraint to have no unused timestamps at observed timestamps
+	* Add download function for movebank data repository
+	* Now getMovebankData gets records per individual and not deployment (make sure code is adjusted where needed)
+	* Now the move function does not create or remove extra columns
+	* moveStack can stack multiple animals directly and can force a timestamp
+	* getMovebankData now includes license terms, study name and citation (reported by Scott LaPoint)
+	* Implementend variance methods for MoveStacks
+	* Various small updates in error reporting
+	* Implemented download of acc and other extra movebank data
+
 Version 2.1.0
 	* Added earth movers distance functions
 	* Added replacement methods for burstIds

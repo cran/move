@@ -161,49 +161,120 @@ if(verbose)
 		  return(dBBMM)
 	  })
 
-### do brownian.bridge.dyn for all individuals within a MoveStack
-setMethod(f = "brownian.bridge.dyn", 
-	  signature = c(object = "MoveStack", raster = "RasterLayer", dimSize = "missing", location.error = "numeric"), 
-	  function(object, raster, dimSize, location.error, ...) {
-		  moveUnstacked <- split(x = object)
-		  if(length(location.error)==1){
-			  location.error<-split(rep(location.error,sum(n.locs(object))), 
-						rep(levels(trackId(object)),n.locs(object)))
-		  }else{
-        if(length(location.error)!=sum(n.locs(object)))
-          stop('Location error needs to be the same length as the number of locations')
-			  location.error<-split(location.error, 
-						rep(levels(trackId(object)),n.locs(object)))
-		  }
-		  # split MoveStack into individual Move objects
-		  dbbmmLST <- list()
-		  omitMove <- c()
-		  for (i in names(moveUnstacked)) {
-			  if (n.locs(moveUnstacked[[i]]) > (2*window.size - 2*margin)) {
-				  dbbmmLST[[i]] <- brownian.bridge.dyn(moveUnstacked[[i]], raster = raster, location.error = location.error[[i]], margin = margin, window.size = window.size, ext = ext, ...)
-			  } else {
-				  omitMove <- c(omitMove, i)
-			  }
-			  # store which Move Objects were not processed
-		  }
-		  if (length(omitMove) > 0) 
-			  warning("Move object ", paste(omitMove, collapse = " "), " was/were omitted, because the number of coordinates is smaller than the window.size and margin you use.\n")
 
-		  rasterStack <- stack(lapply(dbbmmLST, as, "RasterLayer"))
-		  DBMvarLST <- lapply(dbbmmLST, slot, "DBMvar")
-		  objectAnimalsOmitted <- object[as.character(object@trackId) %in% names(DBMvarLST)]
-		  dBMvarianceStack <- new("dBMvarianceStack", 
-					  objectAnimalsOmitted, 
-					  in.windows = unlist(lapply(DBMvarLST, slot, "in.windows")), 
-					  interest = unlist(lapply(DBMvarLST, slot, "interest")), 
-					  means = unlist(lapply(DBMvarLST, slot, "means")), 
-					  margin = unique(unlist(lapply(DBMvarLST, slot, "margin"))), 
-					  window.size = unique(unlist(lapply(DBMvarLST, slot, "window.size"))))
-		  # The breaks should later be inherited here now there gone
 
-		  DBBMMStack <- new("DBBMMStack", DBMvar = dBMvarianceStack, rasterStack)
-		  return(DBBMMStack)
-	  })
+setMethod(f = "brownian.bridge.dyn",
+          signature = c(
+            object = "dBMvarianceStack",
+            raster = "RasterLayer",
+            dimSize = "missing",
+            location.error = "numeric"
+          ),
+          function(object,
+                   raster,
+                   dimSize,
+                   location.error,
+                   ...) {
+            l <-
+              lapply(s <-
+                       lapply(levels(trackId(object)), '==', trackId(object)), function(x, i) {
+                         x[i, ]
+                       }, x = object)
+            l <- lapply(l, function(x) {
+              o <- lapply(slotNames(x), slot, object = x)
+              names(o) <- slotNames(x)
+              o <-
+                o[!(names(o) %in% c('trackId', 'trackIdUnUsedRecords'))]
+              do.call('new', c(list(Class = 'dBMvariance'), o))
+            })
+            stk <-
+              mapply(
+                brownian.bridge.dyn,
+                l,
+                MoreArgs = list(raster = raster),
+                location.error = ifelse(
+                  length(location.error) == 1,
+                  list(location.error),
+                  list(lapply(s, function(x, i) {
+                    x[i]
+                  }, x = location.error)
+                ))[[1]]
+              )
+            names(stk) <- levels(trackId(object))
+            rasterStack <- stack(lapply(stk, as, "RasterLayer"))
+            DBBMMStack <-
+              new("DBBMMStack", DBMvar = object, rasterStack)
+            return(DBBMMStack)
+            
+          })
+
+setMethod(f = "brownian.bridge.dyn",
+          signature = c(
+            object = "MoveStack",
+            raster = "RasterLayer",
+            dimSize = "missing",
+            location.error = "numeric"
+          ),
+          function(object,
+                   raster,
+                   dimSize,
+                   location.error,
+                   ...) {
+            d <-
+              brownian.motion.variance.dyn(
+                object,
+                location.error = location.error,
+                margin = margin,
+                window.size = window.size
+              )
+            callGeneric(object = d,
+                        raster = raster,
+                        location.error = location.error)
+          })
+
+# ### do brownian.bridge.dyn for all individuals within a MoveStack
+# setMethod(f = "brownian.bridge.dyn", 
+# 	  signature = c(object = "MoveStack", raster = "RasterLayer", dimSize = "missing", location.error = "numeric"), 
+# 	  function(object, raster, dimSize, location.error, ...) {
+# 		  moveUnstacked <- split(x = object)
+# 		  if(length(location.error)==1){
+# 			  location.error<-split(rep(location.error,sum(n.locs(object))), 
+# 						rep(levels(trackId(object)),n.locs(object)))
+# 		  }else{
+#         if(length(location.error)!=sum(n.locs(object)))
+#           stop('Location error needs to be the same length as the number of locations')
+# 			  location.error<-split(location.error, 
+# 						rep(levels(trackId(object)),n.locs(object)))
+# 		  }
+# 		  # split MoveStack into individual Move objects
+# 		  dbbmmLST <- list()
+# 		  omitMove <- c()
+# 		  for (i in names(moveUnstacked)) {
+# 			  if (n.locs(moveUnstacked[[i]]) > (2*window.size - 2*margin)) {
+# 				  dbbmmLST[[i]] <- brownian.bridge.dyn(moveUnstacked[[i]], raster = raster, location.error = location.error[[i]], margin = margin, window.size = window.size, ext = ext, ...)
+# 			  } else {
+# 				  omitMove <- c(omitMove, i)
+# 			  }
+# 			  # store which Move Objects were not processed
+# 		  }
+# 		  if (length(omitMove) > 0) 
+# 			  warning("Move object ", paste(omitMove, collapse = " "), " was/were omitted, because the number of coordinates is smaller than the window.size and margin you use.\n")
+# 
+# 		  rasterStack <- stack(lapply(dbbmmLST, as, "RasterLayer"))
+# 		  DBMvarLST <- lapply(dbbmmLST, slot, "DBMvar")
+# 		  objectAnimalsOmitted <- object[as.character(object@trackId) %in% names(DBMvarLST)]
+# 		  dBMvarianceStack <- new("dBMvarianceStack", 
+# 					  objectAnimalsOmitted, 
+# 					  in.windows = unlist(lapply(DBMvarLST, slot, "in.windows")), 
+# 					  interest = unlist(lapply(DBMvarLST, slot, "interest")), 
+# 					  means = unlist(lapply(DBMvarLST, slot, "means")), 
+# 					  margin = unique(unlist(lapply(DBMvarLST, slot, "margin"))), 
+# 					  window.size = unique(unlist(lapply(DBMvarLST, slot, "window.size"))))
+# 		  # The breaks should later be inherited here now there gone
+# 
+# 		  DBBMMStack <- new("DBBMMStack", DBMvar = dBMvarianceStack, rasterStack)
+# 		  return(DBBMMStack)
+# 	  })
 
 setMethod(f = "brownian.bridge.dyn", signature = c(object = "dBMvarianceBurst", raster = "RasterLayer", 
 						   dimSize = "missing", location.error = "numeric"), definition = function(object, 

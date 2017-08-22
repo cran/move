@@ -2,16 +2,23 @@ setMethod('[', signature(x=".unUsedRecords"), function(x,i,j,...){
 			 x@timestampsUnUsedRecords<- x@timestampsUnUsedRecords[i]
 			 x@sensorUnUsedRecords<- x@sensorUnUsedRecords[i]
 			 if(length(j)){
-			 	x@dataUnUsedRecords<- x@dataUnUsedRecords[i,j]
+			 	x@dataUnUsedRecords<- x@dataUnUsedRecords[i,j, drop=F]
 			}else{
-			 	x@dataUnUsedRecords<- x@dataUnUsedRecords[i,]
+			 	x@dataUnUsedRecords<- x@dataUnUsedRecords[i,, drop=F]
 				}
 			 return(x)
 })
 setMethod('[', signature(x=".unUsedRecordsStack"), function(x,i,j,...){
   if(!missing(i)){
-    x@trackIdUnUsedRecords <- droplevels(x@trackIdUnUsedRecords[i])
-  }else{i<-T}
+    x@trackIdUnUsedRecords <- x@trackIdUnUsedRecords[i]
+  }else{
+    if(length(x@trackIdUnUsedRecords)==0){
+      i<-logical(0L)
+    }else{
+      i<-T
+        }
+
+    }
   if(missing(j))
     j<-rep(T, ncol(x@dataUnUsedRecords))
   callNextMethod(x=x,i=i,j=j,...)
@@ -119,7 +126,10 @@ setMethod("[[",
 setMethod("[[", 
           signature(x=".MoveTrackStack", i='character', j='missing'),
           definition=function(x,i,j,...){ #does not work
-	    s<-x@trackId%in%i
+if(!all(i%in%levels(trackId(x)))){
+	stop('Not all individuals are in stack')
+}
+	    s<-trackId(x)%in%i
 #		spdf <- SpatialPointsDataFrame(coords = matrix(x@coords[s,], ncol=2),
 #		      			 data=x@data[s,],
 #		      			 proj4string=x@proj4string)
@@ -154,3 +164,11 @@ setMethod("[[",
 #              x@idData=x@idData[as.character(unique(x@trackId[i])),]}else{i<-T}
 	    return(x)
           })
+
+
+setMethod("[<-", signature(x=".MoveTrack"), function(x, i, j,...,value) {
+  d<-slot(x,name = "data")
+  d[i,j,...]<-value
+  slot(x,'data')<-d
+  return(x)
+})

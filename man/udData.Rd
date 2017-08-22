@@ -7,7 +7,7 @@
 Dynamic brownian bridges
 }
 \description{
-Utilization densities calculated with \code{brownian.bridge.dyn} to examplify functions.
+Utilization densities calculated with \code{brownian.bridge.dyn} to exemplify functions.
 }
 \usage{data("leroydbbmm")
 }

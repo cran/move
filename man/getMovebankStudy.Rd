@@ -8,30 +8,36 @@
 
 \docType{methods}
 
-\title{Returns study information}
+\title{Returns information of a Movebank study}
 
 \description{
-\code{getMovebankStudy} belongs to the Movebank browsing functions and returns information about the requested study like the authors of that study, licence type, citation and more.}
+This function returns information about the requested study as e.g. the authors of the study, licence type, citation and more.}
 
 \usage{
   getMovebankStudy(study, login)
 }
 
 \arguments{
-  \item{study}{a character string (study name) or the numeric study ID as it is stored on Movebank}
-  \item{login}{an object of the \code{\link{MovebankLogin-class}}, if empty you'll be asked to enter your username or password}
+  \item{study}{character or numeric. Character: full name of the study, as stored on Movebank. Numeric: \emph{Movebank ID} of the study which can be obtained on the \emph{Study Details} page on Movebank or with \code{\link{getMovebankID}}.}
+  \item{login}{a \code{\link[=MovebankLogin-class]{MovebankLogin}} object, if empty you'll be asked to enter your username and password}
 }
+
+\details{
+\code{getMovebankStudy} belongs to the Movebank browsing functions and returns a \code{data.frame} with information about the requested study (e.g.: authors of the study, licence type, citation, etc).}
+
 
 \note{
-See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images/Move_Package/browseMovebank.pdf}{move website download section}) for more information about security and how to use Movebank from within R. 
+See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 }
 
+\value{'\code{data.frame}'}
 
-\author{Marco Smolla}
+
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
 \dontrun{
-#obtain a login
+# obtain a login
 login<-movebankLogin()
 getMovebankStudy(study="BCI Agouti", login=login)
 }

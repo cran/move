@@ -9,7 +9,7 @@ An overview of the functions in this package
 }
 
 \description{
-move is a package that contains functions to access movement data stored at \url{www.movebank.org} as well as tools to visualize and statistically analyse animal movement data. Move addresses movement ecological questions.
+move is a package that contains functions to access movement data stored at \url{www.movebank.org} as well as tools to visualize and statistically analyse animal movement data. Move addresses ecological questions regarding movement.
 }
 
 \details{
@@ -56,7 +56,7 @@ With the function below the dynamic Brownian Bridge Movement Model calculates th
 
 The track or the utilization distribution can be plotted with the following functions:
   \tabular{ll}{
-    \code{plot}\tab plots the utilization distribution with fixed width and height ratio (see DBBMM-class)\cr or the track (see Move-class) \cr
+    \code{plot}\tab plots the utilization distribution with fixed width and height ratio (see DBBMM-class), or the track (see Move-class) \cr
     \code{image}\tab plots the utilization distribution fitted to the window \cr
     \code{contour}\tab adds the contours of utilization distribution to a plot\cr 
   }
@@ -68,8 +68,7 @@ Maintainer: Bart Kranstauber \email{bart.kranstauber@uni-konstanz.de}, Marco Smo
 }
 
 \references{
-\href{http://computational-ecology.com/images/Move_Package/move.pdf}{Move package vignette} \cr
-\href{http://cran.r-project.org/package=move}{move on CRAN}
+\href{https://CRAN.R-project.org/package=move}{move on CRAN}
 }
 
 \keyword{package}

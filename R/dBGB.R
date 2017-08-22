@@ -246,67 +246,67 @@ setMethod("BGBvarbreak",
 		  callGeneric(move = move, locErr = locErr, paraBreaks = paraBreaks, orthBreaks = orthBreaks, 
 			      ...)
 	  })
-setGeneric("BGB", function(move, raster, locErr) {
-	   standardGeneric("BGB")
-	  })
-setMethod("BGB", 
-	  signature(move = ".MoveTrackSingle", raster = "numeric", locErr = "numeric"), 
-	  function(move, raster, locErr) {
-		  xRange <- range(coordinates(move)[, 1])
-		  yRange <- range(coordinates(move)[, 2])
-		  # make the range a bit larger
-		  xRange <- xRange + c(-0.2, 0.2) * diff(xRange)
-		  yRange <- yRange + c(-0.2, 0.2) * diff(yRange)
-		  # make the range fit the raster cells
-		  xRange <- xRange + c(-0.5, 0.5) * (raster - diff(xRange)%%raster)
-		  yRange <- yRange + c(-0.5, 0.5) * (raster - diff(yRange)%%raster)
-		  ex <- extent(c(xRange, yRange))
-		  raster <- raster(ncols = diff(xRange)%/%raster, nrows = diff(yRange)%/%raster, 
-				   crs = proj4string(move), ex)
-		  callGeneric()
-	  })
-setMethod("BGB", 
-	  signature(move = ".MoveTrackSingle", raster = "RasterLayer", locErr = "numeric"), 
-	  function(move, raster, locErr) {
-		  time.step <- min(timeLag(move, units="mins"))/15.123
-		  x <- coordinates(move)[, 1]
-		  y <- coordinates(move)[, 2]
-		  location.error <- rep(locErr, length(x))
-		  t <- as.numeric(move@timestamps)/60
-		  tm <- t[1] + time.step/2
-		  g <- BGBvar(move, locErr = locErr)
-		  sigmaSeg_orth <- rep(g$sdOrth, length(x))
-		  sigmaSeg_para <- rep(g$sdPara, length(x))
-		  int <- 0
-		  for (i in 1:(length(x) - 1)) {
-			  # tm <- 0 #
-			  while (tm <= t[i + 1]) {
-				  alpha <- (tm - t[i])/(t[i + 1] - t[i])
-				  mu.x <- x[i] + alpha * (x[i + 1] - x[i])
-				  mu.y <- y[i] + alpha * (y[i + 1] - y[i])
-				  paraOrth <- deltaParaOrth(c(mu.x, mu.y), c(x[i + 1], y[i + 1]), coordinates(raster))
-				  sigma_para <- sqrt((t[i + 1] - t[i]) * alpha * (1 - alpha) * (sigmaSeg_para[i])^2 + 
-						     ((1 - alpha)^2) * (location.error[i]^2) + (alpha^2) * (location.error[i + 
-													    1]^2))
-		sigma_orth <- sqrt((t[i + 1] - t[i]) * alpha * (1 - alpha) * (sigmaSeg_orth[i])^2 + 
-				   ((1 - alpha)^2) * (location.error[i]^2) + (alpha^2) * (location.error[i + 
-											  1]^2))
-		if (any(is.nan(c(sigma_orth, sigma_para)))) 
-			browser()
-		out = (1/(2 * pi * sigma_para * sigma_orth)) * exp(-0.5 * ((paraOrth$para^2/sigma_para^2) + 
-									   (paraOrth$orth^2/sigma_orth^2)))
-		if (any(is.nan(out))) 
-			stop('NAN in output')
-		int <- int + out/sum(out)
-		if (any(is.nan(int))) 
-			stop('NAN in output')
-		tm <- tm + time.step
-			  }
-		  }
-		  # Scaling probabilities so they sum to 1.0
-		  values(raster) <- int/sum(int)
-		  return(raster)
-	  })
+# setGeneric("BGB", function(move, raster, locErr) {
+# 	   standardGeneric("BGB")
+# 	  })
+# setMethod("BGB", 
+# 	  signature(move = ".MoveTrackSingle", raster = "numeric", locErr = "numeric"), 
+# 	  function(move, raster, locErr) {
+# 		  xRange <- range(coordinates(move)[, 1])
+# 		  yRange <- range(coordinates(move)[, 2])
+# 		  # make the range a bit larger
+# 		  xRange <- xRange + c(-0.2, 0.2) * diff(xRange)
+# 		  yRange <- yRange + c(-0.2, 0.2) * diff(yRange)
+# 		  # make the range fit the raster cells
+# 		  xRange <- xRange + c(-0.5, 0.5) * (raster - diff(xRange)%%raster)
+# 		  yRange <- yRange + c(-0.5, 0.5) * (raster - diff(yRange)%%raster)
+# 		  ex <- extent(c(xRange, yRange))
+# 		  raster <- raster(ncols = diff(xRange)%/%raster, nrows = diff(yRange)%/%raster, 
+# 				   crs = proj4string(move), ex)
+# 		  callGeneric()
+# 	  })
+# setMethod("BGB", 
+# 	  signature(move = ".MoveTrackSingle", raster = "RasterLayer", locErr = "numeric"), 
+# 	  function(move, raster, locErr) {
+# 		  time.step <- min(timeLag(move, units="mins"))/15.123
+# 		  x <- coordinates(move)[, 1]
+# 		  y <- coordinates(move)[, 2]
+# 		  location.error <- rep(locErr, length(x))
+# 		  t <- as.numeric(move@timestamps)/60
+# 		  tm <- t[1] + time.step/2
+# 		  g <- BGBvar(move, locErr = locErr)
+# 		  sigmaSeg_orth <- rep(g$sdOrth, length(x))
+# 		  sigmaSeg_para <- rep(g$sdPara, length(x))
+# 		  int <- 0
+# 		  for (i in 1:(length(x) - 1)) {
+# 			  # tm <- 0 #
+# 			  while (tm <= t[i + 1]) {
+# 				  alpha <- (tm - t[i])/(t[i + 1] - t[i])
+# 				  mu.x <- x[i] + alpha * (x[i + 1] - x[i])
+# 				  mu.y <- y[i] + alpha * (y[i + 1] - y[i])
+# 				  paraOrth <- deltaParaOrth(c(mu.x, mu.y), c(x[i + 1], y[i + 1]), coordinates(raster))
+# 				  sigma_para <- sqrt((t[i + 1] - t[i]) * alpha * (1 - alpha) * (sigmaSeg_para[i])^2 + 
+# 						     ((1 - alpha)^2) * (location.error[i]^2) + (alpha^2) * (location.error[i + 
+# 													    1]^2))
+# 		sigma_orth <- sqrt((t[i + 1] - t[i]) * alpha * (1 - alpha) * (sigmaSeg_orth[i])^2 + 
+# 				   ((1 - alpha)^2) * (location.error[i]^2) + (alpha^2) * (location.error[i + 
+# 											  1]^2))
+# 		if (any(is.nan(c(sigma_orth, sigma_para)))) 
+# 			browser()
+# 		out = (1/(2 * pi * sigma_para * sigma_orth)) * exp(-0.5 * ((paraOrth$para^2/sigma_para^2) + 
+# 									   (paraOrth$orth^2/sigma_orth^2)))
+# 		if (any(is.nan(out))) 
+# 			stop('NAN in output')
+# 		int <- int + out/sum(out)
+# 		if (any(is.nan(int))) 
+# 			stop('NAN in output')
+# 		tm <- tm + time.step
+# 			  }
+# 		  }
+# 		  # Scaling probabilities so they sum to 1.0
+# 		  values(raster) <- int/sum(int)
+# 		  return(raster)
+# 	  })
 
 setMethod("[", "dBGBvariance", function(x, i, j, ..., drop = TRUE) {
 	  x@paraSd <- x@paraSd[i]

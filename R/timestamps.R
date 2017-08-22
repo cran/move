@@ -21,5 +21,6 @@ setReplaceMethod("timestamps", ".MoveTrack",
                    if (length(value)!=length(this@timestamps)) 
                      stop(paste("The number of timestamps does not match the original number of timestamps! (",length(value),":",length(this@timestamps),")"))
                    this@timestamps <- value
+		   validObject(this)# to check if timestamps are still ordered
                    this
                  })

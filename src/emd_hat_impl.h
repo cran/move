@@ -6,6 +6,7 @@
 //=======================================================================================
 
 #include "min_cost_flow.h"
+#include "R.h"
 #include <set>
 #include <limits>
 //#include <cassert>

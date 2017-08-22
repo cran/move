@@ -26,23 +26,25 @@ Creates an object that can be used with all Movebank browsing functions.
 }
 
 \details{
-Use this function to login to Movebank. After you logged in, you can use the Movebank browsing functions from the move package. 
+Use this function to login to \href{http://www.movebank.org}{Movebank}. After you logged in, you can use the Movebank browsing functions from the move package.
+
+If the function is left empty, you'll be requested to enter your username and password. This option is useful to keep Movebak login data confidential when R-code is shared.
 }
 
-\note{
-If you do not have the RCurl package installed \code{movebankLogin} will store your username and password in the object you assign it to. Furthermore, if you have no RCurl a http connection is used to retrieve data from Movebank instead of the more secure https protocol.  
+\value{'\code{\link[=MovebankLogin-class]{MovebankLogin}}'}
 
-}
+\note{See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.}
 
-
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
 \dontrun{
-##first create the login object 
+## First create the login object 
 login <- movebankLogin(username="xxx", password="zzz")
+## or
+login <- movebankLogin()
 
-##and than use it with Movebank browsing functions
+## and than use it with Movebank browsing functions, e.g.
 getMovebankStudies(login)
 }
 }

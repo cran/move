@@ -8,7 +8,7 @@
 
 \title{Convert raster to contour lines}
 
-\description{The function converts a ud(stack) object to a SpatialLinesDataFrame.}
+\description{The function converts a raster UD(stack) object to a SpatialLinesDataFrame. This allows to re-project the contours to different projections.}
 
 \usage{
 	\S4method{raster2contour}{.UD}(x, ...)
@@ -16,24 +16,45 @@
 }
 
 \arguments{
-	\item{x}{a DBBMM or DBBMMStack object, that includesa raster object}
-	\item{...}{additional arguments that are passed on from other functions, most important being level which determines the contour level}
+	\item{x}{a \code{DBBMM}, \code{DBBMMStack}, \code{dynBGB}, \code{.UD} or \code{.UDStack} object}
+	\item{...}{additional arguments, like \code{levels} and \code{nlevels}, that can be passed to '\code{\link[raster]{rasterToContour}}' function}
 }
 
 \details{
-	The raster2contour function creates a \link[=SpatialLinesDataFrame-class]{SpatialLinesDataFrame} from a given raster or \link[=DBBMM-class]{DBBMM} object. This allows to re-project the contours to different projections. 
+The contour function creates a shape of the area in which the animal can be found by a certain probability (i.e. the 90\% contour describes the area in which the animal can be found with the 90\% probability).\cr 
+One or several probabilities can be set with \code{levels} (numeric or vector of values between 0 and 1). If no value is set all contour lines are returned.\cr 
+You can also use \code{nlevel} to set a number of fixed distance levels. \cr
+
+The \code{raster2contour} function creates a \link[=SpatialLinesDataFrame-class]{SpatialLinesDataFrame} from the input raster object. This allows to re-project the contours to different projections. 
 }
 
-\author{Marco Smolla}
+\value{
+'\code{SpatialLinesDataFrame}'
+}
+
+\author{Marco Smolla & Anne Scharf}
 
 \seealso{
-	\code{\link{getVolumeUD}}
+	\code{\link{getVolumeUD}}, \code{\link{contour}}, \code{\link{outerProbability}}
 }
 
 \examples{
 data(leroydbbmm)
+data(leroydbgb)
 data(dbbmmstack)
-raster2contour(leroydbbmm)
-raster2contour(dbbmmstack)
-raster2contour(dbbmmstack, level=c(.5,.95))
+
+## from a DBBMM object
+(cont1 <- raster2contour(leroydbbmm))
+plot(cont1)
+
+## from a dynBGB object
+(cont2 <- raster2contour(leroydbgb, level=.95))
+plot(cont2)
+
+## from a DBBMMStack object
+(cont3 <- raster2contour(dbbmmstack))
+plot(cont3)
+(cont4 <- raster2contour(dbbmmstack, level=c(.5,.95)))
+plot(cont4)
+
 }

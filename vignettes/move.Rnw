@@ -122,14 +122,6 @@ An important function to work with objects is the \fct{show} function. Depending
 show(leroy)
 @
 
-Both ways return the same information. For Move objects, this is the class name, number of coordinates, the map extent, the coordinate reference system, number of additional variables, names of the additional variables and their minimum and maximum values, the sensor type, further data that are specific to the animal, the number of recordings that were skipped, and the date of file creation. \\
-The \fct{summary} can be used to summarize important information of \class{Move} or \class{MoveStack} objects. \fct{Summary} calls the function \fct{distance}, \fct{time}, \fct{speed}, and \fct{angle} and returns a summary of these values. 
-
-<<summary>>=
-summary(ricky)
-#summary(stack) ##works also for stacks
-@
-
 The following functions return more information of the object: 
 \fct{n.locs} returns the number of locations of an \class{Move} or \class{MoveStack} object
 <<nlocs>>=

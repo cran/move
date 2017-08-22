@@ -5,7 +5,7 @@
 
 \docType{methods}
 
-\title{Extract the track coordinates from a Move/MoveStack object}
+\title{Extract the track coordinates from a Move or MoveStack object}
 
 \description{The coordinates method extracts the coordinates of a track.}
 
@@ -14,22 +14,22 @@
 }
 
 \arguments{
-  \item{obj}{A valid Move or MoveStack object}
-  \item{...}{Additional arguments, see Details}
+  \item{obj}{a \code{move}, \code{moveStack}, \code{moveBurst}, \code{dBMvariance}, \code{dBMvarianceBurst}, \code{dBMvarianceStack} or \code{dBGBvariance} object}
+  \item{...}{Currently not implemented}
 }
 
-\details{
-Returns a matrix with the coordinates of the track in a Move or MoveStack object. 
+\value{
+Returns a \code{matrix} with the coordinates of the track
 }
 
 \examples{
 ## create a move object
 data(leroy)
 ## extract the coordinates
-coords <- coordinates(leroy)
+head(coordinates(leroy))
 \dontshow{
 data(fishers)
 coordinates(fishers)
 }}
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}

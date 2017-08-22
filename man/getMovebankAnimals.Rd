@@ -10,31 +10,37 @@
 
 \title{Animals, tags and IDs in a Movebank study}
 
-\description{Returns the animals, their tags and IDs from a Movebank study}
+\description{This function returns information of the animals, their tags and IDs from a Movebank study.}
 
 \usage{
   getMovebankAnimals(study, login)
 }
 
 \arguments{
-  \item{study}{a character string (study name) or the numeric study ID as it is stored on Movebank}
-  \item{login}{an object of the \code{\link{MovebankLogin-class}}, if empty you'll be asked to enter your username or password}
+  \item{study}{character or numeric. Character: full name of the study, as stored on Movebank. Numeric: \emph{Movebank ID} of the study which can be obtained on the \emph{Study Details} page on Movebank or with \code{\link{getMovebankID}}.}
+  \item{login}{a \code{\link[=MovebankLogin-class]{MovebankLogin}} object, if empty you'll be asked to enter your username and password}
 }
 
 \details{
-\code{getMovebankAnimals} belongs to the Movebank browsing functions and returns a \code{data.frame} that includes the \code{animalID, animalName, id, sensor_type_id} and \code{tag_id} from the requested study. 
+\code{getMovebankAnimals} belongs to the Movebank browsing functions and returns a \code{data.frame} from the requested study that includes among others the \code{individual_id, tag_id, deployment_id, sensor_type_id} which are the the internal ids of Movebank, the \code{tag_local_identifier, local_identifier} which are the ids uploaded to Movebank by the user and other information if available as e.g. \code{death_comments, sex, taxon_canonical_name}, etc.
 }
 
 \note{
-See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images/Move_Package/browseMovebank.pdf}{move website download section}) for more information about security and how to use Movebank from within R. 
+See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 }
 
-\author{Marco Smolla}
+\value{
+'\code{data.frame}'
+     
+}
+
+\author{Marco Smolla & Anne Scharf}
 
 \seealso{\code{\link{movebankLogin}}}
 \examples{
 \dontrun{
-#obtain a login
+
+# obtain a login
 login<-movebankLogin()
 getMovebankAnimals(study=82207, login=login)
 }

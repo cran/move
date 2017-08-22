@@ -10,15 +10,20 @@ The DBBMM class
 }
 
 \description{
-The DBBMM object is created within the brownian.bridge.dyn function from a Move object. It includes among others a raster object and probabilities.
+ The \code{DBBMM} object is created within the \link{brownian.bridge.dyn} function from a \code{Move} or \code{dBMvariance} object. It contains a \link[=dBMvariance-class]{dBMvariance} object and a \code{raster} with probabilities.
+  }
+  
+\note{ 
+  The \code{DBBMM} object contains a \code{\link[=dBMvariance-class]{dBMvariance}} and a \code{\link[=.UD-class]{.UD}} object which can be used to program against.
 }
+
 
 \section{Slots}{
   \describe{
-    \item{DBMvar}{Object of class \code{"dBMvarianceTmp"}: includes the window.size, margin, means, in.windows, break.list, and points of interest}
     \item{crs}{part of the \link{Raster-class}}
-    \item{ext}{the extension factor set by the user}
     \item{data}{part of the \link{Raster-class}}
+    \item{DBMvar}{Object of class "\link[=dBMvariance-class]{dBMvariance}": includes the window.size, margin, means, in.windows, break.list, and points of interest}
+    \item{ext}{the extension factor set by the user}
     \item{extent}{part of the \link{Raster-class}}
     \item{file}{part of the \link{Raster-class}}
     \item{history}{part of the \link{Raster-class}}
@@ -37,14 +42,19 @@ The DBBMM object is created within the brownian.bridge.dyn function from a Move 
 \section{Methods}{
   \describe{
     \item{\code{\link{contour}}}{\code{signature(object = "DBBMM")}: adds a contour line to a plot}
-    \item{\code{\link{image}}}{\code{signature(object = "DBBMM")}: plots the raster from a DBBMM object with fixed cell size ratio}
-    \item{\code{\link{plot}}}{\code{signature(object = "DBBMM")}: plots the raster from a DBBMM object with re-size insensitive proportions}
-    \item{\code{\link{proj4string}}}{\code{signature(object = "DBBMM")}: extracts the projection method of the raster stored within the DBBMM object}
-    \item{\code{\link{raster}}}{\code{signature(object = "DBBMM")}: extracts the raster from the DBBMM object}
+    \item{\code{\link{emd}}}{\code{signature(object = "DBBMM")}: quantifies similarity between utilization distributions}
+    \item{\code{\link{equalProj}}}{\code{signature(object = "DBBMM")}: checks whether all objects of a list are in the same projection}
+    \item{\code{\link{getMotionVariance}}}{\code{signature(object = "DBBMM")}: extracts the estimated motion variance}
+    \item{\code{\link{getVolumeUD}}}{\code{signature(object = "DBBMM")}: modifies the UD raster}
     \item{\code{\link{outerProbability}}}{\code{signature(object = "DBBMM")}: calculates the animal occurrence probabilities at the border of the raster}
+    \item{\code{\link{plot}}}{\code{signature(object = "DBBMM")}: plots the raster from a DBBMM object with re-size insensitive proportions}
+    \item{\code{\link{raster2contour}}}{\code{signature(object = "DBBMM")}: converts a raster to contour lines}
+    \item{\code{\link{show}}}{\code{signature(object = "DBBMM")}: displays summary the DBBMM object}
+    \item{\code{\link{summary}}}{\code{signature(object = "DBBMM")}: summarizes the information of the raster from a DBBMM object}
+    \item{\code{\link{subset}}}{\code{signature(object = "DBBMM")}: subsets the DBBMM object}
   }
 }
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \keyword{classes}

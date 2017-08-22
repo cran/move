@@ -15,6 +15,12 @@ setMethod("getMotionVariance",
 		  cbind(para=x@paraSd^2, orth=x@orthSd^2)
 	  })
 setMethod("getMotionVariance", 
+	  signature="dBMvarianceBurst",
+	  definition=function(x,...){
+		  x<-as(x,'dBMvarianceTmp')
+		  callGeneric()
+	  })
+setMethod("getMotionVariance", 
 	  signature="DBBMM",
 	  definition=function(x,...){
 		  x<-slot(x,'DBMvar')

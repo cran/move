@@ -3,6 +3,7 @@
 \alias{[,dBGBvariance,ANY,ANY-method}
 \alias{[,MoveStack,ANY,ANY-method}
 \alias{[,.MoveTrack,ANY,ANY-method}
+\alias{[<-,.MoveTrack,ANY,ANY-method}
 \alias{[,.MoveTrackSingleBurst,ANY,ANY-method}
 \alias{[,.MoveTrackStack,ANY,ANY-method}
 \alias{[,dBMvariance,ANY,ANY-method}
@@ -17,9 +18,9 @@
 
 \docType{methods}
 
-\title{Returns a single object from a MoveStack}
+\title{Subset movement tracks}
 
-\description{The subset function can be used to return a subset of a Move(Stack) object.}
+\description{Extraction of a subset of locations or individuals from a movement track.}
 
 \usage{
   \S4method{[}{MoveStack,ANY,ANY}(x,i)
@@ -27,25 +28,40 @@
 }
 
 \arguments{
-  \item{x}{MoveStack object}
+  \item{x}{a \code{move}, \code{moveStack}, \code{moveBurst}, \code{DBBMM}, \code{DBBMMStack}, \code{DBBMMBurstStack}, \code{dynBGB}, \code{dBMvariance}, \code{dBMvarianceBurst}, \code{dBMvarianceStack} or \code{dBGBvariance} object}
   \item{i}{numeric, character or logical vector for individuals in a stack or a set of locations}
 }
 
 \details{
-	The double square bracket method is used for sub setting a stack to a single move object according to the individual name or return a stack of multiple individuals. 
+	The double square bracket method is used for sub setting a moveStack to a single move object according to the individual name or return a stack of multiple individuals. 
 }
 
+\value{same object class as the input containing the selected locations or individuals}
 
 \examples{
+## subseting a Move, MoveBurst, DBBMM, dBMvariance, dBMvarianceBurst, 
+## dBMvarianceStack or dBGBvariance object by locations
 data(leroy)
-leroy[1:20,]
-leroy[c(TRUE,FALSE),]
+leroy[1:20,] # subset to selected range of coordinates of a move objects
+leroy[c(1,10,20),] # subset to selected coordinates of a move objects
+leroy[c(TRUE,FALSE),] # subset to every second location
+leroy[c(TRUE,FALSE,FALSE),] # subset to every third location
+
+## subseting a moveStack, DBBMMStack or DBBMMBurstStack object, 
+## by locations 
 data(fishers)
-fishers[1:300,]
-fishers[1]
-fishers[['Ricky.T']]
-fishers[[2]]
-fishers[[c(TRUE,FALSE)]]
+# subset to selected range of coordinates of a moveStack objects. If the first individual contains
+# more than, in this case 300, locations, only locations of the fist individual will be returned
+fishers[1:300,] 
+fishers[1] # returns first location of first individual
+
+## or individuals
+fishers[['Ricky.T']] # returns move object of named individual
+fishers[[c('Leroy','Ricky.T')]] # returns subseted moveStack only with the named individual
+fishers[[2]] # returns move object of 2nd individual
+fishers[[c(1,2)]]# returns subseted moveStack only with the selected individual
+
+fishers[[c(TRUE,FALSE)]] # returnes move or moveStack object with those individuals that are 'TRUE'
 }
 
-\author{Bart Kranstauber}
+\author{Bart Kranstauber & Anne Scharf}

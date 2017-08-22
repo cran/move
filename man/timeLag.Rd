@@ -6,9 +6,9 @@
 
 \docType{methods}
 
-\title{Calculates the time lags between the coordinates}
+\title{Time lags between the locations of a movement track}
 
-\description{The timeLag function calculates the time lags between locations.}
+\description{Calculates the time lags between consecutive locations of a track.}
 
 \usage{
   \S4method{timeLag}{.MoveTrackSingle}(x,...)
@@ -16,24 +16,35 @@
 }
 
 \arguments{
-  \item{x}{a Move or MoveStack object}
-  \item{units}{The units used for the conversion, they need to be specified for a stack to ensure similair units between individuals}
-  \item{...}{further arguments}
+  \item{x}{a \code{\link[=Move-class]{move}}, \code{\link[=MoveStack-class]{moveStack}} or \code{\link[=MoveBurst-class]{moveBurst}} object}
+  \item{units}{The units used for the conversion (e.g. "secs", "mins", "hours", "days" or "weeks"). They should be specified for a moveStack to ensure the same units between individuals. Optional (but recommended).
+  }
+  \item{...}{Currently not implemented.}
 }
 
-\details{Optionally the argument units can be passed on to ensure the time lag in a certain unit, this is especially useful in case a move stack is bursted. For more information on the units argument see the help of difftime.}
+\details{Optionally the argument \code{units} can be passed on to ensure the time lag is in a certain unit, this is especially useful in case of a moveStack. For more information on the units argument see the help of \code{difftime}.}
 
 \value{
-  The function returns a numeric vector with the time lags.
+Time lags in the specified units.\cr
+
+If a \code{move} or \code{moveBurst} object is provided, a numeric vector one element shorter than the number of locations is obtained. \cr
+If a \code{moveStack} object is provided, a list with one element per individual containing a numeric vector one element shorter than the number of locations is obtained.
 }
 
-\author{Bart Kranstauber}
+\author{Bart Kranstauber & Anne Scharf}
 
 \examples{
-data(fishers)
+## time lags from a Move object 
 data(leroy)
+head(timeLag(leroy, units="hours"))
+ # to add this information to the move object, a "NA" has to be assigened
+ # e.g. to the last location (it also could be assigend to the first location).
+leroy$timeLag <- c(timeLag(leroy, units="hours"), NA)
 
-head(timeLag(leroy,units="mins")) #calculate timelags for a Move object
-head(timeLag(fishers,units="mins")) #calculate timelags for a MoveStack object
-head(timeLag(fishers, units="hours")) #calculate timelags in different units
+## time lags from a MoveStack object
+data(fishers)
+str(timeLag(fishers, units="mins"))
+ # to add this information to the moveStack object, a "NA" has to be assigened
+ # e.g. to the last location of each individual (it also could be assigend to the first location).
+fishers$timeLag <-unlist(lapply(timeLag(fishers, units="mins"), c, NA))
 }

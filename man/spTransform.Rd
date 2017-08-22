@@ -6,18 +6,18 @@
 
 \docType{methods}
 
-\title{Transform Move object projection method}
+\title{Transform projection of movement track}
 
-\description{The spTransform function transforms the coordinates stored in the Move object from the default longlat coordinates to the default aeqd (Azimuthal Equi-distance) projection or a different projection.}
+\description{The spTransform function transforms the coordinates stored in the Move object from the default long/lat coordinates to the default aeqd (Azimuthal Equi-distance) projection or a user defined projection.}
 
 \usage{
-\S4method{spTransform}{Move,character}(x,CRSobj,center=FALSE)
-\S4method{spTransform}{Move,missing}(x,center=FALSE,...)
+  \S4method{spTransform}{Move,character}(x,CRSobj,center=FALSE)
+  \S4method{spTransform}{Move,missing}(x,center=FALSE,...)
 }
 
 \arguments{
-	\item{x}{a Move or a MoveStack object}
-	\item{CRSobj}{a CRS like character that describes the projection method to which the coordinates should be transformed, if missing \code{"+proj=aequd"} is used as default value}
+	\item{x}{a \code{move}, \code{moveStack} or \code{moveBurst} object to be transformed}
+	\item{CRSobj}{object of class CRS, or of class character in which case it is converted to CRS. Can be left empty if \code{center=TRUE}}
 	\item{center}{logical, if TRUE the center of the coordinate system is the center of the track; FALSE is default}
 	\item{...}{for additional arguments}
 }
@@ -25,6 +25,10 @@
 \details{
 	The spTransform function transforms the coordinates of a Move object by default from \code{"+proj=longlat"} to \code{"+proj=aeqd"}. In this format the coordinates can be used by the \code{\link{brownian.bridge.dyn}} function. \cr
 	If \code{center} is TRUE the center of the coordinate system is set to the center of the track.
+}
+
+\value{
+same as input object with coordinates transformed to the new coordinate reference system.
 }
 
 \examples{
@@ -46,4 +50,4 @@ spTransform(fishers, center=TRUE)
 }
 }
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}

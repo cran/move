@@ -3,38 +3,31 @@
 \alias{summary}
 \alias{summary,.UD-method}
 \alias{summary,.UDStack-method}
-\alias{summary,.MoveTrackSingle-method}
-\alias{summary,.MoveTrackStack-method}
 
 \docType{methods}
 
-\title{A summary of a DBBMM or DBBMMStack, Move or MoveStack object}
+\title{Summary of Move, DBBMM, dynBGB objects}
 
-\description{Summarizes the information of the raster from a DBBMM or DBBMMStack, or the data from a Move or MoveStack object}
+\description{Summarizes the information contained in the input object}
 
 \usage{
   \S4method{summary}{.UD}(object)
   \S4method{summary}{.UDStack}(object)
-  \S4method{summary}{.MoveTrackSingle}(object)
-  \S4method{summary}{.MoveTrackStack}(object)
 }
 
 \arguments{
-  \item{object}{a DBBMM/DBBMMStack, Move/MoveStack object}
+  \item{object}{\code{move}, \code{moveStack}, \code{moveBurst}, \code{DBBMM}, \code{DBBMMStack}, \code{DBBMMBurstStack}, \code{dynBGB}, \code{dBMvariance}, \code{dBMvarianceBurst}, \code{dBMvarianceStack},\code{dBGBvariance}, \code{.UD}, \code{.UDStack} or \code{.UDBurstStack} object}
 }
 
 \details{
-Returns the projection, extent, and maximum and minimum values of the raster stored within the DBBMM or DBBMMStack object. If the object is a Move or MoveStack object the functions distance, time, speed, and angle is called and a list with the summarized values is returned. 
+Returns the projection, extent, and maximum and minimum values of the raster stored within the DBBMM, DBBMMStack, dynBGB, .UD, .UDStack or .UDBurstStack object. For the remaining objects it returns a summary of the data contained in the '\code{@data}' slot. 
 }
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
 data(leroy)
-data(fishers)
+summary(leroy) # summary of a move object
 data(leroydbbmm)
-  summary(leroy) # summary of angle measures of a Move object
-  summary(fishers) # summary of angle measures of a MoveStack object
-  summary(leroydbbmm) # summary of a DBBMM object
-  
+summary(leroydbbmm) # summary of a DBBMM object
 }

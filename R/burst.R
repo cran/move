@@ -43,8 +43,6 @@ setMethod('burst',
 
 
 setAs("MoveBurst", "Move", function(from) {
-      if (length(unique(from@burstId)) != 1) 
-        stop("Does not work with one burst id only")
       new("Move", 
           as(from,".MoveGeneral"), 
           as(from,".MoveTrackSingle"))
@@ -58,7 +56,5 @@ setAs("MoveStack", "Move", function(from) {
 	  )
     }) 
 setAs("dBMvarianceBurst", "dBMvariance", function(from) {
-      if (length(unique(from@burstId)) != 1) 
-	      stop("Not one unique burst id method wont work")
       new("dBMvariance", as(from, "dBMvarianceTmp"), as(from, ".MoveTrackSingle"))
 	 }) 

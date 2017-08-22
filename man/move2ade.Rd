@@ -17,18 +17,24 @@
 }
 
 \arguments{
-  \item{x}{a Move or MoveStack object}
+  \item{x}{a \code{move}, \code{moveStack} or \code{moveBurst} object}
+}
+
+\details{
+There is also the possibility to convert between a \link[adehabitatLT]{ltraj} object and a Move or MoveStack: \cr
+\code{as(x,"ltraj")} where "x" is a Move or MoveStack object\cr
+\code{as(x,"Move")} or \code{as(x,"MoveStack")} where "x" is a ltraj object
 }
 
 \value{
-  The returned object is from SpatialPointsDataFrame with the animal name (or 'unnamed') stored in the data slot of the SpatialPointsDataFrame.
+  The returned object is from \code{SpatialPointsDataFrame} with the animal name (or 'unnamed') stored in the data slot of the SpatialPointsDataFrame.
 }
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
   data(fishers)
   data(leroy)
-  move2ade(leroy) #for a Move object
-  move2ade(fishers) #for a MoveStack object
+  move2ade(leroy) ## for a Move object  
+  move2ade(fishers) ## for a MoveStack object  
 }

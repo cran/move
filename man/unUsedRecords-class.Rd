@@ -1,20 +1,31 @@
-\name{.unUsedRecords}
+\name{.unUsedRecords-class}
 
 \alias{.unUsedRecords-class}
 \alias{.unUsedRecordsStack-class}
 
 \docType{class}
 
-\title{.unUsedRecords and .unUsedRecordsStack class}
+\title{The .unUsedRecords and .unUsedRecordsStack class}
 
-\description{The class .unUsedRecords and .unUsedRecordsStack is mostly an internal class that is made public to make inheritance easier. It is a basal class that stores unused records.}
+\description{The \code{.unUsedRecords} and \code{.unUsedRecordsStack} object stores unused records in \code{Move}, \code{MoveBurst} and \code{MoveStack} objects and can be obtained with the function \link{unUsedRecords}.}
 
 \section{Slots}{
   \describe{
-    \item{timestampsUnUsedRecords}{unused timestamps}
-    \item{sensorUnUsedRecords}{unused sensor information}
-    \item{dataUnUsedRecords}{further unused data}
+    \item{trackIdUnUsedRecords}{Object of class \code{"factor"}: vector that indicates, which data, coordinates and timestamps of the unused records belong to each individual in a \code{.unUsedRecordsStack} object}
+    \item{timestampsUnUsedRecords}{Object of class \code{"POSIXct"}: timestamps associated to the unused records, i.e. lines of the data that were removed because they included NA locations}
+    \item{sensorUnUsedRecords}{Object of class \code{"factor"}: sensors used to record the unused records}
+    \item{dataUnUsedRecords}{Object of class \code{"data.frame"}: data associated to the unused records}
   }
 }
 
-\author{Marco Smolla}
+\section{Methods}{
+  Methods defined with class "MoveStack" in the signature:
+    \describe{
+       \item{\code{\link{as.data.frame}}}{\code{signature(object = ".unUsedRecords")}: extracts the spatial data frame}
+       \item{\code{\link{sensor}}}{\code{signature(object = ".unUsedRecords")}: extracts the sensor(s) used to record the data}
+       \item{\code{\link{timestamps}}}{\code{signature(object = ".unUsedRecords")}: extracts returns or sets the timestamps}
+       \item{\code{\link{trackId}}}{\code{signature(object = ".unUsedRecordsStack")}:  returning the Id of the individual per data point}
+       }
+}
+
+\author{Marco Smolla & Anne Scharf}

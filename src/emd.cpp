@@ -8,6 +8,7 @@
 #include "emd_hat.h"
 #include "emd_hat_signatures_interface.h"
 #include "emd_hat_impl.h"
+#include "emd.h"
 // #include "tictoc.hpp"
 #define d2r (M_PI / 180.0)
 #define radEarth 6378.137

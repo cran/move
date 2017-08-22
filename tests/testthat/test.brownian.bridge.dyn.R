@@ -54,21 +54,29 @@ test_that('brownian bridge dyn for bursted',{
           29
       ), 'Computational size'
   )
-  expect_is(udS,"DBBMMBurstStack")
-  expect_true(validObject(udS))
-  expect_message(
-    ud <-
-      brownian.bridge.dyn(
-        dataP, dimSize = 150, location.error = 23, ext = 1.3, time.step = 4, window.size =
-          29
-      ), 'Computational size'
-  )
-  expect_equal(udS@DBMvar@means,
-               ud@DBMvar@means)
-  expect_true(validObject(ud))
-  b <- as.numeric(getZ(udS))
-  expect_equal(colSums(values(udS)),
-               b / sum(b), check.attributes = F)
+    expect_is(udS, "DBBMMBurstStack")
+    expect_true(validObject(udS))
+    expect_message(
+      ud <-
+        brownian.bridge.dyn(
+          dataP,
+          dimSize = 150,
+          location.error = 23,
+          ext = 1.3,
+          time.step = 4,
+          window.size =
+            29
+        ),
+      'Computational size'
+    )
+    expect_equal(udS@DBMvar@means,
+                 ud@DBMvar@means)
+    expect_true(validObject(ud))
+    b <- as.numeric(getZ(udS))
+    expect_equal(colSums(values(udS)),
+                 b / sum(b), check.attributes = F)
+    expect_equal(UDStack(udS),
+                 UDStack(udS / cellStats(udS, sum)))
 })
 test_that("verbosity brownian bridge works",{
   skip("will only work with testthat .11")
@@ -104,7 +112,7 @@ test_that('brownian bridge dyn value comparison bursted',{
   expect_message(
     us <-
       brownian.bridge.dyn(
-        move::burst(tmp, round(1:length(p[-1]) / 30)), dimSize = 200, location.error =
+        move::burst(tmp, round(1:length(p[-1]) / 50)), dimSize = 200, location.error =
           .1, time.step = t
       ), 'Computational size'
   )
@@ -124,15 +132,15 @@ test_that('brownian bridge dyn value comparison bursted',{
     u <- brownian.bridge.dyn(
       tmp, dimSize = 400,
       location.error = .01, time.step = t,
-      ext = .1, margin = 15
+      ext = .3, margin = 15
     ), 'Computational size'
   )
   expect_message(
     us <- brownian.bridge.dyn(
       b<-move::burst(tmp,
-                  round(1:length(p[-1]) / 79)),
+                  round(1:length(p[-1]) / 80)),
       dimSize = 400, location.error = .01,
-      time.step = t, ext = .1, margin = 15
+      time.step = t, ext = .3, margin = 15
     ), 'Computational size'
   )
   expect_equal(values(u), values(sum(us)), tolerance=5e-5)
@@ -233,3 +241,9 @@ test_that('Brownian bridge, running with character and vector input to location 
     'Location error needs to be the same length as the number of locations'
   )
 })
+test_that('split stack',{
+  data("dbbmmstack")
+  l<-split(dbbmmstack)
+  expect_s4_class(l[[1]],'DBBMM')
+
+  })

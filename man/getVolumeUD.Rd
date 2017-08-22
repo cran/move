@@ -15,14 +15,20 @@
 }
 
 \arguments{
-  \item{x}{one or several objects of the \link{DBBMM-class} or an \link{DBBMMStack-class} object}
-  \item{...}{additional Raster or DBBMM objects}
+  \item{x}{a \code{DBBMM}, \code{DBBMMStack}, \code{dynBGB}, \code{.UD} or \code{.UDStack} object}
+  \item{...}{when \code{x} is of class DBBMM or dynBGB, several objects of class DBBMM or dynBGB can be added (see 'Examples')}
 }
 
-%\details{
-%The function \code{getVolumeUD} can be used to plot the 95\%contour of DBBMM object. Therefore, after a raster has been modified with the \code{getVolumeUD} function, all cells that are <= 0.95 are selected and plotted.  }
+\note{
+To obtain this modified UD raster from a \code{DBBMMBurstStack} object, transform the object with the \link{UDStack} function into a '.UDStack' class, and than use the \code{getVolumeUD} function upon the obtained object.
+}
 
-\author{Marco Smolla}
+\value{
+'\code{raster}' or '\code{rasterStack}' \cr
+If several objects are provided, a list of rasters is returned
+}
+
+\author{Marco Smolla & Anne Scharf}
 
 \seealso{
 \code{\link{raster2contour}}
@@ -31,9 +37,18 @@
 \examples{
 data(leroydbbmm)
 data(dbbmmstack)
-getVolumeUD(leroydbbmm) #for a single object
-getVolumeUD(dbbmmstack)
-getVolumeUD(leroydbbmm, leroydbbmm, leroydbbmm) #for several objects 
+data(leroydbgb)
+getVolumeUD(leroydbbmm) # for a DBBMM object
+getVolumeUD(dbbmmstack) # for a DBBMMStack object 
+getVolumeUD(leroydbgb) # for a dynBGB object 
+
+getVolumeUD(leroydbbmm, leroydbgb) # for several objects 
 
 plot(getVolumeUD(leroydbbmm))
+
+## e.g. select the raster corresponding to the 95\% UD
+leroyUD <- getVolumeUD(leroydbbmm)
+leroyUD[leroyUD>0.95] <- NA
+plot(leroyUD)
+
 }

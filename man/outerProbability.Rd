@@ -16,9 +16,9 @@
 }
 
 \arguments{
-  \item{raster}{a RasterLayer or DBBMMStack object that has values for the raster cells}
+  \item{raster}{a \code{RasterLayer}, \code{DBBMM}, \code{DBBMMStack}, \code{dynBGB} or \code{.UD} object}
   \item{border}{numeric from 0 to 1; ratio of the number of columns at the border relative to the whole raster from which the probabilities should be summed up; default is 10\% (0.1)}
-  \item{...}{hand over information}
+  \item{...}{Currently not implemented}
 }
 
 \details{
@@ -26,7 +26,7 @@
  }
 
 \value{
-numeric value for a single DBBMM object, or a list of numeric values for a DBBMMStack
+numeric value for a single DBBMM or dynBGB object, or a list of numeric values for a DBBMMStack
 }
 
 \examples{
@@ -37,4 +37,4 @@ outerProbability(leroydbbmm, border=.2)
 #calculate the probabilities of 50\% of the raster at the border from a DBBMMStack
 outerProbability(leroydbbmm, border=.5)
 }
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}

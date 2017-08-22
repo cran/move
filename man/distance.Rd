@@ -1,40 +1,50 @@
 \name{distance}
 
 \alias{distance}
-\alias{distanceSummary}
 \alias{distance,.MoveTrackSingle,missing-method}
 \alias{distance,.MoveTrackStack,missing-method}
-\alias{distanceSummary,.MoveTrackSingle-method}
-\alias{distanceSummary,.MoveTrackStack-method}
 
 \docType{methods}
 
-\title{distance information from a track or track stack}
+\title{Distance between the locations of a movement track}
 
-\description{DistanceSummary returns a summary of distance related measurements of a track or track stack, or for the distance function the distance between locations.}
+\description{Calculates the distance between the consecutive locations of a Move or MoveStack object.}
 
 \usage{
   \S4method{distance}{.MoveTrackSingle,missing}(x)
   \S4method{distance}{.MoveTrackStack,missing}(x)
-  \S4method{distanceSummary}{.MoveTrackSingle}(x)
-  \S4method{distanceSummary}{.MoveTrackStack}(x)
 }
 
 \arguments{
-  \item{x}{Move or MoveStack object}
+  \item{x}{a \code{\link[=Move-class]{move}}, \code{\link[=MoveStack-class]{moveStack}} or \code{\link[=MoveBurst-class]{moveBurst}} object}
+}
+
+\details{
+    \code{\link[raster]{pointDistance}} is used to calculate the distances.
 }
 
 \value{
-All values are returned in meters if the projection of the coordinates is longlat, otherwise their in map units mostly meters as well. For longlat distance on a sphere is calculated using the ellipsoid else on a plane using Pythagoras. Check and set the projection of your Move or MoveStack object using the proj4string() function.
+Distance in map units. \cr
+If the projection of the coordinates is long/lat all values are returned in meters, otherwise in the map units of the projection of the move object. For long/lat distance is calculated on a sphere using the ellipsoid, for other projections the calculation is done on a plane using Pythagoras. Check and set the projection of your Move, MoveStack or MoveBurst object using the \code{proj4string()} function.
+
+If a \code{move} or \code{moveBurst} object is provided, a numeric vector one element shorter than the number of locations is obtained. \cr
+If a \code{moveStack} object is provided, a list with one element per individual containing a numeric vector one element shorter than the number of locations is obtained
 }
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
-  data(fishers)
-  data(leroy)
-  distance(leroy) #distances from a Move object 
-  distance(fishers) #distances from a MoveStack object
-  #distanceSummary(leroy) # summary of distance measures of a Move object
-  #distanceSummary(fishers) # summary of distance measures of a MoveStack object
+## distance from a Move object 
+data(leroy)
+head(distance(leroy))
+ # to add this information to the move object, a "NA" has to be assigened
+ # e.g. to the last location (it also could be assigend to the first location).
+leroy$distance <- c(distance(leroy), NA)
+
+## distance from a MoveStack object
+data(fishers)
+str(distance(fishers))
+ # to add this information to the moveStack object, a "NA" has to be assigened
+ # e.g. to the last location of each individual (it also could be assigend to the first location).
+fishers$distance <-unlist(lapply(distance(fishers), c, NA))
 }

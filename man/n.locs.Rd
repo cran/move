@@ -8,7 +8,7 @@
 
 \title{Extract the number of locations of a Move or MoveStack object}
 
-\description{The n.locs method returns the number of locations of a track from a Move or MovesStack object.}
+\description{This function returns the number of locations of a track from a Move or MovesStack object.}
 
 \usage{
   \S4method{n.locs}{SpatialPointsDataFrame}(obj)
@@ -16,7 +16,12 @@
 }
 
 \arguments{
-  \item{obj}{Move or MoveStack object}
+  \item{obj}{a \code{move}, \code{moveStack} or \code{moveBurst} object}
+}
+
+\value{
+number of locations.\cr
+If a \code{MoveStack} is provided, the number of locations per individual is returned.
 }
 
 \author{Marco Smolla}
@@ -24,7 +29,6 @@
 \examples{
 data(leroy)
 data(fishers)
-
-n.locs(leroy) #number of locations of Move object
-n.locs(fishers) #number of locations of MoveStack object
+n.locs(leroy) # of Move object
+n.locs(fishers) # of MoveStack object
 }

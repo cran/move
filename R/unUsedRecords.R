@@ -42,7 +42,7 @@ setMethod('unUsedRecords<-', c(obj='.MoveTrackStack', value='logical'), function
 	  unUsedNew<-new('.unUsedRecordsStack', 
 		      timestampsUnUsedRecords=ts[o],   
 		      sensorUnUsedRecords=factor(c(as.character(unUsed@sensorUnUsedRecords), as.character(xOld@sensor)))[o],
-		      trackIdUnUsedRecords=id[o],
+		      trackIdUnUsedRecords=factor(as.character(id[o]), levels=rownames(idData(obj, drop=F))),
 		      dataUnUsedRecords=df3[o,]
 		      ) 
 	  new(class(obj),  unUsedNew, xNew)

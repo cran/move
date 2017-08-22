@@ -46,32 +46,25 @@ show(leroy)
 
 
 ###################################################
-### code chunk number 7: summary
-###################################################
-summary(ricky)
-#summary(stack) ##works also for stacks
-
-
-###################################################
-### code chunk number 8: nlocs
+### code chunk number 7: nlocs
 ###################################################
 n.locs(ricky)
 
 
 ###################################################
-### code chunk number 9: timelag
+### code chunk number 8: timelag
 ###################################################
 head(timeLag(leroy, units="mins"))
 
 
 ###################################################
-### code chunk number 10: timestamps
+### code chunk number 9: timestamps
 ###################################################
 head(timestamps(leroy))
 
 
 ###################################################
-### code chunk number 11: fig1plot
+### code chunk number 10: fig1plot
 ###################################################
 par(mfcol=1:2)
 plot(leroy, type="o", col=3, lwd=2, pch=20, xlab="location_long", 
@@ -80,7 +73,7 @@ plot(stack, col=c(6,5), lwd=2, xlab="location_long", ylab="location_lat")
 
 
 ###################################################
-### code chunk number 12: figTrack
+### code chunk number 11: figTrack
 ###################################################
 par(mfcol=1:2)
 plot(leroy, type="o", col=3, lwd=2, pch=20, xlab="location_long", 
@@ -89,7 +82,7 @@ plot(stack, col=c(6,5), lwd=2, xlab="location_long", ylab="location_lat")
 
 
 ###################################################
-### code chunk number 13: googleplotPrep
+### code chunk number 12: googleplotPrep
 ###################################################
 require(ggmap) #these packages are necessary to work with google maps
 require(mapproj)
@@ -97,26 +90,26 @@ leroy_df <- as(leroy, "data.frame")
 
 
 ###################################################
-### code chunk number 14: tmp (eval = FALSE)
+### code chunk number 13: tmp (eval = FALSE)
 ###################################################
 ## m <- get_map(bbox(extent(leroy)*1.1), source="stamen", zoom=12)
 
 
 ###################################################
-### code chunk number 15: tmp2
+### code chunk number 14: tmp2
 ###################################################
 load("a.Rdata")
 #load(system.file("doc","a.Rdata",package="move"))
 
 
 ###################################################
-### code chunk number 16: googleplot
+### code chunk number 15: googleplot
 ###################################################
 ggmap(m)+geom_path(data=leroy_df, aes(x=location.long, y=location.lat))
 
 
 ###################################################
-### code chunk number 17: tmp3i (eval = FALSE)
+### code chunk number 16: tmp3i (eval = FALSE)
 ###################################################
 ## require(ggmap) #these packages are necessary to work with google maps
 ## require(mapproj)
@@ -126,26 +119,26 @@ ggmap(m)+geom_path(data=leroy_df, aes(x=location.long, y=location.lat))
 
 
 ###################################################
-### code chunk number 18: figGoogle
+### code chunk number 17: figGoogle
 ###################################################
 ggmap(m)+geom_path(data=leroy_df, aes(x=location.long, y=location.lat))
 
 
 ###################################################
-### code chunk number 19: subset
+### code chunk number 18: subset
 ###################################################
 ricky[1:25]
 stack[800:1100] #see the names of both animals in second last row
 
 
 ###################################################
-### code chunk number 20: as
+### code chunk number 19: as
 ###################################################
 head(as(leroy, "data.frame"))
 
 
 ###################################################
-### code chunk number 21: transformData
+### code chunk number 20: transformData
 ###################################################
 proj4string(leroy)
 leroy_t <- spTransform(x=leroy, CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)  
@@ -153,7 +146,7 @@ proj4string(leroy_t)
 
 
 ###################################################
-### code chunk number 22: burstTrack
+### code chunk number 21: burstTrack
 ###################################################
 behavior <- c(rep(1:8,each=111), rep(1, 30))
 leroy_b <- move::burst(x=leroy, f=behavior)
@@ -161,7 +154,7 @@ class(leroy_b)
 
 
 ###################################################
-### code chunk number 23: figburst
+### code chunk number 22: figburst
 ###################################################
 par(mfrow=c(2,2))
 plot(leroy_b, type="l", lwd=2)
@@ -171,7 +164,7 @@ plotBursts(leroy_b, breaks=3, add=FALSE, pch=19)
 
 
 ###################################################
-### code chunk number 24: dbbmm
+### code chunk number 23: dbbmm
 ###################################################
 r <- spTransform(ricky[1:500,], center=T)
 ricky_dbbmm <- brownian.bridge.dyn(r, dimSize=150, location.error=23, 
@@ -179,14 +172,14 @@ ricky_dbbmm <- brownian.bridge.dyn(r, dimSize=150, location.error=23,
 
 
 ###################################################
-### code chunk number 25: showdbbmm
+### code chunk number 24: showdbbmm
 ###################################################
 ricky_dbbmm
 raster(ricky_dbbmm)
 
 
 ###################################################
-### code chunk number 26: fig1
+### code chunk number 25: fig1
 ###################################################
 par(mfrow=c(1,2))
 plot(ricky_dbbmm, xlab="location_long", ylab="location_lat")
@@ -197,14 +190,14 @@ lines(spTransform(ricky[1:500,], center=TRUE), col=3, lwd=2)
 
 
 ###################################################
-### code chunk number 27: contour
+### code chunk number 26: contour
 ###################################################
 plot(ricky_dbbmm, xlab="location_long", ylab="location_lat")
 contour(ricky_dbbmm, levels=c(.5, .95), col=c(6,2), add=TRUE, lwd=2)
 
 
 ###################################################
-### code chunk number 28: areaSize
+### code chunk number 27: areaSize
 ###################################################
 ricky_cont <- getVolumeUD(ricky_dbbmm)
 ricky_cont <- ricky_cont<=.95
@@ -213,7 +206,7 @@ area
 
 
 ###################################################
-### code chunk number 29: saveLoad (eval = FALSE)
+### code chunk number 28: saveLoad (eval = FALSE)
 ###################################################
 ## save(x=ricky_dbbmm, file="~/Desktop/test.RData")
 ## rm(ricky_dbbmm)
@@ -221,7 +214,7 @@ area
 
 
 ###################################################
-### code chunk number 30: saveKML (eval = FALSE)
+### code chunk number 29: saveKML (eval = FALSE)
 ###################################################
 ## #install.packages('plotKML')
 ## require(plotKML)
@@ -229,7 +222,7 @@ area
 
 
 ###################################################
-### code chunk number 31: hrBootstrap
+### code chunk number 30: hrBootstrap
 ###################################################
 hrBootstrap(x=leroy, rep=25, unin='km', unout='km2')
 

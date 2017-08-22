@@ -66,10 +66,11 @@ setMethod(f = "move",
 		  timestamps<-df$timestamp
 		  individual.local.identifier<-df$individual.local.identifier
 		  uniquePerID <- unlist(lapply(df,  function(x,y){all(tapply(x,y,function(x){length(unique(x))})==1)}, y=factor(df$individual.local.identifier)))
+uniquePerID[c('location.long','location.lat')]<-F
 		  idData <- subset(df, select=names(uniquePerID[uniquePerID]), !duplicated(df$individual.local.identifier))
 		  rownames(idData)<-idData$individual.local.identifier
 		  df<-df[,!(names(df)%in%unique(c('sensor.type','timestamps', colnames(idData))))]
-		  unUsedDf<-df[unUsed,]
+		  unUsedDf<-df[unUsed,,drop=F]
 		  unUsedRecords<-new('.unUsedRecords', dataUnUsedRecords=unUsedDf, timestampsUnUsedRecords=timestamps[unUsed], sensorUnUsedRecords=sensor[unUsed])
 		  if(stk<-nrow(idData)!=1){
 			  unUsedRecords<-new('.unUsedRecordsStack', unUsedRecords, trackIdUnUsedRecords=individual.local.identifier[unUsed])
@@ -78,21 +79,38 @@ setMethod(f = "move",
 		  {
 			  warning('omiting ',sum(s),' individual(s) because they do not have observation data')
 			  unUsedRecords<-unUsedRecords[(as.character(unUsedRecords@trackIdUnUsedRecords) %in% rownames(idData)[!s]),]
-			  unUsedRecords@trackIdUnUsedRecords<-factor(unUsedRecords@trackIdUnUsedRecords)
-			  idData<-idData[!s,]
+			  idData<-idData[!s,drop=FALSE,]
+			  unUsedRecords@trackIdUnUsedRecords<-factor(unUsedRecords@trackIdUnUsedRecords, levels=rownames(idData))
 		  }
 
-		  df<-df[!unUsed,]
-		  coordinates(df)<- ~location.long+location.lat
-		  proj4string(df)<-CRS("+proj=longlat +ellps=WGS84 +datum=WGS84")
-
-		  track<-new('.MoveTrack', df, timestamps=timestamps[!unUsed], sensor=sensor[!unUsed], idData=idData)
-	          individual.local.identifier<-factor(individual.local.identifier[!unUsed])
-		  if(removeDuplicatedTimestamps){
-			message("removeDupilcatedTimestamps was set to true we strongly suggest against it and that the problem is solved before because there is no systematic to which locations are removed. This can for example be done by marking them outlier in movebank.")
-			dupsDf<-(data.frame(format(timestamps(track),"%Y %m %d %H %M %OS4"), track@sensor))
-			dupsDfUn<-(data.frame(format(timestamps(unUsedRecords),"%Y %m %d %H %M %OS4"), unUsedRecords@sensorUnUsedRecords))
-			
+		  df <- df[!unUsed, , drop = FALSE]
+		  coordinates(df) <- ~ location.long + location.lat
+		  proj4string(df) <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84")
+		  if (class(df) == 'SpatialPoints'){# to make sure we feed a spdf
+		    df <-
+		    new('SpatialPointsDataFrame', df, data = data.frame(coordinates(df)))}
+		  track <-
+		    new(
+		      '.MoveTrack',
+		      df,
+		      timestamps = timestamps[!unUsed],
+		      sensor = sensor[!unUsed],
+		      idData = idData
+		    )
+		  individual.local.identifier <-
+		    factor(individual.local.identifier[!unUsed])
+		  if (removeDuplicatedTimestamps) {
+		    message(
+		      "removeDupilcatedTimestamps was set to true we strongly suggest against it and that the problem is solved before because there is no systematic to which locations are removed. This can for example be done by marking them outlier in movebank."
+		    )
+		    dupsDf <-
+		      (data.frame(format(timestamps(track), "%Y %m %d %H %M %OS4"), track@sensor))
+		    dupsDfUn <-
+		      (data.frame(
+		        format(timestamps(unUsedRecords), "%Y %m %d %H %M %OS4"),
+		        unUsedRecords@sensorUnUsedRecords
+		      ))
+		    
 			if(stk){
 				dupsDf<-data.frame(id=individual.local.identifier, dupsDf)
 				dupsDfUn<-data.frame(id=unUsedRecords@trackIdUnUsedRecords, dupsDfUn)
@@ -100,9 +118,12 @@ setMethod(f = "move",
 			dups<-duplicated(dupsDf)
 			track<-track[!dups,]
 			individual.local.identifier<-individual.local.identifier[!dups]
-			warning(sum(dups)," location(s) is/are removed by removeDuplicatedTimestamps")
+			if(sum(dups)!=0){
+			  warning(sum(dups)," location(s) is/are removed by removeDuplicatedTimestamps")
+			  }
 			unUsedRecords<-unUsedRecords[inNormRe<-!(apply(dupsDfUn, 1, paste, collapse='_')%in%apply(dupsDf, 1, paste, collapse='_')),T]
-      warning(sum(!inNormRe), " location(s) is/are removed by removeDuplicatedTimestamps from the un used records")
+			if(sum(!inNormRe)!=0){
+      warning(sum(!inNormRe), " location(s) is/are removed by removeDuplicatedTimestamps from the un used records")}
 		  }
 
 		  if(stk){
@@ -139,34 +160,38 @@ setMethod(f="move",
 setMethod(f="move",
 	  signature=c(x="numeric", y="numeric", time="POSIXct", data="data.frame", proj="CRS"),
 	  definition = function(x,y,time,data,proj,sensor='unknown',animal='unnamed', ...){
-		  data$location.long <- x
-		  data$location.lat <- y
-		  data$timestamp <- time
-		  data$individual.local.identifier <- animal
-		  data$sensor <- factor(sensor)
+#		  data$individual.local.identifier <- animal
+	    if(1==length(sensor))
+	      sensor<-rep(sensor, length(x))
+	    
+	    sensor <- factor(sensor)
+		  if(1==length(animal))
+		    animal<-rep(animal, length(x))
+		  animal<-factor(animal)
       
-		  if(any(is.na(data$location.long)|is.na(data$location.lat))){ 
+		  if(any(is.na(x)|is.na(y))){ 
 		    warning("There were NA locations detected and omitted. Currently they are not stored in unusedrecords")
-		    data <- data[!(is.na(data$location.long)|is.na(data$location.lat)), ]
+		    s<-!(is.na(x)|is.na(y))
+		    data <- data[s, ]
+		    time<-time[s]
+		    animal<-animal[s]
+		    sensor<-sensor[s]
+		    x<-x[s]
+		    y<-y[s]
 		  }
-		  data$individual.local.identifier<-factor(data$individual.local.identifier, levels = unique(data$individual.local.identifier))
-		  levels(data$individual.local.identifier) <- validNames(levels(factor(data$individual.local.identifier))) #changing names to 'goodNames' skipping spaces
+		  animal<-factor(animal, levels = unique(animal))
+		  levels(animal) <- validNames(levels(factor(animal))) #changing names to 'goodNames' skipping spaces
 		  
-		  if(length(unique(data$individual.local.identifier))>1 & any(unique(as.character(data$individual.local.identifier))==""))
-		  {
-		    warning("Omitting locations that have an empty local identifier (n=",sum(tmp<-as.character(data$individual.local.identifier)==""),"). Most likely the tag was not deployed") 
-		    data <- data[!tmp,]
-		    data$individual.local.identifier <- factor(data$individual.local.identifier)
-		  }
-		  ids <- as.list(as.character(unique(data$individual.local.identifier)))
-		  uniquePerID<-unlist(lapply(colnames(data),  function(x,y,data){nrow(unique(data[,c(x,'individual.local.identifier')]))},data=data))==sum(!duplicated(data$individual.local.identifier))
+		  ids <- as.list(as.character(unique(animal)))
+		  uniquePerID <-
+		    unlist(lapply(colnames(data),  function(x, data, animal) {
+		      nrow(unique(cbind(data[, x], animal)))
+		    }, data = data, animal=animal)) == sum(!duplicated(animal))
 		  names(uniquePerID)<-colnames(data)
-		  uniquePerID["sensor"] <- FALSE
-		  idData <- subset(data, select=names(uniquePerID[uniquePerID]), !duplicated(data$individual.local.identifier))
+#		  uniquePerID["sensor"] <- FALSE
+		  idData <- subset(data, select=names(uniquePerID[uniquePerID]), !duplicated(animal))
 		  
-		  if(length(names(idData))!=1)# dont shorten it because we need something
-		    idData<-subset(idData, select=names(idData)!="individual.local.identifier")
-		  
+
 		  if(length(unique(idData$citation))>0) 
 		  {
 		    if(length(unique(idData$citation))>1) 
@@ -176,37 +201,37 @@ setMethod(f="move",
         citations <- character()
 		  }
 		  
-		  rownames(idData) <- unique(data$individual.local.identifier)
-		  auxData <- data.frame(data[names(data)[!names(data)%in%c("location.lat", "location.long","timestamp", colnames(idData))]])
+		  rownames(idData) <- unique(animal)
+		  auxData <- data.frame(data[names(data)[!names(data)%in%c( colnames(idData))]])
 		  
 		  if (ncol(auxData)==0) auxData <- data.frame(auxData, empty=NA)
 	  
 		  spdf <- SpatialPointsDataFrame(
-		    coords = cbind(data$location.long,data$location.lat),
+		  #  coords = cbind(location.long=x,location.lat=y),
+		    coords = cbind(x,y, deparse.level = 0),
 		    data = auxData, 
 		    proj4string = proj,
 		    match.ID = TRUE)
 			  
 		  if (length(ids)==1){
 		    return(new("Move", 
-		               timestamps = data$timestamp, 
-		               sensor = data$sensor,
-		               sensorUnUsedRecords=factor(levels=levels(data$sensor)),
+		               timestamps = time, 
+		               sensor = sensor,
+		               sensorUnUsedRecords=factor(levels=levels(sensor)),
 		               spdf, 
 		               citation = citations,
 		               idData = idData
 		    ))
 		  } else {
-		    trackId<-factor(data$individual.local.identifier)
 		    return(new("MoveStack", 
 		               spdf, 
 		               idData = idData,
-		               sensor = data$sensor,
-		               sensorUnUsedRecords=factor(levels=levels(data$sensor)),
-		               timestamps = data$timestamp, 
+		               sensor = sensor,
+		               sensorUnUsedRecords=factor(levels=levels(sensor)),
+		               timestamps = time, 
 		               citation = citations,
-		               trackId = trackId,
-		               trackIdUnUsedRecords=factor(levels=levels(trackId))))
+		               trackId = animal,
+		               trackIdUnUsedRecords=factor(levels=levels(animal))))
 		  }
 	  }
 	  )

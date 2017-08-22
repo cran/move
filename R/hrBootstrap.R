@@ -27,8 +27,8 @@ setMethod("hrBootstrap",
 			  stop("The package adehabitatHR can't be loaded, probably it needs to be installed")
 		  }
 		  if (plot){
-			  plot(x=j, quantLines[,ncol(quantLines)], xlab="number of coordinates for mcp", ylab=paste("habitat area (",unout,")"), type="n", ylim=range(c(quantLines,hline)), ...)
-			  abline(h=hline)
+			  plot(x=j, quantLines[,ncol(quantLines)], xlab="number of coordinates for MCP", ylab=paste("MCP area (",unout,")"), type="n", ylim=range(c(quantLines,hline)), ...)
+			  abline(h=hline, lty="dotdash")
 			  lapply(1:ncol(quantLines), function(i, j, b) lines(x=j, y=b[[1]][[i]],lty=b[[2]][[i]],col=b[[3]][[i]],lwd=2), j=j, b=b)
 		  }
 		  return(quantLines)

@@ -2,7 +2,9 @@
 
 \alias{moveStack}
 \alias{moveStack,list-method}
-\alias{moveStack,character-method}
+\alias{moveStack,Move-method}
+\alias{moveStack,MoveStack-method}
+%\alias{moveStack,character-method}
 
 \docType{methods}
 
@@ -11,15 +13,21 @@
 \description{Stacks a list of Move objects}
 
 \usage{
-  \S4method{moveStack}{list}(x)
+  \S4method{moveStack}{list}(x, forceTz=NULL, ...)
+  
+  \S4method{moveStack}{Move}(x, ..., forceTz=NULL)
+  
+  \S4method{moveStack}{MoveStack}(x, ..., forceTz=NULL)
 }
 
 \arguments{
-  \item{x}{a list of Move objects}
+  \item{x}{a list of \code{move} or \code{moveStack} objects (or a combination of both). Timestamps of all objects have to be in the same time zone.}
+  \item{forceTz}{The time zone, as a character, that the resulting moveStack object should have (see \code{OlsonNames()} for available time zones). If \code{NULL} the timestamps of the resulting moveStack will be in the time zone of the computer (see \code{Sys.timezone()}) }
+  \item{...}{Additional \code{move} or \code{moveStack} objects.}
 }
 
 \details{
-  This function stacks single Move objects to a \link[=MoveStack-class]{MoveStack} object. 
+  This function stacks single Move or Movestacks objects to a \link[=MoveStack-class]{MoveStack} object. 
 }
 
 \note{
@@ -28,13 +36,29 @@ All animal names are converted into 'good names' which means, that spaces are re
 'Ricky T' -> replacing spaces -> 'Ricky.T'
 }
 
-\author{Marco Smolla}
+\value{
+a '\link[=MoveStack-class]{MoveStack}' object
+}
+
+\seealso{
+\link{split}
+}
+
+\author{Marco Smolla, Bart Kranstauber & Anne Scharf}
 
 \examples{
 data(leroy)
 data(ricky)
+
+## creating a moveStack from a list of move objects
 l <- list(ricky[200:270,], leroy[200:270,])
 moveStack(l)
+
+## creating a moveStack from several move objects
+moveStack(ricky[200:270,], leroy[200:270,], forceTz="UTC")
+
+## creating a moveStack with the same time zone as input move objects
+moveStack(ricky[200:270,], leroy[200:270,], forceTz=attr(ricky@timestamps,"tzone"))
 
 \dontshow{
 data <- read.csv(system.file("extdata","leroy.csv.gz",package="move"))[100:199,]

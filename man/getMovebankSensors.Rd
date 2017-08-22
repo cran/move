@@ -12,33 +12,43 @@
 
 \title{Information about Movebank sensors}
 
-\description{getMovebankSensors returns information about sensors in a study.}
+\description{This function returns the sensor types used in a Movebank study.}
   
 \usage{
   getMovebankSensors(study, login)
 }
 
 \arguments{
-  \item{study}{a character string (study name) or the numeric study ID as it is stored on Movebank}
-  \item{login}{an object of the \code{\link{MovebankLogin-class}}, if empty you'll be asked to enter your username or password}
+  \item{study}{character or numeric. Character: full name of the study, as stored on Movebank. Numeric: \emph{Movebank ID} of the study which can be obtained on the \emph{Study Details} page on Movebank or with \code{\link{getMovebankID}}.}
+  \item{login}{a \code{\link[=MovebankLogin-class]{MovebankLogin}} object, if empty you'll be asked to enter your username and password}
 }
 
 \details{
-  \code{getMovebankSensors} belongs to the Movebank browsing functions and returns either information about all sensor types that are available on Movebank (if the study argument is missing) or the sensor IDs corresponding to to the animal IDs in a specific study.
+  \code{getMovebankSensors} belongs to the Movebank browsing functions and returns the sensor type(s) used for each tag_id within the specified study.
+ 
+  If the study argument is missing, information about all sensor types available on Movebank and the correspondence between sensor_type_id and the sensor name is obtained.
 }
+
+\value{'\code{data.frame}'}
 
 \note{
-See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images/Move_Package/browseMovebank.pdf}{move website download section}) for more information about security and how to use Movebank from within R. 
+See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 }
 
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \seealso{\code{\link{movebankLogin}}}
 \examples{
 \dontrun{
-#obtain a login
+
+## obtain a login
 login<-movebankLogin()
+
+## obtain sensors types of each tag in the specified study
 getMovebankSensors(study=123413, login=login)
+
+## obtain all sensors available on Movebank
+getMovebankSensors(login=login)
 }
 }

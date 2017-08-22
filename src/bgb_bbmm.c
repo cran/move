@@ -62,16 +62,16 @@ SEXP ans;
   		yStart=(int)nYGrid-ceil(((muy-y0)/yRes)+((sqrt(sigma)*ext)/yRes));
 	  	if(xStart<0){
 //			error("Lower x grid not large enough %i %.16f s=%f dt=%f a=%f k=%i l %f %f t %f %f, mux=%f, X0=%f, xRes=%f, ext=%f, var=%f", xStart, ti, sigma,  xt[k+1]-xt[k], alpha, k, xlocEr[k], xlocEr[k+1], xt[k], xt[k+1], mux, x0, xRes, ext, xs[k]);
-		  	error("Lower x grid not large enough");
+		  	error("Lower x grid not large enough, consider extending the raster in that direction or enlarging the ext argument");
 	  	}
 	  	if(xEnd>nXGrid){
-	  	  error("Higher x grid not large enough");
+	  	  error("Higher x grid not large enough, consider extending the raster in that direction or enlarging the ext argument");
 		  }
   		if(yEnd>nYGrid){
-	  		error("Lower y grid not large enough");
+	  		error("Lower y grid not large enough, consider extending the raster in that direction or enlarging the ext argument");
 		  }
 	  	if(yStart<0){
-	  		error("Higher y grid not large enough");
+	  		error("Higher y grid not large enough, consider extending the raster in that direction or enlarging the ext argument");
 		  }
 	  	R_CheckUserInterrupt();
 //``warning("my %f %f %f %f", muy, xyGrid[yStart], xyGrid[yEnd], sigma);

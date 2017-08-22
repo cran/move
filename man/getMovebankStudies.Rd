@@ -8,31 +8,33 @@
 
 \title{All studies on Movebank}
 
-\description{Returns all studies available on Movebank}
+\description{This function returns all studies available on Movebank.}
 
 \usage{
   getMovebankStudies(login)
 }
 
 \arguments{
-  \item{login}{an object of the \code{\link{MovebankLogin-class}}, if empty you'll be asked to enter your username or password}
+  \item{login}{a \code{\link[=MovebankLogin-class]{MovebankLogin}} object, if empty you'll be asked to enter your username and password}
 }
 
 \details{
-   \code{getMovebankStudies} belongs to the Movebank browsing functions and returns a data.frame of all studies available on Movebank.
+   \code{getMovebankStudies} belongs to the Movebank browsing functions and returns all studies available on Movebank.
 }
 
 \note{
-See the 'browseMovebank' vignette (\href{http://computational-ecology.com/images/Move_Package/browseMovebank.pdf}{move website download section}) for more information about security and how to use Movebank from within R. 
+See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 }
 
+\value{returns an object of class '\code{factor}' with the names of all studies available on Movebank.}
 
-\author{Marco Smolla}
+\author{Marco Smolla & Anne Scharf}
 
 \examples{
 \dontrun{
-#obtain a login
-login<-movebankLogin()
+
+# obtain a login
+login <- movebankLogin()
 getMovebankStudies(login=login)
 }
 }

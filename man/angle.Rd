@@ -1,42 +1,49 @@
 \name{angle}
 
 \alias{angle}
-\alias{angleSummary}
 \alias{angle,.MoveTrackSingle-method}
 \alias{angle,.MoveTrackStack-method}
-\alias{angleSummary,.MoveTrackSingle-method}
-\alias{angleSummary,.MoveTrackStack-method}
 
 \docType{methods}
 
-\title{angle information from a track or track stack}
+\title{Headings of the segments of a movement track}
 
-\description{This function returns a summary about angle related measurements of a track or track stack. These are: average azimuth, variance of azimuth, standard error of azimuth. }
+\description{This function calculates the heading of each segment between consecutive locations of a track.}
 
 \usage{
   \S4method{angle}{.MoveTrackSingle}(x)
   \S4method{angle}{.MoveTrackStack}(x)
-  \S4method{angleSummary}{.MoveTrackSingle}(x)
-  \S4method{angleSummary}{.MoveTrackStack}(x)
 }
 
 \arguments{
-  \item{x}{Move or MoveStack object}
+  \item{x}{a \code{\link[=Move-class]{move}}, \code{\link[=MoveStack-class]{moveStack}} or \code{\link[=MoveBurst-class]{moveBurst}} object}
 }
 
-\author{Marco Smolla}
+\details{The headings are calculated using the functions \code{\link[geosphere]{bearing}} of the geosphere package.}
+
+\author{Marco Smolla & Anne Scharf}
 
 \value{
-Angles in degrees
+Angles in degrees (between -180 and 180).
+
+If a \code{move} object is provided, a numeric vector one element shorter than the number of locations is obtained. \cr
+If a \code{moveStack} object is provided, a list with one element per individual containing a numeric vector one element shorter than the number of locations is obtained.
 }
 
+\seealso{\link{turnAngleGc}}
+
 \examples{
-\dontrun{  
+## angles from a Move object 
 data(leroy)
+head(angle(leroy))
+ # to add this information to the move object, a "NA" has to be assigened
+ # e.g. to the last location (it also could be assigend to the first location).
+leroy$angles <- c(angle(leroy), NA)
+
+## angles from a MoveStack object
 data(fishers)
-  angle(leroy) #angles from a Move object 
-  angle(fishers) #angles from a MoveStack object
-#  angleSummary(leroy) # summary of angle measures of a Move object
-#  angleSummary(fishers) # summary of angle measures of a MoveStack object
-}# failed on cran build
+str(angle(fishers))
+ # to add this information to the moveStack object, a "NA" has to be assigened
+ # e.g. to the last location of each individual (it also could be assigend to the first location).
+fishers$angles <-unlist(lapply(angle(fishers), c, NA))
 }

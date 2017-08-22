@@ -5,7 +5,7 @@ setMethod(f = "corridor",
 		  if (!isLonLat(x)) stop("Convert your dataset to longlat projection (use spTransform).")
 		  if (n.locs(x)>2){
 			  segLength <- apply(cbind(coordinates(x)[-n.locs(x),],coordinates(x)[-1,]), 1, function(y) spDistsN1(as.matrix(t(y[1:2])), as.matrix(t(y[3:4])), longlat=T)) ##kilometer
-		  } else {stop("The data-set has less than 2 fixes")}
+		  } else {stop("The data-set has 2 or less fixes")}
 
 		  speed <- speed(x) #meter/second
 		  speedQuant <- speed>=quantile(speed, probs=speedProp, na.rm=T)

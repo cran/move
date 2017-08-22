@@ -38,7 +38,10 @@ test_that("dbgb vs dbbmm",{
 	 expect_equal(as(bgb, '.UD'), as(bbmm, '.UD'), tolerance=tss*60)
 })
 test_that("deltaParaOrth",{
-	  expect_equivalent(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,1)), cbind(0,0))
+  expect_identical(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,1)), move:::deltaParaOrth(0:1, cbind(1,2), cbind(0,1)))
+  expect_identical(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,1)), move:::deltaParaOrth(cbind(0,1), 1:2, cbind(0,1)))
+  expect_identical(move:::deltaParaOrth(cbind(0:2,1:3)+2, cbind(c(1,1,1),c(2,2,2)), cbind(2:4,1:3)), move:::deltaParaOrth(cbind(0:2,1:3)+2, 1:2, cbind(2:4,1:3)))
+  	  expect_equivalent(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,1)), cbind(0,0))
 	  expect_equivalent(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,0)), cbind(-sqrt(.5),sqrt(.5)))
 	  expect_equivalent(move:::deltaParaOrth(cbind(0,0), cbind(2,2), cbind(1,1)), cbind(sqrt(2),0))
 	  suppressWarnings(expect_equivalent(move:::deltaParaOrth(cbind(0,0), cbind(0,0), cbind(1,1)), cbind(1,1)))
@@ -50,7 +53,15 @@ data(leroy)
   dataC<-spTransform(leroy, center=T)
 	  resUd<-5.3
 	  ud<-dynBGB(dataC[1:45,], windowSize=31, margin=15, locErr=4, raster=resUd, ext=9)
-	  ud2<-dynBGB(dynBGBvariance(dataC[1:45,], windowSize=31, margin=15, locErr=l<-rep(4, n.locs(dataC))), raster=resUd, ext=9, locErr=l)
+	  ud2<-dynBGB(v<-dynBGBvariance(m<-dataC[1:45,], windowSize=31, margin=15, locErr=l<-rep(4, n.locs(dataC))), raster=resUd, ext=9, locErr=l)
+	  expect_identical(as(Class = ".MoveTrackSingle",v[1:10,])
+	 , as(Class = ".MoveTrackSingle",m[1:10,])
+	  )
+expect_identical(	  slot(v,"paraSd")[1:20],
+	  slot(v[1:20,],"paraSd"))
+expect_identical(v[c(T,T,F,F,T),],
+v[rep(c(1,2,5),9)+rep(0:8*5, each=3),])
+
 	  expect_is(ud, 'dynBGB')
 	  expect_is(ud, '.UD')
 	  expect_equal(res(ud), resUd[c(1,1)])
@@ -62,15 +73,21 @@ test_that('work with time step with varying loc err',{
 	  expect_equal(sum(values(p<-crop(l,e<-extent(.5,.5,.5,.5)+.45))) ,1/3, tolerance=1.4e-7)
 	  a<-.5
 	  s<-sqrt((1/60)*a*(1-a)*m@paraSd[1]* m@orthSd[1]+a^2*le[2]^2+(1-a)^2*le[1]^2)
-	  pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, .5, sd=s))* prod(res(p))/3})
+#	  pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, .5, sd=s))* prod(res(p))/3})
+	  pp<-p
+	  values(pp)<-dnorm(xFromCell(pp,1:ncell(pp)),.5,sd=s)*
+	    dnorm(yFromCell(pp,1:ncell(pp)),.5,sd=s)* prod(res(pp))/3
 	  expect_equal(values(p), values(pp), tolerance=1e-5)
-	  expect_less_than(sum(values(abs(p-pp))),2e-6)
+	  expect_lt(sum(values(abs(p-pp))),2e-6)
 	  expect_equal(sum(values(p<-crop(l,e<-extent(.1,.1,.1,.1)+.4))) ,1/3, tolerance=1e-7)
 	  a<-.1
 	  s<-sqrt((1/60)*a*(1-a)*m@paraSd[1]* m@orthSd[1]+a^2*le[2]^2+(1-a)^2*le[1]^2)
-	  pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, .1, sd=s))* prod(res(p))/3})
+	  pp<-p
+	  values(pp)<-dnorm(xFromCell(pp,1:ncell(pp)),.1,sd=s)*
+	    dnorm(yFromCell(pp,1:ncell(pp)),.1,sd=s)* prod(res(pp))/3
+	  #pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, .1, sd=s))* prod(res(p))/3})
 	  expect_equal(values(p), values(pp), tolerance=1e-5)
-	  expect_less_than(sum(values(abs(p-pp))),2.2e-6)
+	  expect_lt(sum(values(abs(p-pp))),2.2e-6)
 })
 test_that('work with time step var orth para',{
 	  r<-raster(extent(c(-.5,1.54,-1.123,1)))
@@ -79,14 +96,20 @@ test_that('work with time step var orth para',{
 	  expect_equal(sum(values(p<-crop(l,e<-extent(.1,.1,0,0)+.6))) ,1/2, tolerance=2e-8)
 	  a<-.2
 	  s<-sqrt((1/60)*a*(1-a)*c(m@paraSd[1], m@orthSd[1])^2+a^2*le^2+(1-a)^2*le^2)
-	  pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, c(.1,0), sd=s))})
+	  pp<-p
+	  values(pp)<-dnorm(xFromCell(pp,1:ncell(pp)),.1,sd=s[1])*
+	    dnorm(yFromCell(pp,1:ncell(pp)),0,sd=s[2])
+#	  	  pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, c(.1,0), sd=s))})
 	  expect_equal(values(p), values(pp)* prod(res(pp))*1/2, tolerance=7e-7)
-	  expect_less_than(sum(values(abs(p-pp*prod(res(pp))/2))),7e-7)
+	  expect_lt(sum(values(abs(p-pp*prod(res(pp))/2))),7e-7)
 
 	  expect_equal(sum(values(p<-crop(l,e<-extent(.9,.9,0,0)+.6))) ,1/2, tolerance=2e-8)
 	  a<-.8
 	  s<-sqrt((1/60)*a*(1-a)*c(m@paraSd[2], m@orthSd[2])^2+a^2*le^2+(1-a)^2*le^2)
-	  pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, c(.9,0), sd=s))})
+	 # pp<-calc(rasterFromXYZ(rasterToPoints(p)[,c(1,2,1,2)]), function(x){prod(dnorm(x, c(.9,0), sd=s))})
+	  pp<-p
+	  values(pp)<-dnorm(xFromCell(pp,1:ncell(pp)),.9,sd=s[1])*
+	    dnorm(yFromCell(pp,1:ncell(pp)),.0,sd=s[2])
 	  expect_equal(values(p), values(pp)* prod(res(pp))*1/2, tolerance=3e-6)
-	  expect_less_than(sum(values(abs(p-pp*prod(res(pp))/2))),15e-7)
+	  expect_lt(sum(values(abs(p-pp*prod(res(pp))/2))),15e-7)
 })

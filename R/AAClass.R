@@ -51,14 +51,9 @@ setClass(Class='.unUsedRecordsStack',contains='.unUsedRecords',# maybe at somest
 		 if(length(object@trackIdUnUsedRecords)!=nrow(object@dataUnUsedRecords))
 			 stop("TrackId and data length for unused records do not match")
 		 if(length(object@timestampsUnUsedRecords)>0)
-		 if(!all((diffs<-unlist(tapply(object@timestampsUnUsedRecords, list(object@trackIdUnUsedRecords, droplevels(object@sensorUnUsedRecords)),diff)))>0))
+		 if(!all((diffs<-unlist(tapply(object@timestampsUnUsedRecords, list(object@trackIdUnUsedRecords, droplevels(object@sensorUnUsedRecords)),diff, simplify=FALSE)))>=0))
 		 {
-			 if(any(diffs==0)){
-		   tmp<-duplicated(cbind(object@timestampsUnUsedRecords, object@trackIdUnUsedRecords, object@sensorUnUsedRecords))# made new test in check for higher speed but have this one still here for more clear reporting
-			 stop("The data set includes double timestamps per ID in the unused records (first one:", object@trackIdUnUsedRecords[tmp][1]," ",object@sensorUnUsedRecords[tmp][1]," ",object@timestampsUnUsedRecords[tmp][1], ")")
-		   }else{
 			 stop('The data set includes un ordered timestamps in the unUsedRecordsStack')
-			   }
 		 }
 		 return(TRUE)
 	 }
@@ -107,14 +102,14 @@ setClass(Class = ".MoveTrackSingle",contains=c(".MoveTrack",'.unUsedRecords'),
 		 if(!identical(levels(object@sensorUnUsedRecords),levels(object@sensor)))
 			 stop('Levels of unused records dont match with sensor')
 		 timestampsUnUsedDuplicated<-object@timestampsUnUsedRecords[object@timestampsUnUsedRecords %in% object@timestamps]
-		 if(length(timestampsUnUsedDuplicated)!=0)
-		 {
-		 s<-c(object@timestamps, object@timestampsUnUsedRecords)%in% timestampsUnUsedDuplicated
-		 	if (any(dups <- duplicated(data.frame(format(c(object@timestamps, object@timestampsUnUsedRecords)[s],"%Y %m %d %H %M %OS4"), 
-							       c(as.character(object@sensor), as.character(object@sensorUnUsedRecords))[s]))))
-				 stop("A timestamp of an unused record coincides with a normal timestamp")
+		# if(length(timestampsUnUsedDuplicated)!=0)
+		# {
+		# s<-c(object@timestamps, object@timestampsUnUsedRecords)%in% timestampsUnUsedDuplicated
+		# 	if (any(dups <- duplicated(data.frame(format(c(object@timestamps, object@timestampsUnUsedRecords)[s],"%Y %m %d %H %M %OS4"), 
+		#					       c(as.character(object@sensor), as.character(object@sensorUnUsedRecords))[s]))))
+		#		 stop("A timestamp of an unused record coincides with a normal timestamp")
 
-		 }
+		# }
 		 #this check cant work since coordinates columns are not present in data maybe look for solution
 		# if(any(names(object@data)!=names(object@dataUnUsedRecords)))
 		#	 stop('names of data and unused data records dont match')
@@ -166,16 +161,16 @@ setClass(Class = ".MoveTrackStack", contains = c(".MoveTrack", ".unUsedRecordsSt
 		 if(!identical(levels(object@trackIdUnUsedRecords),levels(object@trackId)))
 			 stop('Levels of unused records dont match with trackId')
 		 timestampsUnUsedDuplicated<-object@timestampsUnUsedRecords[object@timestampsUnUsedRecords %in% object@timestamps]
-		 if(length(timestampsUnUsedDuplicated)!=0)
-		 {
-		 s<-c(object@timestamps, object@timestampsUnUsedRecords)%in% timestampsUnUsedDuplicated
-		 	if (any(dups <- duplicated(t<-cbind(
-							  format(c(object@timestamps, object@timestampsUnUsedRecords)[s],"%Y %m %d %H %M %OS4"), 
-							  c(as.character(object@sensor), as.character(object@sensorUnUsedRecords))[s], 
-							  c(as.character(trackId(object)),as.character( object@trackIdUnUsedRecords))[s]))))
-				 stop("A timestamps of a unused record coincides with a normal timestamps")
+		# if(length(timestampsUnUsedDuplicated)!=0)
+		# {
+		# s<-c(object@timestamps, object@timestampsUnUsedRecords)%in% timestampsUnUsedDuplicated
+		# 	if (any(dups <- duplicated(t<-cbind(
+		#					  format(c(object@timestamps, object@timestampsUnUsedRecords)[s],"%Y %m %d %H %M %OS4"), 
+		#					  c(as.character(object@sensor), as.character(object@sensorUnUsedRecords))[s], 
+		#					  c(as.character(trackId(object)),as.character( object@trackIdUnUsedRecords))[s]))))
+		#		 stop("A timestamps of a unused record coincides with a normal timestamps")
 
-		 }
+		# }
 		 if(sum(diff(as.numeric(trackId(object)))!=0)!=(nrow(idData(object, drop=F))-1))
 			 stop('The data in the MoveStack object are not grouped per individual')
 		 if(any(as.character(unique(trackId(object)))!= rownames(idData(object, drop=F))))
@@ -281,8 +276,11 @@ setClass(Class = ".UDStack", contains = c("RasterStack"),
 			       method = as.character()), 
 	 validity = function(object) {
 		 #if (!all(apply(values(object), MARGIN = 2, FUN = function(X) isTRUE(all.equal(sum(X), 1, check.attributes=F))))) 
-		 if(!all.equal(rep(1,nlayers(object)),cellStats(object, sum), check.attributes=F)) 
-			 stop("One or more of the used rasters are not a UD, because they sum not to 1)")
+		 if(!all.equal(rep(1,nlayers(object)),cellStats(object, sum), check.attributes=F)) {
+			 stop("One or more of the used rasters are not a UD, because they sum not to 1)")}
+	   if(any(cellStats(object, 'min')<0)){
+	     stop('The UDStack cant contain negative values')
+	   }
 	 })
 
 setClass(Class = ".UDBurstStack", contains = c("RasterStack"), 
@@ -298,7 +296,10 @@ setClass(Class = ".UDBurstStack", contains = c("RasterStack"),
 		 if(!
 		    all.equal( s , as.numeric(z, units='mins')/sum(as.numeric(z, units='mins')), check.attributes=F)
 		    )
-			 stop('The Z vector need to correspond to the sum of the layers')
+		 {			 stop('The Z vector need to correspond to the sum of the layers')}
+	   if(any(cellStats(object, 'min')<0)){
+	     stop('The UD cant contain negative values')
+	   }
 		 return(TRUE)
 	 })
 
@@ -309,6 +310,9 @@ setClass(Class = ".UD", contains = c("RasterLayer"),
 	 validity = function(object) {
 		 if (!isTRUE(all.equal(tmp<-sum(values((object))), 1))) 
 			 stop("The used raster is not a UD (sum unequal to 1), sum is: ", sprintf("%.15f",tmp)," One possible cause is loss of accuracy due to writing raster to disk with dataType FLT4S this can be solved preventing disk usage or changing data type")
+	   if(cellStats(object, 'min')<0){
+	     stop('The UD cant contain negative values')
+	   }
 		 return(TRUE)
 	 })
 

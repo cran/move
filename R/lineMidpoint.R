@@ -11,7 +11,7 @@ setMethod(f = "lineMidpoint",
                 mid <- midPoint(coordinates(track)[1,], coordinates(track)[2,])
               }
               if (nrow(track)>2){
-                dists <- seglength(object)
+	    dists<-raster::pointDistance(object[-sum(n.locs(object)),], object[-1,], longlat=isLonLat(object))
                 cumsum <- cumsum(dists)
                 min <- which(cumsum(dists)>0.5*sum(dists))[1]
                 if (sum(dists)==0) {min <- 0} else {min <- which(cumsum>0.5*sum(dists))[1]}

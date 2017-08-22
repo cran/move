@@ -9,24 +9,24 @@
 
 \title{Returns trackId}
 
-\description{Obtain a factor returning the ids of individuals per location}
+\description{Obtain the Id of the individual per location of a MoveStack or unUsedRecordsStack}
 
 \usage{
   \S4method{trackId}{MoveStack}(x)
 }
 
 \arguments{
-  \item{x}{a MoveStack object}
+  \item{x}{a \code{moveStack} or \code{.unUsedRecordsStack} object}
 }
 
 \value{
-	Returns a factor indicating to which individuals locations belong in a stack.
+	Returns a factor indicating for each location to which individual it belongs.
 }
 
 \author{Bart Kranstauber}
 
 \examples{
 data(fishers)
-  trackId(fishers)
-  
+head(trackId(fishers))
+head(trackId(unUsedRecords(fishers)))
 }
