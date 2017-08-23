@@ -1,5 +1,5 @@
 7466e975aa461e22ecd1a3ff5143c3e8 *ChangeLog
-c38c611a15b1d0bf1f62bd8b10519930 *DESCRIPTION
+c091282fe113d3b8e220cb8f3eaf4358 *DESCRIPTION
 2b1f7bbd7e9e760c7dca05a0b00a5386 *NAMESPACE
 0dc918f4648c364d723cff05635b2b1b *R/AAClass.R
 fb5438c6a01bfe42312d28b1bdda6d4b *R/Summary.R
@@ -64,10 +64,10 @@ c5df095c0b2e75920c88f8637da5d4ae *data/fishers.RData
 5d2f69c22e63ce3b38c9a87186d4cfa7 *data/ricky.RData
 e30e08418b2e362149887c9d3a14b970 *inst/doc/browseMovebank.R
 3d999ad2dc541f37e506bb98f7b1d0fb *inst/doc/browseMovebank.Rnw
-7383f05ddd13676b406b28de91c9ff7e *inst/doc/browseMovebank.pdf
+237cb626bdf58a8686480055d3a789c7 *inst/doc/browseMovebank.pdf
 d87725dbda4d5999c55634a4245a2493 *inst/doc/move.R
 aec71365aeb025d9a9ed3b37f6c14545 *inst/doc/move.Rnw
-4d762a84f338560b5d5c7feafa758dcd *inst/doc/move.pdf
+c6678831128a2b290af1e703c1b51cd9 *inst/doc/move.pdf
 b1ff4545016ad1b471edde0807dd077f *inst/extdata/createsRDataFile.R
 799fda3273b9fcbde9dc6f12205ad5dd *inst/extdata/fishersSubset.csv.gz
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
@@ -162,8 +162,7 @@ f8274d8f2e378983ddb13ede876ad382 *src/emd_hat_signatures_interface.h
 1d0101c41919e06b52a04236d5ebd6ac *src/flow_utils.h
 6f232970d705488df12cffe14031b9f4 *src/init.c
 6e5a285a3f04917017509e81ae01ed60 *src/min_cost_flow.h
-6cc1296a56c5bcea15fe18ab7dfcff13 *tests/test-all.R
-e57f83f15976fbd007137e01ce9fd1ef *tests/testthat/Rplots.pdf
+71edf74ae3864292679628b706cbb44d *tests/test-all.R
 f843a950a6a194cba8636fe9a7b3df8f *tests/testthat/test.angle.R
 1e43ffdd9833333e83c35591a9b05288 *tests/testthat/test.brownian.bridge.dyn.R
 e0f2aaf45f4362526a7c562b67188469 *tests/testthat/test.burst.R
@@ -183,7 +182,7 @@ d50fed7acab92924ac9f871865cf8863 *tests/testthat/test.interpolateTime.R
 8b1368a34bea0c2bf9c7dd0defe9d603 *tests/testthat/test.move.R
 3269c81779918fa4923e8cfa9aa4e0e3 *tests/testthat/test.moveAde.R
 f5fb83ac4ccaf5d18fe454a2875decd6 *tests/testthat/test.moveStack.R
-d2c78bc2c13ffa8fed4c8efd7c1ff7b5 *tests/testthat/test.print.R
+22903876be606a75445d1e2e3a69a1f0 *tests/testthat/test.print.R
 c51b181c3957434c4e2e6f1dea1de9cb *tests/testthat/test.smallFunctions.R
 fc26d61947a6a231c48f0f505755a00b *tests/testthat/test.spTransform.R
 c3f26083517892ea6ce1af968a610bec *tests/testthat/test.storedData.R
