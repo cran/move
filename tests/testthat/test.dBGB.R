@@ -1,6 +1,7 @@
 # echo '`require(testthat); require(raster);require(geosphere); suppressMessages(require(rgdal)); t<-sapply(list.files("R", full.names=TRUE), source); test_dir("tests/testthat")' | R -q --vanilla
 context("dynBGB")
 test_that("dbgb vs dbbmm variance",{
+		  skip_on_os('solaris')
 	 vBBMM<-move:::brownian.motion.variance(x<-c(1,1.5,3,3.5,5,5.5,7,7.5,9), y<-c(0,.5,0,.5,0,.5,0,.5,0), time.lag=rep(1,9), location.error=rep(.1,9))
 	 yy<-move(x,y, Sys.time()+1:9*60)
 	 vBGB<-move:::BGBvar(yy, locErr=rep(.1,9))
@@ -8,6 +9,7 @@ test_that("dbgb vs dbbmm variance",{
 	 expect_equal(vBBMM$BMvar, prod(vBGB[1:2]), tolerance=2e-5)
 })
 test_that('dbgb error handling in relation to projections',{
+		  skip_on_os('solaris')
 data(leroy)
   # 	expect_warning(
     expect_error(
@@ -20,6 +22,7 @@ data(leroy)
 		     )# equal projection
 })
 test_that("dbgb vs dbbmm",{
+		  skip_on_os('solaris')
 	 x<-12:42
 	 xx<-floor(x/2)+(y<-((x/2)%%1)/6)
 	 m<-move(x+y,y, Sys.time()+x)
@@ -38,6 +41,7 @@ test_that("dbgb vs dbbmm",{
 	 expect_equal(as(bgb, '.UD'), as(bbmm, '.UD'), tolerance=tss*60)
 })
 test_that("deltaParaOrth",{
+		  skip_on_os('solaris')
   expect_identical(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,1)), move:::deltaParaOrth(0:1, cbind(1,2), cbind(0,1)))
   expect_identical(move:::deltaParaOrth(cbind(0,1), cbind(1,2), cbind(0,1)), move:::deltaParaOrth(cbind(0,1), 1:2, cbind(0,1)))
   expect_identical(move:::deltaParaOrth(cbind(0:2,1:3)+2, cbind(c(1,1,1),c(2,2,2)), cbind(2:4,1:3)), move:::deltaParaOrth(cbind(0:2,1:3)+2, 1:2, cbind(2:4,1:3)))
@@ -49,6 +53,7 @@ test_that("deltaParaOrth",{
 	  
 })
 test_that("dyn bgb basics",{
+		  skip_on_os('solaris')
 data(leroy)
   dataC<-spTransform(leroy, center=T)
 	  resUd<-5.3
@@ -69,6 +74,7 @@ v[rep(c(1,2,5),9)+rep(0:8*5, each=3),])
 	  expect_equal(ud2, ud)
 })
 test_that('work with time step with varying loc err',{
+		  skip_on_os('solaris')
 	  l<-dynBGB(m<-new('dBGBvariance',move(0:1,0:1, Sys.time()+0:1), margin=1, windowSize=1, segInterest=c(T,F), paraSd=1:0/2, orthSd=1:0/2, nEstim=2:3), raster=.004, ext=2, locErr=(le<-c(.01,.03)), timeStep=.4/60)
 	  expect_equal(sum(values(p<-crop(l,e<-extent(.5,.5,.5,.5)+.45))) ,1/3, tolerance=1.4e-7)
 	  a<-.5
@@ -90,6 +96,7 @@ test_that('work with time step with varying loc err',{
 	  expect_lt(sum(values(abs(p-pp))),2.2e-6)
 })
 test_that('work with time step var orth para',{
+		  skip_on_os('solaris')
 	  r<-raster(extent(c(-.5,1.54,-1.123,1)))
 	  res(r)<-.0053
 	  l<-dynBGB(m<-new('dBGBvariance',move(0:2/2,c(0,0,0), Sys.time()+0:2), margin=1, windowSize=1, segInterest=c(T,T,F), paraSd=2:0/2, orthSd=1:3/3, nEstim=rep(2,3)), raster=r, ext=2, locErr=le<-.01, timeStep=1.6/60)

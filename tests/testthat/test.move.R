@@ -151,14 +151,15 @@ test_that("minimal move file",{
               "\"2010-02-09 17:01:23.000\",-73.9042594,42.8418856,\"gps\",\"Martes pennanti\",1016,\"Ricky T\"")
             ff<-textConnection(f)
             class(ff)<-'connection'
-           expect_s4_class( move(ff),class = "Move")
+m<-move(ff)
+           expect_s4_class(m ,class = "Move")
             
            f<-c("\"timestamp\",\"location.lat\",\"sensor.type\",\"individual.taxon.canonical.name\",\"tag.local.identifier\",\"individual.local.identifier\"",
                 "\"2010-02-09 16:07:21.000\",NA,\"gps\",\"Martes pennanti\",1016,\"Ricky T\"",
                 "\"2010-02-09 17:01:23.000\",42.8418856,\"gps\",\"Martes pennanti\",1016,\"Ricky T\"")
            ff<-textConnection(f)
            class(ff)<-'connection'
-           expect_error( move(ff),'does not seem to be from Movebank')
+           expect_error(move(ff),'does not seem to be from Movebank')
            
            f <-
              c(
@@ -168,7 +169,8 @@ test_that("minimal move file",{
              )
            ff <- textConnection(f)
            class(ff) <- 'connection'
-           expect_s4_class(m <- move(ff), class = "MoveStack")
+m<-move(ff)
+           expect_s4_class(m, class = "MoveStack")
            expect_identical(sensor(m), factor(c('gps', 'gps')))
            expect_warning(m <- move(c(NA, NA, 1:2), c(0:3), Sys.time() + 0:3),"There were NA locations detected and omitted. Currently they are not stored in unusedrecords")
            expect_identical(levels(sensor(m)), levels(sensor(unUsedRecords(m))))

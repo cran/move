@@ -1,5 +1,5 @@
-7466e975aa461e22ecd1a3ff5143c3e8 *ChangeLog
-c091282fe113d3b8e220cb8f3eaf4358 *DESCRIPTION
+7949e4121aaadc0240a6041895b8c530 *ChangeLog
+99763d93f9a6677d60ec824f92bc7791 *DESCRIPTION
 2b1f7bbd7e9e760c7dca05a0b00a5386 *NAMESPACE
 0dc918f4648c364d723cff05635b2b1b *R/AAClass.R
 fb5438c6a01bfe42312d28b1bdda6d4b *R/Summary.R
@@ -53,7 +53,7 @@ e7b809895d72ccf863d49b3555aec82e *R/spatialLines.R
 2f634332386aabbe38fdec202df5ae0d *R/trackId.R
 d158dfd8bc4b372e6764871058ae81f0 *R/turnAngle.R
 9e42a28349516249f8330119be0a3e5c *R/unUsedRecords.R
-1673cec44ad716f4af638f8286ff9855 *build/vignette.rds
+89e2f77778ef13828f27f9ffd9774f6f *build/vignette.rds
 4c17ef69ce30e4148cad127aa08867ff *data/datalist
 b03c7e226b7e60804dc9a172e4ce26fd *data/dbbmmstack.RData
 46144c63ee2c00eea08948bef0cf2246 *data/duplicatedDataExample.RData
@@ -64,10 +64,10 @@ c5df095c0b2e75920c88f8637da5d4ae *data/fishers.RData
 5d2f69c22e63ce3b38c9a87186d4cfa7 *data/ricky.RData
 e30e08418b2e362149887c9d3a14b970 *inst/doc/browseMovebank.R
 3d999ad2dc541f37e506bb98f7b1d0fb *inst/doc/browseMovebank.Rnw
-237cb626bdf58a8686480055d3a789c7 *inst/doc/browseMovebank.pdf
+f5ab184452a4b8b898c34778d81a5adf *inst/doc/browseMovebank.pdf
 d87725dbda4d5999c55634a4245a2493 *inst/doc/move.R
 aec71365aeb025d9a9ed3b37f6c14545 *inst/doc/move.Rnw
-c6678831128a2b290af1e703c1b51cd9 *inst/doc/move.pdf
+325ecb73603b6c85465be14f4adaa288 *inst/doc/move.pdf
 b1ff4545016ad1b471edde0807dd077f *inst/extdata/createsRDataFile.R
 799fda3273b9fcbde9dc6f12205ad5dd *inst/extdata/fishersSubset.csv.gz
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
@@ -163,13 +163,14 @@ f8274d8f2e378983ddb13ede876ad382 *src/emd_hat_signatures_interface.h
 6f232970d705488df12cffe14031b9f4 *src/init.c
 6e5a285a3f04917017509e81ae01ed60 *src/min_cost_flow.h
 71edf74ae3864292679628b706cbb44d *tests/test-all.R
+f5e45d923da5c8052f419f4c7177b8fc *tests/testthat/Rplots.pdf
 f843a950a6a194cba8636fe9a7b3df8f *tests/testthat/test.angle.R
-1e43ffdd9833333e83c35591a9b05288 *tests/testthat/test.brownian.bridge.dyn.R
+049530b862a730be67f1b7e74dac3264 *tests/testthat/test.brownian.bridge.dyn.R
 e0f2aaf45f4362526a7c562b67188469 *tests/testthat/test.burst.R
 7cef1d056f04571045041080a53b6b9e *tests/testthat/test.citations.R
 b437f9cb0253218ea5605ece37295c4a *tests/testthat/test.corridor.R
-913e26ca613316fb9376960a73f310e2 *tests/testthat/test.dBGB.R
-e627029c64df5961ab33b4e0fe64633c *tests/testthat/test.emd.R
+ba6a2a5260d2cd7fb11d4d322f2fffa0 *tests/testthat/test.dBGB.R
+a9988c47fa814f286089db11d70cf83c *tests/testthat/test.emd.R
 6ad47e13c76364ec8974a444d7dc5856 *tests/testthat/test.examples.R
 0530ed846c32c60a2cdc67f6abbe6e87 *tests/testthat/test.extentCalc.R
 79203df3d8b319253a840d1e10f06878 *tests/testthat/test.getDataRepositoryData.R
@@ -179,7 +180,7 @@ e627029c64df5961ab33b4e0fe64633c *tests/testthat/test.emd.R
 57fd82b70c9c6b034dd62ae035642a51 *tests/testthat/test.idData.R
 d50fed7acab92924ac9f871865cf8863 *tests/testthat/test.interpolateTime.R
 14bcded59aab2cdc0c1a65dcffa36f51 *tests/testthat/test.measures.R
-8b1368a34bea0c2bf9c7dd0defe9d603 *tests/testthat/test.move.R
+d44cbbe6c70bb3355d039f599fccbcbb *tests/testthat/test.move.R
 3269c81779918fa4923e8cfa9aa4e0e3 *tests/testthat/test.moveAde.R
 f5fb83ac4ccaf5d18fe454a2875decd6 *tests/testthat/test.moveStack.R
 22903876be606a75445d1e2e3a69a1f0 *tests/testthat/test.print.R
@@ -191,7 +192,7 @@ c3f26083517892ea6ce1af968a610bec *tests/testthat/test.storedData.R
 fbbe76f7f7a13561468d1d3e9810fd7a *tests/testthat/test.turnAngle.R
 d172fc76bc7faa604a58c31853776c50 *tests/testthat/test.udFunctions.R
 064e0e2fd2b3f7e1f3bbc778611599ab *tests/testthat/test.unUsed.R
-d65b781a08614826f1a9db445bd4dcaf *tests/testthat/test.web.R
+8f18474df9b972075bb226863dc676e8 *tests/testthat/test.web.R
 8948b7940b114f97d4e492a8dbfbdf38 *vignettes/a.Rdata
 3d999ad2dc541f37e506bb98f7b1d0fb *vignettes/browseMovebank.Rnw
 aec71365aeb025d9a9ed3b37f6c14545 *vignettes/move.Rnw

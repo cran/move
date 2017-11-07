@@ -1,5 +1,6 @@
 context('Brownian bridge dyn')
 test_that('dbbmm error handling',{
+		  skip_on_os('solaris')
   data(leroy)
   expect_error(
     brownian.bridge.dyn(
@@ -16,6 +17,7 @@ test_that('dbbmm error handling',{
   )
 })
 test_that('dbbmm error handling in relation to projections',{
+		  skip_on_os('solaris')
   data(leroy)
   data <- leroy
   expect_error(
@@ -36,6 +38,7 @@ test_that('dbbmm error handling in relation to projections',{
   )# equal projection
 })
 test_that('brownian bridge dyn for bursted',{
+		  skip_on_os('solaris')
   data(leroy)
   data <- leroy
   dataP <- spTransform(data[1:100,], center = T)
@@ -79,6 +82,7 @@ test_that('brownian bridge dyn for bursted',{
                  UDStack(udS / cellStats(udS, sum)))
 })
 test_that("verbosity brownian bridge works",{
+		  skip_on_os('solaris')
   skip("will only work with testthat .11")
   p <- seq(0, 2 * pi, length.out = 49)
   tmp <-
@@ -97,6 +101,7 @@ test_that("verbosity brownian bridge works",{
   ))
 })
 test_that('brownian bridge dyn value comparison bursted',{
+		  skip_on_os('solaris')
   p <- seq(0, 2 * pi, length.out = 49)
   tmp <-
     move(sin(p), cos(p), as.POSIXct(1:length(p), origin = '1970-1-1'), proj =
@@ -147,6 +152,7 @@ test_that('brownian bridge dyn value comparison bursted',{
 
 })
 test_that('Brownian bridge, running with character and vector input to location error',{
+		  skip_on_os('solaris')
   data(leroy)
   data <- spTransform(leroy[1:51,], center = T)
   data2 <- data
@@ -190,6 +196,7 @@ test_that('Brownian bridge, running with character and vector input to location 
 })
 
 test_that('Brownian bridge, running with character and vector input to location error for stacks',{
+		  skip_on_os('solaris')
   data(leroy)
   data(ricky)
   data <-

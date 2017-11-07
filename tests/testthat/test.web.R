@@ -9,6 +9,7 @@ test_that("login",{
   
   })
 test_that('false login',{
+		  skip_on_os('solaris')
   l<-movebankLogin("asdf","asdf")  
   expect_error(getMovebankStudies(l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
   expect_error(getMovebankData("BCI Ocelot",login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )

@@ -1,4 +1,3 @@
-
 #  n<-20
 #  set.seed(124)
 #  r1 <- raster(matrix(rweibull(n^2,3), nrow = n))
@@ -150,7 +149,7 @@ test_that('emd for raster brick',
 		  expect_equivalent(
 				    emd(s,ss, gc=T)
 				    ,
-				    distm(rasterToPoints(s)[,1:2],rasterToPoints(ss)[,1:2])/1000
+				    distm(rasterToPoints(s)[,1:2],rasterToPoints(ss)[,1:2], fun=distHaversine)/1000
 				    )
 		  expect_equivalent(emd(s), dist(rasterToPoints(s)[,1:2]))
 		  expect_equal(  emd(s,ss, gc=T),emd(UDStack(s),UDStack(ss), gc=T))
