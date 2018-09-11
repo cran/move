@@ -36,7 +36,7 @@ brownian.bridge.dyn(object, raster=1, dimSize=10, location.error,
   \item{bbox}{vector with 4 numbers defining a bounding box for the raster. Only considered in combination with a numeric raster argument or the dimSize argument.}
   \item{...}{Additional arguments: 
   \describe{
-  \item{\code{time.step}}{It correspond to the size of the timer intervals taken for every integration step (in minutes). If left \code{NULL} 15 steps are taken in the shortest time interval. See 'Details'. Optional.}
+  \item{\code{time.step}}{It correspond to the size of the time intervals taken for every integration step (in minutes) and thus specifies the temporal resolution of the numerical integration. If left \code{NULL} 15 steps are taken in the shortest time interval. See 'Details'. Optional.}
   \item{\code{verbose}}{logical. default is TRUE; if FALSE printing messages about the computational size is suppressed. Optional.}
   \item{\code{burstType}}{character vector with the name(s) of burstId(s) for which the UD should be calculated. This attribute can only be used if a \code{moveBurst} is provided in the \code{object} argument. Optional.}
   }
@@ -59,7 +59,7 @@ brownian.bridge.dyn(object, raster=1, dimSize=10, location.error,
   
   The function prints an estimate of the size of the computational task ahead. This can give an indication of how long the computation is going to take. It should scale roughly linearly with the duration of the computations although changes in the setup mean the computational complexity still is calculated base on the extent but this is not informative any more on the computation time. It is only useful as a rough indication of calculation duration.
 
-\code{time.step}. The default value is the shortest time interval divided by 15. This means, if there is a location recorded e.g. every 30 mins, the function divides each segment into 2 mins chunks upon which it does the calculation. If for some reason there is one time interval of 15 secs in the track, each segment of the track will be divided into 1secs chunks, increasing the calculation time immensely. Before calculating the DBBMM, use e.g. \code{min(timeLag(x=}myMoveObject, \code{units="mins"})) to check which is the duration of the shortest time interval of the track. If the track contains time intervals much shorter than the scheduled on the tag, set the \code{time.step} e.g. to the scheduled time interval at which the tag was set, divided by 15.
+\code{time.step}. The default value is the shortest time interval divided by 15. This means, if there is a location recorded e.g. every 30 mins, the function divides each segment into 2 mins chunks upon which it does the calculation. If for some reason there is one time interval of 15 secs in the track, each segment of the track will be divided into 1secs chunks, increasing the calculation time immensely. Before calculating the DBBMM, use e.g. \code{min(timeLag(x=myMoveObject, units="mins"))} to check which is the duration of the shortest time interval of the track. If the track contains time intervals much shorter than the scheduled on the tag, set the \code{time.step} e.g. to the scheduled time interval at which the tag was set, divided by 15.
 }
 
 

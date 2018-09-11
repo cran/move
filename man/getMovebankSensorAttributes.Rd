@@ -1,7 +1,7 @@
 \name{getMovebankSensorsAttributes}
 
 \alias{getMovebankSensorsAttributes}
-\alias{getMovebankSensorsAttributes,ANY,MovebankLogin-method}
+\alias{getMovebankSensorsAttributes,ANY,missing-method}
 \alias{getMovebankSensorsAttributes,numeric,MovebankLogin-method}
 \alias{getMovebankSensorsAttributes,character,MovebankLogin-method}
 

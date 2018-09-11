@@ -149,6 +149,12 @@ setMethod(f="getMovebankSensors",
 
 setGeneric("getMovebankSensorsAttributes", function(study, login, ...) standardGeneric("getMovebankSensorsAttributes"))
 setMethod(f="getMovebankSensorsAttributes", 
+          signature=c(study="ANY",login="missing"), 
+          definition = function(study,login,...){
+            login<-movebankLogin()
+            getMovebankSensorsAttributes(study=study, login=login,...)
+          })
+setMethod(f="getMovebankSensorsAttributes", 
 	  signature=c(study="character",login="MovebankLogin"), 
 	  definition = function(study,login,...){
 		  study<-getMovebankID(study, login,... )
@@ -254,12 +260,18 @@ setMethod(f="getMovebankAnimals",
 	  })
 
 setGeneric("getMovebankData", function(study,animalName,login, ...) standardGeneric("getMovebankData"))
+setMethod(f="getMovebankData", 
+          signature=c(study="ANY",animalName="missing", login="missing"),
+          definition = function(study, animalName, login=login, ...){ 
+            login <- movebankLogin()
+            getMovebankData(study = study,  login = login, ...)
+          })
 
 setMethod(f="getMovebankData", 
 	  signature=c(study="ANY",animalName="ANY", login="missing"),
 	  definition = function(study, animalName, login=login, ...){ 
 		  login <- movebankLogin()
-		  callGeneric()
+		  getMovebankData(study = study, animalName = animalName, login = login, ...)
 	  })
 
 setMethod(f="getMovebankData", 
@@ -557,11 +569,24 @@ setMethod(
 
 
 setGeneric("getMovebankNonLocationData", function(study,sensorID,animalName,login, ...) standardGeneric("getMovebankNonLocationData"))
+
+setMethod(f="getMovebankNonLocationData", 
+          signature=c(study="ANY",sensorID="missing",animalName="missing", login="missing"),
+          definition = function(study, sensorID, animalName, login=login, ...){ 
+            login <- movebankLogin()
+            getMovebankNonLocationData(study = study, login=login,...)
+          })
 setMethod(f="getMovebankNonLocationData", 
           signature=c(study="ANY",sensorID="ANY",animalName="ANY", login="missing"),
           definition = function(study, sensorID, animalName, login=login, ...){ 
             login <- movebankLogin()
-            callGeneric()
+            getMovebankNonLocationData(study = study, sensorID = sensorID, animalName = animalName, login=login,...)
+          })
+setMethod(f="getMovebankNonLocationData", 
+          signature=c(study="ANY",sensorID="ANY",animalName="missing", login="missing"),
+          definition = function(study, sensorID, animalName, login=login, ...){ 
+            login <- movebankLogin()
+            getMovebankNonLocationData(study = study, sensorID = sensorID, login=login,...)
           })
 
 setMethod(f="getMovebankNonLocationData", 
@@ -638,6 +663,7 @@ setMethod(f="getMovebankNonLocationData",
             colnames(tagID) <- c("tag_id","tag_local_identifier")
             NonLocData <- merge.data.frame(NonLocData,tagID,by="tag_id")
             NonLocData <- merge.data.frame(NonLocData,idData[,c("individual_id","local_identifier")],by="individual_id")
+            NonLocData$timestamp <- as.POSIXct(strptime(as.character(NonLocData$timestamp), format = "%Y-%m-%d %H:%M:%OS",tz="UTC"), tz="UTC")
             return(NonLocData)
           })
 

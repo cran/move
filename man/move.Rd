@@ -38,7 +38,7 @@ numeric vector with x coordinates if non-Movebank data are provided (e.g. \code{
 \item{proj}{projection method for non-Movebank data; requires a valid CRS (see \code{\link{CRS-class}}) object, e.g. CRS("+proj=longlat +ellps=WGS84"); default is NA. Optional.}
 \item{sensor}{Sensor name(s), either single character or a vector with length of the number of coordinates. If multiple sensors are provided this has to be done as a vector with the same length as the number of coordinates. Optional.}
 \item{animal}{animal ID(s) or name(s), either single character or a vector with length of the number of coordinates. If multiple individuals are provided this has to be done as a vector with the same length as the number of coordinates. Optional.}
-\item{removeDuplicatedTimestamps}{logical; if TRUE duplicated timestamps values will be removed. It is strongly advised not to use this option because there is no control over which records are removed. We recommend to manually edit the duplicated timestamps with \code{\link{getDuplicatedTimestamps}} or edit the records in Movebank.}
+\item{removeDuplicatedTimestamps}{logical; if TRUE duplicated timestamps values will be removed. Only available when reading in data from movebank via path to a .csv file. It is strongly advised not to use this option because there is no control over which records are removed. We recommend to manually edit the duplicated timestamps with \code{\link{getDuplicatedTimestamps}} or edit the records in Movebank.}
 \item{...}{Additional arguments}  
 }
 

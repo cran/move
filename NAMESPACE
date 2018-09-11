@@ -28,6 +28,8 @@ importFrom(parallel, parLapply)
 importFrom(xml2,xml_find_all)
 importFrom(xml2,xml_contents)
 importFrom(xml2,xml_attr)
+importFrom(memoise,memoise)
+
 importFrom(Rcpp,sourceCpp) # to statify check
 exportClasses(
 	DBBMM,
@@ -97,6 +99,8 @@ emd,
 	speed,
 	split,
 	summary,
+  thinTrackTime,
+  thinDistanceAlongTrack,
 	searchMovebankStudies,
 	timeLag,
 	trackId,

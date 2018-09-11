@@ -11,10 +11,10 @@ setMethod(f = "split",
 	  definition = function(x, f, ...){
 		  moveList <- list()
 		  unUsed<-as(x,".unUsedRecordsStack")
-		  for (ID in unique(x@trackId)) {
-			  s<-x@trackId==ID
+		  for (ID in unique(trackId(x))) {
+			  s<-trackId(x)==ID
 			  spdf <- SpatialPointsDataFrame(coords = matrix(x@coords[s,], ncol=2),
-							 data=x@data[s,],
+							 data=x@data[s,,drop=FALSE],
 							 proj4string=x@proj4string)
 			  mt <- new(Class=".MoveTrack",
 				    spdf,

@@ -58,14 +58,14 @@ The number of locations used in each step are printed in the console.
   
 \examples{
 ## for a Move object
-  m <- move(x=rnorm(70), y=rnorm(70), time=as.POSIXct(1:70, origin="1970-1-1"), 
+  m <- move(x=rnorm(55), y=rnorm(55), time=as.POSIXct(1:55, origin="1970-1-1"), 
 	          proj=CRS("+proj=aeqd +ellps=WGS84"), animal='a')    
   hrBootstrap(m,rep=5, level=99, unout="m2", plot=TRUE)
 
 ## for a MoveStack object
-   m2 <- move(x=rnorm(70), y=rnorm(70), time=as.POSIXct(1:70, origin="1970-1-1"), 
+   m2 <- move(x=rnorm(30), y=rnorm(30), time=as.POSIXct(1:30, origin="1970-1-1"), 
 	           proj=CRS("+proj=aeqd +ellps=WGS84"), animal='b') 
-  mstack <- moveStack(list(m,m2))
+  mstack <- moveStack(list(m[30:50,],m2))
   hrBootstrap(mstack,rep=5, unout="m2", plot=FALSE) 
 
 ## for a SpatialPoints object

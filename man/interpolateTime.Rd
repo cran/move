@@ -16,10 +16,10 @@ interpolateTime(x, time, spaceMethod=c('euclidean','greatcircle','rhumbline'),..
 }
 
 \arguments{
-  \item{x}{a \code{\link[=Move-class]{move}} or \code{\link[=MoveBurst-class]{moveBurst}} object}
+  \item{x}{a \code{\link[=Move-class]{move}} or \code{\link[=MoveBurst-class]{moveBurst}} object.}
   \item{time}{either a number of locations (class \code{numeric}), a time interval (class \code{difftime}) or a vector of timestamps (class \code{POSIXct}) at which the interpolation should be done. See 'Details'.}
-  \item{spaceMethod}{a character that indicates the interpolation function to be used}
-  \item{...}{Currently not implemented}
+  \item{spaceMethod}{a character that indicates the interpolation function (euclidean, great circle or along the rhumb line) to be used to generate the new locations.}
+  \item{...}{Currently not implemented.}
 }
 \details{
 In the argument \code{time}:\cr

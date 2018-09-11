@@ -32,9 +32,9 @@ UDStack(lst)
 ## use the "getVolumeUD" or "emd" function
 data(leroy)
 leroyB <- burst(x=leroy,f=c(rep(c("Behav.1","Behav.2"),each=400),rep("Behav.1", 118)))
-leroyBdbb <- brownian.bridge.dyn(object=spTransform(leroyB[780:820], center=TRUE), 
-                                 location.error=12, dimSize=155, ext=.45, 
-                                 time.step=20/15, margin=15)
+leroyBdbb <- brownian.bridge.dyn(object=spTransform(leroyB[785:820], center=TRUE), 
+                                 location.error=12, dimSize=115, ext=.45, 
+                                 time.step=25/15, margin=15)
 cellStats(leroyBdbb, sum)
 leroyBud <- UDStack(leroyBdbb)
 cellStats(leroyBud, sum)

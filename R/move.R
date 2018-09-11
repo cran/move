@@ -36,6 +36,11 @@ setMethod(f = "move",
 			     "individual.taxon.canonical.name")%in%colnames(df))){
 			  stop("The entered file does not seem to be from Movebank. Please use the alternative import function.")
 		  }
+if('study.name' %in% colnames(df))
+{study<-as.character(unique(df$study.name))
+}else{
+study<-character()
+}
 
 		  if(any(dups<-duplicated( do.call('paste',c(df[duplicated(df$timestamp)|duplicated(df$timestamp, fromLast=T),names(df)!="event.id"], list(sep="__")))))){
 			  #first find atleast the ones where the timestamp (factor) is duplicated
@@ -125,11 +130,10 @@ uniquePerID[c('location.long','location.lat')]<-F
 			if(sum(!inNormRe)!=0){
       warning(sum(!inNormRe), " location(s) is/are removed by removeDuplicatedTimestamps from the un used records")}
 		  }
-
 		  if(stk){
-			  return(new('MoveStack', track, unUsedRecords, trackId=individual.local.identifier))
+			  return(new('MoveStack', track, unUsedRecords, trackId=individual.local.identifier, study=study))
 		  }else{
-			  return(new('Move',track, unUsedRecords))
+			  return(new('Move',track, unUsedRecords, study=study))
 		  }
 	  }
 	  )

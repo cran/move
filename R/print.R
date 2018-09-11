@@ -54,7 +54,8 @@ setMethod("print",".MoveTrackSingleBurst", function(x){
 	  cat("bursts      :", paste(levels(x@burstId),': ',unlist(lapply(lapply(levels(x@burstId), '==', x@burstId), sum)), sep='', collapse=', '),"\n")
 })
 setMethod("print",".MoveGeneral", function(x){
-	  if(length(x@license)!=0)
+	  if(length(x@license)!=0 )
+	  if(!is.na(x@license) )
 		  if(nchar(x@license)>(getOption('width')-18)){
 		  cat("license     :",substr(x@license,1, getOption('width')-18),"...\n")
 		  }else{

@@ -39,15 +39,15 @@ If the projection of the coordinates is longitude/latitude all values are return
 ## Move object in longlat projection
 data(leroy)
 head(seglength(leroy)) 
- # to add this information to the move object, a "NA" has to be assigened
- # e.g. to the last location (it also could be assigend to the first location).
+# to add this information to the move object, a "NA" has to be assigened
+# e.g. to the last location (it also could be assigend to the first location).
 leroy$segLength <- c(seglength(leroy), NA)
 
 ## MoveStack object in longlat projection
 data(fishers)
 head(seglength(fishers))
- # to add this information to the moveStack object, a "NA" has to be assigened
- # e.g. to the last location of each individual (it also could be assigend to the first location).
+# to add this information to the moveStack object, a "NA" has to be assigened
+# e.g. to the last location of each individual (it also could be assigend to the first location).
 fishers$segLength <-  unlist(lapply(lapply(split(fishers),seglength),c, NA))
 }
 }

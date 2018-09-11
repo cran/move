@@ -37,14 +37,14 @@ If a \code{moveStack} object is provided, a list with one element per individual
 ## distance from a Move object 
 data(leroy)
 head(distance(leroy))
- # to add this information to the move object, a "NA" has to be assigened
- # e.g. to the last location (it also could be assigend to the first location).
+# to add this information to the move object, a "NA" has to be assigened
+# e.g. distance is assigned to the first location of a segment
 leroy$distance <- c(distance(leroy), NA)
 
 ## distance from a MoveStack object
 data(fishers)
 str(distance(fishers))
- # to add this information to the moveStack object, a "NA" has to be assigened
- # e.g. to the last location of each individual (it also could be assigend to the first location).
-fishers$distance <-unlist(lapply(distance(fishers), c, NA))
+# to add this information to the moveStack object, a "NA" has to be assigened
+# e.g. distance is assigned to the first location of a segment
+fishers$distance <- unlist(lapply(distance(fishers), c, NA))
 }

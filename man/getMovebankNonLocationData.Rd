@@ -2,6 +2,8 @@
 
 \alias{getMovebankNonLocationData}
 \alias{getMovebankNonLocationData,ANY,ANY,ANY,missing-method}
+\alias{getMovebankNonLocationData,ANY,ANY,missing,missing-method}
+\alias{getMovebankNonLocationData,ANY,missing,missing,missing-method}
 \alias{getMovebankNonLocationData,character,ANY,ANY,MovebankLogin-method}
 \alias{getMovebankNonLocationData,numeric,missing,ANY,MovebankLogin-method}
 \alias{getMovebankNonLocationData,numeric,character,ANY,MovebankLogin-method}
