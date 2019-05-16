@@ -56,13 +56,19 @@
 
 
 ###################################################
-### code chunk number 10: getMovebankDataAll (eval = FALSE)
+### code chunk number 10: getMovebankAnimals (eval = FALSE)
+###################################################
+## getMovebankReferenceTable(study="BCI Ocelot",login=loginStored)
+
+
+###################################################
+### code chunk number 11: getMovebankDataAll (eval = FALSE)
 ###################################################
 ## bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored)
 
 
 ###################################################
-### code chunk number 11: getMovebankDataInd (eval = FALSE)
+### code chunk number 12: getMovebankDataInd (eval = FALSE)
 ###################################################
 ## # for one individual
 ## bobby <- getMovebankData(study="BCI Ocelot", animalName="Bobby",
@@ -70,7 +76,7 @@
 
 
 ###################################################
-### code chunk number 12: getMovebankDataInd2 (eval = FALSE)
+### code chunk number 13: getMovebankDataInd2 (eval = FALSE)
 ###################################################
 ## # for several individuals
 ## ocelot2ind <- getMovebankData(study="BCI Ocelot", animalName=c("Bobby","Darlen"),
@@ -78,7 +84,7 @@
 
 
 ###################################################
-### code chunk number 13: getMovebankDataTime (eval = FALSE)
+### code chunk number 14: getMovebankDataTime (eval = FALSE)
 ###################################################
 ## # download all data between "2003-03-22 17:44:00.000" and "2003-04-22 17:44:00.000"
 ## bci_ocelot_range1 <- getMovebankData(study="BCI Ocelot", login=loginStored,
@@ -92,7 +98,7 @@
 
 
 ###################################################
-### code chunk number 14: getMovebankDataTime2 (eval = FALSE)
+### code chunk number 15: getMovebankDataTime2 (eval = FALSE)
 ###################################################
 ## # download all data before "2003-07-24 20:00:00.000"
 ## bci_ocelot_range2 <- getMovebankData(study="BCI Ocelot", login=loginStored,
@@ -101,7 +107,7 @@
 
 
 ###################################################
-### code chunk number 15: getMovebankDataTime3 (eval = FALSE)
+### code chunk number 16: getMovebankDataTime3 (eval = FALSE)
 ###################################################
 ## # download all data after "2003-07-01 20:00:00.000" for "Bobby"
 ## bobby_range <- getMovebankData(study="BCI Ocelot", login=loginStored,
@@ -109,21 +115,21 @@
 
 
 ###################################################
-### code chunk number 16: removeDuplicatedTimestamps (eval = FALSE)
+### code chunk number 17: removeDuplicatedTimestamps (eval = FALSE)
 ###################################################
 ## bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored,
 ##                               removeDuplicatedTimestamps=TRUE)
 
 
 ###################################################
-### code chunk number 17: getMovebankNonLocationData (eval = FALSE)
+### code chunk number 18: getMovebankNonLocationData (eval = FALSE)
 ###################################################
 ## getMovebankNonLocationData(study=74496970 , sensorID="Acceleration",
 ##                                animalName="DER AR439", login=loginStored)
 
 
 ###################################################
-### code chunk number 18: getMovebankNonLocationData2 (eval = FALSE)
+### code chunk number 19: getMovebankNonLocationData2 (eval = FALSE)
 ###################################################
 ## # get acceleration data for all individuals of the study between
 ## # the "2013-08-15 15:00:00.000" and "2013-08-15 15:01:00.000"
@@ -133,22 +139,22 @@
 
 
 ###################################################
-### code chunk number 19: includeExtraSensors (eval = FALSE)
+### code chunk number 20: includeExtraSensors (eval = FALSE)
 ###################################################
-## mymove <- getMovebankData(study=74496970, login=loginStored, 
+## mymove <- getMovebankData(study=74496970, login=loginStored,
 ##                           animalName="DER AR439",includeExtraSensors=TRUE)
 
 
 ###################################################
-### code chunk number 20: includeExtraSensors (eval = FALSE)
+### code chunk number 21: includeExtraSensors (eval = FALSE)
 ###################################################
-## ## to get a data.frame containing the data for the non-location 
-## ## sensors use the "unUsedRecords" function 
+## ## to get a data.frame containing the data for the non-location
+## ## sensors use the "unUsedRecords" function
 ## nonlocation <- as.data.frame(unUsedRecords(mymove))
 
 
 ###################################################
-### code chunk number 21: getDataRepositoryData (eval = FALSE)
+### code chunk number 22: getDataRepositoryData (eval = FALSE)
 ###################################################
 ## getDataRepositoryData("doi:10.5441/001/1.2k536j54")
 

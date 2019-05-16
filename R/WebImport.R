@@ -307,44 +307,54 @@ setMethod(
                         removeDuplicatedTimestamps = FALSE,
                         includeExtraSensors = FALSE,
                         deploymentAsIndividuals = FALSE,
+                        includeOutliers = FALSE,
                         ...) {
     # get id data
-    idData <-
+    idData <-do.call('rbind', lapply(split(animalName, ceiling((1:length(animalName))/200)), function(x,...)
+{    
       getMovebank(
         "individual",
         login = login,
         study_id = study,
-        id = animalName,
+        id = x,
         ...
-      )
+      )},...))
     colnames(idData)[which(names(idData) == "id")] <-
       "individual_id"
     if (deploymentAsIndividuals) {
-      dep <-
+      dep <-do.call('rbind', lapply(split(animalName, ceiling((1:length(animalName))/200)), function(x,...)
         getMovebank(
           "deployment",
           login = login,
           study_id = study,
-          individual_id = animalName,
+          individual_id = x,
           ...
-        )
+        ),...))
       
-      dep <-
+      dep <-do.call('rbind', lapply(split(animalName, ceiling((1:length(animalName))/200)), function(x,...)
+        
         getMovebank(
           "deployment",
           login = login,
           study_id = study,
-          individual_id = animalName,
+          individual_id = x,
           attributes = c("individual_id",
                          names(which(
                            !unlist(lapply(lapply(dep, is.na), all))
                          ))),
           ...
-        )
+        ),...))
       colnames(dep)[which(names(dep) == "id")] <- "deployment_id"
       colnames(dep)[which(names(dep) == "local_identifier")] <-
         "deployment_local_identifier"
       idData <- merge.data.frame(idData, dep, by = "individual_id")
+    }else{
+      if(all(is.na(idData$local_identifier))){
+        if(any(duplicated(idData$local_identifier))){
+          stop('This needs checking')
+        }
+        idData$local_identifier<- idData$individual_id
+      }
     }
     # get sensor data
     sensorTypes <- getMovebank("tag_type", login = login)
@@ -357,6 +367,7 @@ setMethod(
         c(
           as.character(getMovebankSensorsAttributes(study, login, ...)$short_name),
           "sensor_type_id",
+          'visible',
           "deployment_id",
           'event_id',
           'individual_id',
@@ -364,29 +375,31 @@ setMethod(
         )
       )
     # get all event data
-    trackDF <-
+    trackDF <-do.call('rbind',# split and recombine because requested url can get too long
+      lapply(split(animalName, ceiling(1:length(animalName)/200)), function(x,...)
       getMovebank(
         "event",
         login = login,
         study_id = study,
         attributes = attribs ,
-        individual_id = animalName,
+        individual_id = x,
         sensor_type_id = locSen,
         ...
-      )
+      ), ...))
     if (includeExtraSensors) {
       otherSen <-
         sensorTypes[!as.logical(sensorTypes$is_location_sensor), "id"]
-      otherDF <-
+      otherDF <-do.call('rbind',# split and recombine because requested url can get too long
+                        lapply(split(animalName, ceiling(1:length(animalName)/200)), function(x,...)
         getMovebank(
           "event",
           login = login,
           study_id = study,
           attributes = attribs ,
-          individual_id = animalName,
+          individual_id = x,
           sensor_type_id = otherSen,
           ...
-        )
+        ), ...))
       trackDF <- rbind(trackDF, otherDF)
     }
     
@@ -408,6 +421,13 @@ setMethod(
     trackDF$individual_id <-
       NULL # this is in idData and not needed here
 
+    ## add users provided tag ID
+    tagID <- getMovebank("tag", login, study_id=study)[,c("id", "local_identifier")]
+    colnames(tagID) <- c("tag_id","tag_local_identifier")
+    TagNames <- merge.data.frame(trackDF[c("tag_id","timestamp")],tagID,by="tag_id", all.x=T)
+    trackDF$tag_local_identifier <- TagNames$tag_local_identifier
+    # trackDF$tag_id <- NULL ## could be removed as probably no one uses it....
+    
     if (deploymentAsIndividuals) {
       trackDF <-
         merge.data.frame(trackDF, idData[, c("deployment_id", "deployment_local_identifier")], by =
@@ -457,12 +477,15 @@ setMethod(
     }
     
     outliers <- is.na(trackDF$location_long)
-    if ('algorithm_marked_outlier' %in% names(trackDF))
-      outliers[trackDF$algorithm_marked_outlier == "true"] <- T
-    if ('manually_marked_outlier' %in% names(trackDF)) {
-      outliers[trackDF$manually_marked_outlier == "true"] <- T
-      outliers[trackDF$manually_marked_outlier == "false"] <- F
-    }
+    stopifnot('visible'%in%colnames(trackDF))
+    if(!includeOutliers){outliers[trackDF$visible == "false"] <- T}
+    # outliers[trackDF$visible == "false"] <- T
+    # if ('algorithm_marked_outlier' %in% names(trackDF))
+    #   outliers[trackDF$algorithm_marked_outlier == "true"] <- T
+    # if ('manually_marked_outlier' %in% names(trackDF)) {
+    #   outliers[trackDF$manually_marked_outlier == "true"] <- T
+    #   outliers[trackDF$manually_marked_outlier == "false"] <- F
+    # }
     if (all(outliers))
       stop("There not observed records for this study/individual")
     
@@ -664,7 +687,55 @@ setMethod(f="getMovebankNonLocationData",
             NonLocData <- merge.data.frame(NonLocData,tagID,by="tag_id")
             NonLocData <- merge.data.frame(NonLocData,idData[,c("individual_id","local_identifier")],by="individual_id")
             NonLocData$timestamp <- as.POSIXct(strptime(as.character(NonLocData$timestamp), format = "%Y-%m-%d %H:%M:%OS",tz="UTC"), tz="UTC")
+            NonLocData$study_name <- as.character(getMovebankStudy(study, login)$name)
             return(NonLocData)
           })
 
+
+## get reference table
+setGeneric("getMovebankReferenceTable", function(study, login) standardGeneric("getMovebankReferenceTable"))
+setMethod(f="getMovebankReferenceTable",
+          c(study="character", login="MovebankLogin"),
+          definition = function(study, login){
+            study  <- getMovebankID(study,login)
+            callGeneric()
+          })
+setMethod(f="getMovebankReferenceTable",
+          c(study="numeric", login="MovebankLogin"),
+          definition = function(study, login){
+            ## get tags and sensors
+            tags <- getMovebank(entity_type="sensor", login, tag_study_id=study)
+            tags$id <- NULL
+            ## get tag attributes
+            tagNames <- getMovebank(entity_type="tag", login, study_id=study)
+            colnames(tagNames)[colnames(tagNames)%in%colnames(tagNames)[-grep("tag",colnames(tagNames))]]  <-  paste0("tag_",colnames(tagNames)[-grep("tag",colnames(tagNames))])
+            tagAtrb <- merge.data.frame(x=tags, y=tagNames, by="tag_id",all=T)
+            ## get animal attributes
+            animalAtrb <- getMovebank("individual", login, study_id=study)
+            colnames(animalAtrb) <- paste0("animal_",colnames(animalAtrb))
+            ## get link between deployments and tags
+            deploymentID <- getMovebank("deployment", login=login, study_id=study, attributes="individual_id%2Ctag_id%2Cid") 
+            names(deploymentID)  <- c("animal_id", "tag_id", "deployment_id")
+            ## get deployment attributes
+            deploymentAtrb <- getMovebank("deployment", login=login, study_id=study)
+            colnames(deploymentAtrb)[colnames(deploymentAtrb)%in%c("comments","id","local_identifier")] <- paste0("deployment_",c("comments","id","local_identifier"))
+            deploymentAtrbs <- merge.data.frame(x=deploymentAtrb, y=deploymentID, by="deployment_id",all=T)
+            ## create one big table 
+            tagdep <- merge.data.frame(tagAtrb,deploymentAtrbs, by="tag_id",all=T)
+            animtagdep <- merge.data.frame(animalAtrb,tagdep, by="animal_id",all=T)
+            
+            if(nrow(animtagdep)==0){stop("Reference data are not available: maybe you have no permission to download this dataset, or maybe password is invalid.")}
+            
+            if(study=="character"){animtagdep$study_id <- getMovebankID(study,login)}else{animtagdep$study_id <- study}
+            
+            RefData <- animtagdep[,c("animal_local_identifier","tag_local_identifier","sensor_type_id", names(animtagdep)[!names(animtagdep)%in%c("animal_local_identifier","tag_local_identifier","sensor_type_id")])]
+            return(RefData)
+          })
+
+setMethod(f="getMovebankReferenceTable",
+          c(study="ANY", login="missing"),
+          definition = function(study, login){
+            login <- movebankLogin()
+            getMovebankReferenceTable(study=study,login=login)
+          })
 

@@ -22,7 +22,7 @@
 }
 
 \details{
-\code{getMovebankAnimals} belongs to the Movebank browsing functions and returns a \code{data.frame} from the requested study that includes among others the \code{individual_id, tag_id, deployment_id, sensor_type_id} which are the the internal ids of Movebank, the \code{tag_local_identifier, local_identifier} which are the ids uploaded to Movebank by the user and other information if available as e.g. \code{death_comments, sex, taxon_canonical_name}, etc.
+\code{getMovebankAnimals} belongs to the Movebank browsing functions and returns a \code{data.frame} from the requested study that includes among others the \code{individual_id, tag_id, deployment_id, sensor_type_id} which are the internal ids of Movebank, the \code{tag_local_identifier, local_identifier} which are the ids uploaded to Movebank by the user and other information if available as e.g. \code{death_comments, sex, taxon_canonical_name}, etc.
 }
 
 \note{

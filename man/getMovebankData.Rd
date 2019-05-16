@@ -20,7 +20,8 @@
 
 \S4method{getMovebankData}{numeric,numeric,MovebankLogin}(study, animalName, login, 
                 removeDuplicatedTimestamps=FALSE,
-                includeExtraSensors=FALSE, deploymentAsIndividuals=FALSE, ...)
+                includeExtraSensors=FALSE, deploymentAsIndividuals=FALSE,
+                includeOutliers=FALSE,...)
 }
 
 \arguments{
@@ -30,6 +31,7 @@
   \item{includeExtraSensors}{logical; if TRUE data from non location sensors included in the study will be also downloaded, the data will automatically be stored in the unUsedRecords slot as they cannot produce locations. See 'Details'.}
   \item{removeDuplicatedTimestamps}{logical; if TRUE duplicated timestamps values will be removed. See 'Note'.}
   \item{deploymentAsIndividuals}{logical; if TRUE the deployments will be downloaded separately. See 'Details'.}
+  \item{includeOutliers}{logical; if TRUE locations marked as outliers in Movebank will be included in the regular trajectory otherwise as unUsedRecords. See 'Details'}
   \item{...}{Additional arguments passed on to the movebank API through \code{\link{getMovebank}} function: 
   \describe{
   \item{\code{timestamp_start, timestamp_end}}{character or POSIXct. Starting and/or ending timestamp to download the data for a specific time period. Timestamps have to be provided in format 'yyyyMMddHHmmssSSS'. If POSIXct then it is converted to character using UTC as a time zone, note that this can change the time. Optional.}
@@ -49,6 +51,11 @@ If this \code{includeExtraSensors=TRUE} the data of all non location sensors (e.
 
 \code{deploymentAsIndividuals:}\cr
 If single individuals have several deployments, and these are wished to be downloaded separately, this can be done by setting \code{deploymentAsIndividuals=TRUE}. In this case the "@trackId" will contain the names of the deployments.
+
+\emph{idData:}\cr
+The idData slot contains only the information of the animals. To obtain information on tags, deployments and sensors of the study use the function \link{getMovebankReferenceTable}.\cr
+When \code{deploymentAsIndividuals=TRUE} than the idData slot contains the information of the deployments.
+
 }
 
 \note{
@@ -57,8 +64,8 @@ See the 'browseMovebank' vignette for more information about security and how to
 \code{removeDuplicatedTimestamps:}\cr
 It is possible to set \code{removeDuplicatedTimestamps=TRUE} which allows you delete the duplicated timestamps in case your data set contains them. It is strongly advised not to use this option because there is no control over which records are removed. It's better to edit the records in movebank and mark the appropriate records as outliers. Another option is to download the data as a .csv file from Movebank, use the \code{\link{getDuplicatedTimestamps}} function to identify the duplicate timestamps, decide which one to keep and than create a move/moveStack object with the function \link{move}.
 
-\emph{Outliers:}\cr
-In Movebank outliers can be marked manually. When the move object is creates via \code{getMovebankData} these records are automatically placed in the UnusedRecords slots. If these marked outliers want to be included in the move object, download the data from \href{http://www.movebank.org}{Movebank} (or via \code{\link{getMovebank}}), read in the data from the downloaded .csv file with \code{read.csv}, and create the move object with \link{move} providing the columns with the coordinates, timestamp, data.frame, projection, sensor and animal name. This way the marked outliers are ignored and all data are included in the move object.
+\emph{includeOutliers:}\cr
+In Movebank outliers can be \href{https://www.movebank.org/node/42#mark_outliers}{marked manually} or using \href{https://www.movebank.org/node/33529}{filters}, including a duplicate filter that flags duplicate records based on user-selected attributes, retaining the first record of each duplicate set that was imported to the study. When \code{includeOutliers=FALSE} (default) these records are automatically placed in the UnusedRecords slots. If \code{includeOutliers=TRUE} these records are included along all other locations. This option can be useful if the user wants to e.g. implement their own filter/algorithm to identify outliers. Entries that contain NAs in the coordinate columns will always be included in the UnusedRecords slots.
 
 \emph{Multiple sensors:}\cr
 The \code{getMovebankData} function downloads the data of all location sensors available in the study. If the study contains several location sensors, the resulting move/moveStack object can be separated into a move/moveStack object per sensor type: \cr

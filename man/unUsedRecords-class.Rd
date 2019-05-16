@@ -12,7 +12,7 @@
 \section{Slots}{
   \describe{
     \item{trackIdUnUsedRecords}{Object of class \code{"factor"}: vector that indicates, which data, coordinates and timestamps of the unused records belong to each individual in a \code{.unUsedRecordsStack} object}
-    \item{timestampsUnUsedRecords}{Object of class \code{"POSIXct"}: timestamps associated to the unused records, i.e. lines of the data that were removed because they included NA locations}
+    \item{timestampsUnUsedRecords}{Object of class \code{"POSIXct"}: timestamps associated to the unused records.}
     \item{sensorUnUsedRecords}{Object of class \code{"factor"}: sensors used to record the unused records}
     \item{dataUnUsedRecords}{Object of class \code{"data.frame"}: data associated to the unused records}
   }

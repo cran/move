@@ -10,7 +10,7 @@
 \title{Extracts or creates the unUsedRecords}
 
 \description{
-  This function returns the unUsedRecords part of the move object or assigns locations as unused, this could for example be used to remove test locations from a track. 
+  This function returns the unUsedRecords part of the move object or assigns locations as unused, this could for example be used to remove test locations from a track. unUsedRecords can include events with no locations, locations flagged as outliers, non-location sensor data when \code{includeExtraSensors} is set to TRUE in the \code{getMovebankData} function. 
 }
 
 \usage{

@@ -1,3 +1,9 @@
+Version 3.2.0
+  * Use updated movebank api for downloading data, now depend on visible column. This might lead to small changes in the downloaded dataset if specific outlier combinations are used. 
+  * Added getMovebankReferenceTable function to download reference data from movebank study.
+  * Added namesIndiv to get names of individuals in a move/moveStack object.
+  * Now getMovebankData includes user defined tag number information.
+
 Version 3.1.0
   * Add track thining
 	* Maintenance release with bug fixes to solve some issues

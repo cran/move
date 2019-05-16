@@ -16,7 +16,7 @@ Create a Move object
 }
 
 \description{
-This function creates \code{Move} or \code{MoveStack} object from a .csv file with location data downloaded from a Movebank study, from a zip file downloaded from the EnvData (environmental annotation tool) of a Movebank study, from a \code{\link[adehabitatLT]{ltraj}} object or from own data. If you use your own data you need to set the projection method with the 'proj' argument and specify which columns of your data contain the coordinates and timestamps. 
+This function creates \code{Move} or \code{MoveStack} object from a .csv file with location data downloaded from a Movebank study, from a zip file downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} (environmental annotation tool) of a Movebank study, from a \code{\link[adehabitatLT]{ltraj}} object or from own data. If you use your own data you need to set the projection method with the 'proj' argument and specify which columns of your data contain the coordinates and timestamps. 
 }
 
 \usage{
@@ -29,7 +29,7 @@ This function creates \code{Move} or \code{MoveStack} object from a .csv file wi
 }
 
 \arguments{
-\item{x}{full path to the csv (or compressed) file location downloaded from a Movebank study, OR to the zip file location downloaded from the EnvData tool in Movebank. \cr
+\item{x}{full path to the csv (or compressed) file location downloaded from a Movebank study, OR to the zip file location downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} tool in Movebank. \cr
 a \code{\link[adehabitatLT]{ltraj}} object from adehabitatLT.\cr
 numeric vector with x coordinates if non-Movebank data are provided (e.g. \code{data$x}).}
 \item{y}{numeric vector with y coordinates if non-Movebank data are provided (e.g. \code{data$y}).}
@@ -62,7 +62,9 @@ If the data include double timestamps you can use the \code{\link{getDuplicatedT
 Due to convention all names are turned into 'good names' which means, without spaces ('Ricky T' becomes 'Ricky.T'), if names are numbers a "X" will be prepended ('12345' becomes 'X12345') and most symbols will be replaced by "." ('Ricky-T' becomes 'Ricky.T').
 
 \emph{Outliers:}\cr
-In Movebank outliers can be marked manually. When the move object is created by providing the path to the file downloaded from Movebank, these records are automatically placed in the UnusedRecords slots. If these marked outliers want to be included in the move object, read in the data from the downloaded csv file from movebank with \code{read.csv}, and create the move object providing the columns with the coordinates, timestamp, data.frame, projection, sensor and animal name. This way the marked outliers are ignored and all data are included in the move object.
+In Movebank outliers can be \href{https://www.movebank.org/node/42#mark_outliers}{marked manually} or using \href{https://www.movebank.org/node/33529}{filters}, including a duplicate filter that flags duplicate records based on user-selected attributes, retaining the first record of each duplicate set that was imported to the study. These outliers will be marked with 'false' in the column 'visible', if data were downloaded including outliers.\cr
+When the move object is created by providing the path to the file downloaded from Movebank, the records marked as outliers are automatically placed in the UnusedRecords slots. \cr
+If these marked outliers want to be included in the move object, read in the data from the downloaded csv file from movebank with \code{read.csv}, set the marked outliers to 'true' in the column 'visible', or remove the column 'visible' from the data frame, save the table as a csv file and create the move object.
 
 \emph{Multiple sensors:}\cr
 If a move/moveStack object contains multiple sensors, this object can be separated into a move/moveStack object per sensor type: \cr

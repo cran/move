@@ -1,8 +1,7 @@
 Package: move
 Type: Package
 Title: Visualizing and Analyzing Animal Track Data
-Version: 3.1.0
-Date: 2018-9-7
+Version: 3.2.0
 Authors@R: c(person("Bart", "Kranstauber", role = c("aut", "cre"),
                      email = "bart.kranstauber@ieu.uzh.ch"),
               person("Marco", "Smolla", role = "aut"),
@@ -13,6 +12,7 @@ Description: Contains functions to access movement data stored in 'movebank.org'
     among others functions to calculate dynamic Brownian Bridge Movement Models.
     Move helps addressing movement ecology questions.
 License: GPL (>= 3)
+URL: https://bartk.gitlab.io/move/
 BugReports: https://gitlab.com/bartk/move/issues
 LazyLoad: yes
 LazyData: yes
@@ -24,12 +24,12 @@ Suggests: adehabitatHR, adehabitatLT, circular, ggmap, mapproj,
 Imports: httr, memoise, xml2, Rcpp
 LinkingTo: Rcpp
 SystemRequirements: C++11
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: yes
-Packaged: 2018-09-11 12:34:00 UTC; bart
+Packaged: 2019-05-16 14:15:23 UTC; bart
 Author: Bart Kranstauber [aut, cre],
   Marco Smolla [aut],
   Anne K Scharf [aut]
 Maintainer: Bart Kranstauber <bart.kranstauber@ieu.uzh.ch>
 Repository: CRAN
-Date/Publication: 2018-09-11 14:00:03 UTC
+Date/Publication: 2019-05-16 16:20:35 UTC

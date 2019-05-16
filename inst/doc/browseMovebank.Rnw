@@ -64,6 +64,8 @@ To download published data of the repository you do not need to have an account 
 \section{Login to Movebank}
 There are two ways to login. Either you login every time you use the functions that are presented in this vignette. Or you use the \fct{movebankLogin} function to login to Movebank and create an object that stores your login information. You can pass this object on to every function you use to skip the login process. Use your username and password which you use to login to the web based Movebank. Note that the password is stored in this object meaning that if you store the session or objects these are stored in plain text. If you want to hide the password while typing it might be worth to have a look at the package: "getPass".
 
+If you do not have a Movebank account, you can register at www.movebank.org or download csv files of publicly available studies directly from Movebank and read them into the Move package as described in the help file of the \texttt{move} function.
+
 <<createCURLHandle, results=hide, eval=F>>=
 loginStored <- movebankLogin(username="user", password="password")
 @
@@ -117,11 +119,17 @@ A list of the animals names, their tag ids, sensors used and more information as
 getMovebankAnimals(study="BCI Ocelot",login=loginStored)
 @
 
+\subsection{Get all reference data of a study}
+Get a table with all information associated to the animals, tags and deployments. This table is equivalent to the table obtained on the Movebank webpage trough the option "Download Reference Data" of the study.
+<<getMovebankAnimals, results=hide, eval=F>>=
+getMovebankReferenceTable(study="BCI Ocelot",login=loginStored)
+@
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Download the location data of a study as a 'move/moveStack' object}
 
-NOTE: \textit{\textbf{Agreement to license terms}: to be able to download with R the data of a study on Movebank, first the license terms of the study have to be accepted. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. \textbf{This only has to be done once per data set.}}\\
+NOTE: \textit{\textbf{Agreement to license terms}: to be able to download with R the data of a study on Movebank, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. \textbf{This only has to be done once per data set.}}\\
 
 If you know which coordinates of which animal you want to download you can either download the timestamp and coordinates, or directly create a move object. 
 
@@ -173,18 +181,19 @@ bobby_range <- getMovebankData(study="BCI Ocelot", login=loginStored,
 
 
 \subsection{Dealing with duplicated timestamps}
-In case the study contains duplicated timestamps, you can set the argument\\ \texttt{removeDuplicatedTimestamps=TRUE}. It is strongly advised not to use this option because there is no control over which records are removed. It's better to edit the records in movebank and mark the appropriate records as outliers.
+In case the study contains duplicated timestamps, you can set the argument\\ \texttt{removeDuplicatedTimestamps=TRUE}. It is strongly advised not to use this option because there is no control over which records are removed.
 
 <<removeDuplicatedTimestamps, results=hide, eval=F>>=
 bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored,
                               removeDuplicatedTimestamps=TRUE)
 @
-Another possibility is to download the data directly from Movebank, or via the \fct{getMovebank} function, and then use the function \fct{getDuplicatedTimestamps} to find the duplicated timestamps and to decide which one to remove before creating a move or movestack object using the \fct{move} function.
+The presence of duplicated timestamps can be due do many different reasons. There are several options to deal with this. One method is for a data manager of the study to review and flag the duplicates in Movebank, \href{https://www.movebank.org/node/42#mark_outliers}{either manually} or \href{https://www.movebank.org/node/33529}{using filters}, including a duplicate filter that flags duplicate records based on user-selected attributes.
+Another possibility is to download the data directly from Movebank, or via the \fct{getMovebank} function, and then use the function \fct{getDuplicatedTimestamps} to find the duplicated timestamps and to decide which one to remove before creating a move or movestack object using the \fct{move} function. These flagged duplicated records can be also marked as outliers in Movebank, by \href{https://www.movebank.org/node/2874}{adding an attribute} like e.g. "manually\_marked\_outlier" to the study.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Download the non-location data of a study as a 'data.frame'}
 
-NOTE: \textit{\textbf{Agreement to license terms}: to be able to download with R the data of a study on Movebank, first the license terms of the study have to be accepted. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. \textbf{This only has to be done once per data set.}}\\
+NOTE: \textit{\textbf{Agreement to license terms}: to be able to download with R the data of a study on Movebank, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. \textbf{This only has to be done once per data set.}}\\
 
 To download the non location data from a study you can use the \fct{getMovebankNonLocationData} function. It returns a \texttt{data.frame}. Data from different sensors can be downloaded by specifying the sensor name or is in the "sensorID" argument. The valid names for the \texttt{sensorID} argument are those of the column 'name' or 'id' of the table returned by\\ \texttt{(getMovebankSensors(login=loginloginStored)}. Non-location sensors (e.g. Acceleration, Magnetometer,...) are those marked as 'false' in the 'is\_location\_sensor' column of this table. \\
 
@@ -208,21 +217,23 @@ getMovebankNonLocationData(study=74496970 , sensorID=2365683,
 \subsection{Download non-location data with the 'getMovebankData' function}
 There is also the option to download non-location data with the \fct{getMovebankData} function. When the argument \texttt{includeExtraSensors=TRUE} than the data of all non-location sensors available for that study will be downloaded and stored in the 'unusedRecords' slot. With this option it is not possible to select specific sensors.
 <<includeExtraSensors, results=hide, eval=F>>=
-mymove <- getMovebankData(study=74496970, login=loginStored, 
+mymove <- getMovebankData(study=74496970, login=loginStored,
                           animalName="DER AR439",includeExtraSensors=TRUE)
 @
 <<includeExtraSensors, results=hide, eval=F>>=
-## to get a data.frame containing the data for the non-location 
-## sensors use the "unUsedRecords" function 
+## to get a data.frame containing the data for the non-location
+## sensors use the "unUsedRecords" function
 nonlocation <- as.data.frame(unUsedRecords(mymove))
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Download data from the Movebank Data Repository as a 'move/moveStack' object}
+\section[Download data from the Movebank Data Repository as a 'move/moveStack' object]{Download data from the Movebank Data Repository\newline as a 'move/moveStack' object}
 
-You can also download data from the 'Movebank Data Repository'. This function returns a \texttt{move} object (if only one individual is included) or a \texttt{moveStack} (if several individuals are included). If data of non-location sensors are included in the data set, these will be stored in the 'unUsedRecords' slot of the move object.
+This function downloads data from the \href{https://www.movebank.org/node/15294}{'Movebank Data Repository'}. It returns a \texttt{move} object (if only one individual is included) or a \texttt{moveStack} (if several individuals are included). If data of non-location sensors are included in the data set, these will be stored in the 'unUsedRecords' slot of the move object.
 <<getDataRepositoryData, results=hide, eval=F>>=
 getDataRepositoryData("doi:10.5441/001/1.2k536j54")
 @
+
+Visit the dataset's repository page at http://dx.doi.org/<doi> for citations and a readme that might contain additional details needed to understand the data. If analyzing these published datasets, always consult the related papers and cite the paper and dataset. If preparing analysis for publication, also contact the data owner if possible for their contribution.
 
 \end{document}
