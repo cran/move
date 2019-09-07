@@ -693,16 +693,16 @@ setMethod(f="getMovebankNonLocationData",
 
 
 ## get reference table
-setGeneric("getMovebankReferenceTable", function(study, login) standardGeneric("getMovebankReferenceTable"))
+setGeneric("getMovebankReferenceTable", function(study, login, allAttributes=FALSE) standardGeneric("getMovebankReferenceTable"))
 setMethod(f="getMovebankReferenceTable",
           c(study="character", login="MovebankLogin"),
-          definition = function(study, login){
+          definition = function(study, login, allAttributes){
             study  <- getMovebankID(study,login)
             callGeneric()
           })
 setMethod(f="getMovebankReferenceTable",
           c(study="numeric", login="MovebankLogin"),
-          definition = function(study, login){
+          definition = function(study, login, allAttributes){
             ## get tags and sensors
             tags <- getMovebank(entity_type="sensor", login, tag_study_id=study)
             tags$id <- NULL
@@ -729,13 +729,17 @@ setMethod(f="getMovebankReferenceTable",
             if(study=="character"){animtagdep$study_id <- getMovebankID(study,login)}else{animtagdep$study_id <- study}
             
             RefData <- animtagdep[,c("animal_local_identifier","tag_local_identifier","sensor_type_id", names(animtagdep)[!names(animtagdep)%in%c("animal_local_identifier","tag_local_identifier","sensor_type_id")])]
-            return(RefData)
+            if(allAttributes){
+              return(RefData)
+            }else{
+              RefDataRed <-  RefData[, colSums(is.na(RefData)) != nrow(RefData)]
+              return(RefDataRed)
+            }
           })
 
 setMethod(f="getMovebankReferenceTable",
           c(study="ANY", login="missing"),
-          definition = function(study, login){
+          definition = function(study, login, allAttributes){
             login <- movebankLogin()
-            getMovebankReferenceTable(study=study,login=login)
+            getMovebankReferenceTable(study=study,login=login,allAttributes=FALSE)
           })
-

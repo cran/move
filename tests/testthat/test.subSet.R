@@ -85,9 +85,9 @@ test_that('asign in stack', {
 		})
 test_that("subset unused",{
 		t<-new(".unUsedRecordsStack", trackIdUnUsedRecords=factor(levels=c("a","b")))
-		expect_equal(t,t[logical(0L),T])
-		expect_equal(t,t[,T])
-		expect_true(validObject(t[,T]))
+		expect_equal(t,t[logical(0L),])
+		expect_equal(t,t[,])
+		expect_true(validObject(t[,]))
 		})
 test_that("subset unused",{
 		t<-new(".unUsedRecordsStack", trackIdUnUsedRecords=factor("a",levels=c("a","b")),

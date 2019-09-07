@@ -9,7 +9,7 @@ An overview of the functions in this package
 }
 
 \description{
-move is a package that contains functions to access movement data stored at \url{www.movebank.org} as well as tools to visualize and statistically analyse animal movement data. Move addresses ecological questions regarding movement.
+move is a package that contains functions to access movement data stored at \url{https://www.movebank.org} as well as tools to visualize and statistically analyse animal movement data. Move addresses ecological questions regarding movement.
 }
 
 \details{
@@ -64,7 +64,7 @@ The track or the utilization distribution can be plotted with the following func
 
 \author{
 Bart Kranstauber, Marco Smolla \cr \cr
-Maintainer: Bart Kranstauber \email{bart.kranstauber@uni-konstanz.de}, Marco Smolla \email{ marco.smolla@postgrad.manchester.ac.uk}
+Maintainer: Bart Kranstauber, Marco Smolla
 }
 
 \references{

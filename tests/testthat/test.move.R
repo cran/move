@@ -19,6 +19,7 @@ test_that('move',
           {
             expect_error(move())
             #expect_error(move(x=1:10, y=1:10, time=as.POSIXct(1:10, origin="1970-1-1"))) #we now allow projection to be NA
+	    skip_on_cran()
             expect_silent(data <-
                             move(
                               fileUri <- system.file("extdata", "leroy.csv.gz", package = "move")
@@ -47,6 +48,8 @@ test_that('move',
                                                           removeDuplicatedTimestamps =
                                                             T)))
             fileR <- system.file("extdata", "leroy.csv.gz", package = "move")
+	    skip_on_os('windows')
+	    skip_on_cran()
             if ((class(p <- pipe('')) != 'pipeWin32')[1])
             {
               if (class(try(move(pipe(paste0(
@@ -129,6 +132,7 @@ test_that('move',
             )
             expect_equal(m1 <- move(1:2, 1:2, tt) ,
                          move(1:2, 1:2, tt, proj = CRS()))
+	    skip_on_cran()
             expect_silent(proj4string(m1) <- '+proj=longlat +ellps=WGS84')
             expect_equal(m1, m2)
             expect_equal(

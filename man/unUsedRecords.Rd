@@ -47,7 +47,7 @@ plot(leroy, type='b')
 
 # e.g. assign first 20 locations as unused
 data(leroy)
-unUsedRecords(leroy)<- as.logical(c(rep("FALSE",20), rep("TRUE",n.locs(leroy)-20)))
+unUsedRecords(leroy)<- as.logical(c(rep("TRUE",20), rep("FALSE",n.locs(leroy)-20)))
 }
 
 \author{Marco Smolla & Anne Scharf}

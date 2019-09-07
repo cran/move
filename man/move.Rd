@@ -43,7 +43,7 @@ numeric vector with x coordinates if non-Movebank data are provided (e.g. \code{
 }
 
 \details{
-The easiest way to import data is to download the study you are interested in from \url{www.movebank.org} and set the file path as the x argument of the move function. The function detects whether there are single or multiple individuals in this file and automatically creates either a \code{\link[=Move-class]{Move}}, \code{\link[=MoveStack-class]{MoveStack}} object. See the 'browseMovebank' vignette for more information on how to directly download data from Movebank from within R.\cr 
+The easiest way to import data is to download the study you are interested in from \url{https://www.movebank.org} and set the file path as the x argument of the move function. The function detects whether there are single or multiple individuals in this file and automatically creates either a \code{\link[=Move-class]{Move}}, \code{\link[=MoveStack-class]{MoveStack}} object. See the 'browseMovebank' vignette for more information on how to directly download data from Movebank from within R.\cr 
 
 Another way is to read in your data using \code{\link{read.csv}}. Then specify the arguments "x" and "y" the columns of your data containing the x and y coordinates, in the argument "time" the column containing the timestamp, optionally the columns containing the information of the sensor(s) used, the animal name(s) and the projection, as well as the whole \code{data.frame} of the imported data. If the argument "animal" is left empty or contains only the name of one animal the function will return a \code{\link[=Move-class]{Move}} object. If the data contains multiple animal names the function will return a \code{\link[=MoveStack-class]{MoveStack}} object.
 }
