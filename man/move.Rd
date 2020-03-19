@@ -4,6 +4,12 @@
 \alias{move,character,missing,missing,missing,missing-method}
 \alias{move,connection,missing,missing,missing,missing-method}
 \alias{move,ltraj,missing,missing,missing,missing-method}
+\alias{move,telemetry,missing,missing,missing,missing-method}
+\alias{move,list,missing,missing,missing,missing-method}
+\alias{move,track,missing,missing,missing,missing-method}
+\alias{move,binClstPath,missing,missing,missing,missing-method}
+\alias{move,binClstStck,missing,missing,missing,missing-method}
+\alias{move,data.frame,missing,missing,missing,missing-method}
 \alias{move,numeric,numeric,POSIXct,data.frame,character-method}
 \alias{move,numeric,numeric,POSIXct,data.frame,CRS-method}
 \alias{move,numeric,numeric,POSIXct,data.frame,missing-method}
@@ -16,13 +22,19 @@ Create a Move object
 }
 
 \description{
-This function creates \code{Move} or \code{MoveStack} object from a .csv file with location data downloaded from a Movebank study, from a zip file downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} (environmental annotation tool) of a Movebank study, from a \code{\link[adehabitatLT]{ltraj}} object or from own data. If you use your own data you need to set the projection method with the 'proj' argument and specify which columns of your data contain the coordinates and timestamps. 
+This function creates \code{Move} or \code{MoveStack} object from a .csv file with location data downloaded from a Movebank study, from a zip file downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} (environmental annotation tool) of a Movebank study, from a \code{\link[adehabitatLT]{ltraj}},\code{\link[ctmm:as.telemetry]{telemetry}}, \code{\link[bcpa:MakeTrack]{track}} or \code{\link[EMbC:binClstPath-class]{binClstPath}} object or from own data. If you use your own data you need to set the projection method with the 'proj' argument and specify which columns of your data contain the coordinates and timestamps. 
 }
 
 \usage{
 \S4method{move}{connection,missing,missing,missing,missing}(x, removeDuplicatedTimestamps=F, ...)
 
 \S4method{move}{ltraj,missing,missing,missing,missing}(x, y, time, data, proj,...)
+\S4method{move}{telemetry,missing,missing,missing,missing}(x, y, time, data, proj,...)
+\S4method{move}{list,missing,missing,missing,missing}(x, y, time, data, proj,...)
+\S4method{move}{track,missing,missing,missing,missing}(x, y, time, data, proj,...)
+\S4method{move}{binClstPath,missing,missing,missing,missing}(x, y, time, data, proj,...)
+\S4method{move}{binClstStck,missing,missing,missing,missing}(x, y, time, data, proj,...)
+\S4method{move}{data.frame,missing,missing,missing,missing}(x, y, time, data, proj,...)
 
 \S4method{move}{numeric,numeric,POSIXct,data.frame,CRS}(x, y, time, data, proj, sensor='unknown',animal='unnamed',...)
 
@@ -30,7 +42,11 @@ This function creates \code{Move} or \code{MoveStack} object from a .csv file wi
 
 \arguments{
 \item{x}{full path to the csv (or compressed) file location downloaded from a Movebank study, OR to the zip file location downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} tool in Movebank. \cr
-a \code{\link[adehabitatLT]{ltraj}} object from adehabitatLT.\cr
+a \code{\link[adehabitatLT]{ltraj}} object from the package adehabitatLT.\cr
+a \code{\link[ctmm:as.telemetry]{telemetry}} object or list of telemetry objects from the package ctmm.\cr
+a \code{\link[bcpa:MakeTrack]{track}} object from the package bcpa.\cr
+a \code{\link[EMbC:binClstPath-class]{binClstPath}} or a \code{\link[EMbC:binClstStck-class]{binClstStck}} object from the package EMbC.\cr
+a \code{data.frame} object downloaded from Movebank webpage or with \code{getMovebankLocationData}.\cr
 numeric vector with x coordinates if non-Movebank data are provided (e.g. \code{data$x}).}
 \item{y}{numeric vector with y coordinates if non-Movebank data are provided (e.g. \code{data$y}).}
 \item{time}{vector of time stamps with POSIXct conversion if non-Movebank data are provided, i.e. \code{as.POSIXct(data$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC")}}
@@ -38,7 +54,7 @@ numeric vector with x coordinates if non-Movebank data are provided (e.g. \code{
 \item{proj}{projection method for non-Movebank data; requires a valid CRS (see \code{\link{CRS-class}}) object, e.g. CRS("+proj=longlat +ellps=WGS84"); default is NA. Optional.}
 \item{sensor}{Sensor name(s), either single character or a vector with length of the number of coordinates. If multiple sensors are provided this has to be done as a vector with the same length as the number of coordinates. Optional.}
 \item{animal}{animal ID(s) or name(s), either single character or a vector with length of the number of coordinates. If multiple individuals are provided this has to be done as a vector with the same length as the number of coordinates. Optional.}
-\item{removeDuplicatedTimestamps}{logical; if TRUE duplicated timestamps values will be removed. Only available when reading in data from movebank via path to a .csv file. It is strongly advised not to use this option because there is no control over which records are removed. We recommend to manually edit the duplicated timestamps with \code{\link{getDuplicatedTimestamps}} or edit the records in Movebank.}
+\item{removeDuplicatedTimestamps}{logical; if TRUE duplicated timestamps values will be removed. Only available when reading in data from movebank via path to a .csv file.  Using this argument will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates. See 'Note'.}
 \item{...}{Additional arguments}  
 }
 
@@ -56,7 +72,7 @@ It is checked whether the imported data set (via file path) is in a Movebank for
 Because the \code{SpatialPointsDataFrame} function that creates the spatial data frame of the \code{Move} object can not process NA location values, all rows with NA locations are stored as unused records in the Move object. 
 
 \emph{Duplicated timestamps:}\cr
-If the data include double timestamps you can use the \code{\link{getDuplicatedTimestamps}} function to identify them and then decide which one to keep before creating the Move object. When you are importing data from movebank (via path to .csv or .zip file) you can also set the argument "\code{removeDuplicatedTimestamps=TRUE}", but this does no attempt to retain the most likely location.
+When you are importing data from movebank (via path to .csv or .zip file) you can also set the argument "\code{removeDuplicatedTimestamps=TRUE}", which allows you delete the duplicated timestamps in case your data set contains them. Using this argument will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates. In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function \link{getMovebankLocationData}, find the duplicates using e.g. \link{getDuplicatedTimestamps}, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function \link{move}. Another option is to edit the records in movebank and mark the appropriate records as outliers.
 
 \emph{Naming:}\cr
 Due to convention all names are turned into 'good names' which means, without spaces ('Ricky T' becomes 'Ricky.T'), if names are numbers a "X" will be prepended ('12345' becomes 'X12345') and most symbols will be replaced by "." ('Ricky-T' becomes 'Ricky.T').
@@ -69,6 +85,13 @@ If these marked outliers want to be included in the move object, read in the dat
 \emph{Multiple sensors:}\cr
 If a move/moveStack object contains multiple sensors, this object can be separated into a move/moveStack object per sensor type: \cr
 \code{ x[x@sensor=="z"]} where "x" is a Move or a MoveStack object, and "z" is the name of the sensor e.g. "GPS", "Radio Transmitter", etc.
+
+
+\emph{Telemetry object with error calibration:}\cr
+If the \code{telemetry} object (from ctmm) contains calibrated data, i.e. the GPS error has been calculated using the available tools in the ctmm package, the move object will contain an extra column in the data slot called \code{error.loc.mts} that will contain the error in meters for each location. This information can be used e.g. in the \code{location.error} argumet of the dynamic Brownian Bridge functions or the \code{locErr} argument of the Bivariate Gaussian Bridge functions.
+
+\emph{Providing a data.frame object:}\cr
+To read in a data.frame as a move/movestack object without specifying which arguments correspond to each argument, the data.frame is assumed to be downloaded from Movebank via the webpage or the \link{getMovebankLocationData} function. The function assumes a movebank format with the coordinates under the columns "location long" and "location lat" and projection lat/long; the timestamp under the column "timestamps" in the movebank format "\%Y-\%m-\%d \%H:\%M:\%S" and in timezone UTC; individual Id under the column "individual local identifier" and the sensor type under the column "sensor type". 
 }
 
 \value{returns an object of class '\code{\link[=Move-class]{move}}' or '\code{\link[=MoveStack-class]{moveStack}}'.

@@ -4,8 +4,6 @@ test_that('storedData',{
 	expect_true(validObject(leroy))
 	data(fishers)
 	expect_true(validObject(fishers))
-	data(ricky)
-	expect_true(validObject(ricky))
 	data(dbbmmstack)
 	expect_true(validObject(dbbmmstack))
 	data(leroydbbmm)

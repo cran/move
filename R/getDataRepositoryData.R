@@ -38,6 +38,7 @@ metaDataFromDoi <- function(x) {
   x<-sub("^10.5441/001/","doi:10.5441/001/",as.character(x))
   res1 <- HEAD(sub("^doi:", "dx.doi.org/", as.character(x)))
   u <- res1$url
+  message(u)
   GET(sub("handle", "metadata/handle", paste0(u, "/mets.xml")))
 }
 
@@ -56,6 +57,7 @@ setMethod(
           "//dim:field[@element='relation' and @qualifier='isreplacedby']"
         )
       ))
+
       if (length(replace) != 0) {
         warning("Data is replaced now returning: ", replace)
         return(getDataRepositoryData(replace))
@@ -69,6 +71,24 @@ setMethod(
       if (length(replace) != 0) {
         message("Data is part of other dataset now returning: ", replace)
         return(getDataRepositoryData(replace))
+      }
+      cont <- as.character(xml_contents(
+        xml_find_all(
+          content(metaData),
+          "//dim:field[@element='relation' and @qualifier='iscontinuedby']"
+        )
+      ))
+      if(length(cont)!=0){
+	      message('Note: This dataset is continued by DOI: ', cont, ' You might want to consider using this')
+      }
+      der <- as.character(xml_contents(
+        xml_find_all(
+          content(metaData),
+          "//dim:field[@element='relation' and @qualifier='isderivedfrom']"
+        )
+      ))
+      if(length(der)!=0){
+	      message('Note: This dataset is derived from or overlapping with DOI: ', der)
       }
       subfiles <-
         xml_contents(

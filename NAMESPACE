@@ -17,6 +17,7 @@ importFrom(stats, sd)
 importFrom(stats, var)
 importFrom(stats, optim)
 importFrom(stats, optimize)
+importFrom(stats, complete.cases)
 importFrom(utils, read.csv)
 importFrom(utils, unzip)
 importFrom(utils, capture.output)
@@ -29,8 +30,8 @@ importFrom(xml2,xml_find_all)
 importFrom(xml2,xml_contents)
 importFrom(xml2,xml_attr)
 importFrom(memoise,memoise)
-
 importFrom(Rcpp,sourceCpp) # to statify check
+
 exportClasses(
 	DBBMM,
 	DBBMMStack,
@@ -73,6 +74,7 @@ exportMethods(
 	getMovebankAnimals,
 	getMovebankData,
 	getMovebankID,
+	getMovebankLocationData,
 	getMovebankNonLocationData,
   getMovebankReferenceTable,
 	getMovebankSensors,

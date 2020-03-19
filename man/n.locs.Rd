@@ -8,7 +8,7 @@
 
 \title{Extract the number of locations of a Move or MoveStack object}
 
-\description{This function returns the number of locations of a track from a Move or MovesStack object.}
+\description{This function returns the number of locations of a track from a Move or MoveStack object.}
 
 \usage{
   \S4method{n.locs}{SpatialPointsDataFrame}(obj)

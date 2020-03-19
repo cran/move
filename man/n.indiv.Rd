@@ -8,7 +8,7 @@
 
 \title{Extract the number of individuals of a MoveStack}
 
-\description{This function returns the number of individuals from a MovesStack object.}
+\description{This function returns the number of individuals from a MoveStack object.}
 
 \usage{
   \S4method{n.indiv}{Move}(obj)

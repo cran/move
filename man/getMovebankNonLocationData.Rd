@@ -57,7 +57,7 @@ See the 'browseMovebank' vignette for more information about security and how to
 }
 
 \seealso{
-\link{movebankLogin}, \link{getMovebankData}
+\link{movebankLogin}, \link{getMovebankData}, \link{getMovebankLocationData}
 }
 \examples{
 \dontrun{

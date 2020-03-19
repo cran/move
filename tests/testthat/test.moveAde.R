@@ -1,8 +1,8 @@
 context('move ade')
 test_that('moveAde',
 {
-data(ricky)
-data<-ricky
+data(fishers)
+data<-fishers[['Ricky.T']]
 	dataSp<-spTransform(data, center=T)
 	dataLtraj<-as(dataSp, 'ltraj')
 	dataBack<-as(dataLtraj, 'Move')
@@ -28,5 +28,37 @@ data<-ricky
 	ma@trackId<-trackId(a)
 	levels(ma@trackIdUnUsedRecords)<-levels(trackId(unUsedRecords(a)))
 	expect_equal(a,ma)
+
+	data(leroy)
+	tlm <- ctmm::as.telemetry(leroy)
+	mc <- move(tlm)
+	mc <- spTransform(mc, projection(leroy))
+	expect_true(validObject(mc))
+	expect_equivalent(coordinates(leroy), coordinates(mc))
+	expect_equal(timestamps(leroy), timestamps(mc))
+	
+	# atk <- amt::track(x=coordinates(leroy)[,1],y=coordinates(leroy)[,2], t=timestamps(leroy))
+	# ma <- move(atk)
+	# expect_true(validObject(ma))
+	# expect_equivalent(coordinates(leroy), coordinates(ma))
+	# expect_equal(timestamps(leroy), timestamps(ma))
+	
+	tk <- bcpa::MakeTrack(X=coordinates(leroy)[,1],Y=coordinates(leroy)[,2], Time=timestamps(leroy))
+	mb <- move(tk)
+	expect_true(validObject(mb))
+	expect_equivalent(coordinates(leroy), coordinates(mb))
+	expect_equal(timestamps(leroy), timestamps(mb))
+	
+	bcp <- EMbC::stbc(leroy)
+	me <- move(bcp)
+	expect_true(validObject(me))
+	expect_equivalent(coordinates(leroy), coordinates(me))
+	## expect_equal(timestamps(leroy), timestamps(me)) ## embc transforms tz into local
+	
+	df <- as.data.frame(leroy)
+	mdf <- move(df)
+	expect_true(validObject(mdf))
+	expect_equivalent(coordinates(leroy), coordinates(mdf))
+	expect_equal(timestamps(leroy), timestamps(mdf))
 }
 )

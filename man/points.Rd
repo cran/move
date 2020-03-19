@@ -20,7 +20,7 @@
 \arguments{
 	\item{x}{a \code{\link[=Move-class]{move}}, \code{\link[=MoveStack-class]{moveStack}}, \code{\link[=MoveBurst-class]{moveBurst}}, \code{\link[=dBMvariance-class]{dBMvariance}}, \code{\link[=dBMvariance-class]{dBMvarianceStack}}, \code{\link[=dBMvariance-class]{dBMvarianceBurst}} or \code{\link[=dBGBvariance-class]{dBGBvariance}} object.}
 	\item{col}{a vector of colors of the same length as the number of individual for a moveStack, or number of burst levels for a moveBurst object. If left empty the default 8 colors from R are used, which will be recycled if the object contains more individuals or burst levels (run \code{palette()} to obtain vector of default colors)}
-	\item{...}{arguments to be passed on, e.g. \code{col} for color, or \code{add} to add the points to a plot.}
+	\item{...}{arguments to be passed on, e.g. \code{col} for color, or \code{add} to add the points to a plot. See \code{?par} for options.}
 }
 
 \author{Marco Smolla & Anne Scharf}

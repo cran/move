@@ -6,9 +6,9 @@
 
 \docType{methods}
 
-\title{Modify a UD raster}
+\title{Utilization distribution (UD)}
 
-\description{Modifies the UD raster: that the cell values of the resulting raster are equal to the percentage of the smallest home range containing this cell.}
+\description{The UD represents the minimum area in which an animal has some specified probability of being located.}
 
 \usage{
   \S4method{getVolumeUD}{.UD}(x, ...)
@@ -31,7 +31,7 @@ If several objects are provided, a list of rasters is returned
 \author{Marco Smolla & Anne Scharf}
 
 \seealso{
-\code{\link{raster2contour}}
+\link{raster2contour}, \link{contour}, \link{UDStack}
 }
 
 \examples{

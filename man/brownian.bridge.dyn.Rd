@@ -30,8 +30,8 @@ brownian.bridge.dyn(object, raster=1, dimSize=10, location.error,
   \item{raster}{a \code{RasterLayer} object or a numeric value. If a \code{RasterLayer} is provided the \code{brownian.bridge.dyn} starts to calculate the UD based on that raster. If a numeric value is provided it is interpreted as the resolution of the square raster cells (in map units); the according raster will be calculated internally.}
   \item{dimSize}{numeric. dimSize is only used if \code{raster} is not set. \code{dimSize} is interpreted as the number of cells along the largest dimension of the track. The according raster will be calculated internally.}
   \item{location.error}{single numeric value or vector of the length of coordinates that describes the error of the location (sender/receiver) system in map units. Or a character string with the name of the column containing the location error can be provided.}
-  \item{margin}{The margin used for the behavioral change point analysis.}
-  \item{window.size}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior.}
+  \item{margin}{The margin used for the behavioral change point analysis. This number has to be odd.}
+  \item{window.size}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior. This number has to be odd.}
   \item{ext}{Describes the amount of extension of the bounding box around the animal track. It can be numeric (same extension into all four directions), vector of two (first x, then y directional extension) or vector of four  (xmin, xmax, ymin, ymax extension). Default is .3 (extends the bounding box by 30\%). Only considered in combination with a numeric raster argument or the dimSize argument.}
   \item{bbox}{vector with 4 numbers defining a bounding box for the raster. Only considered in combination with a numeric raster argument or the dimSize argument.}
   \item{...}{Additional arguments: 
@@ -98,9 +98,9 @@ dbbmm <- brownian.bridge.dyn(object=data2, location.error=12, dimSize=125, ext=.
 plot(dbbmm)
 
 \dontshow{
-data(ricky)
+data(fishers)
   leroy <- leroy[1:50]
-  ricky <- ricky[1:50]
+  ricky <- move(system.file("extdata","ricky.csv.gz", package="move"))[1:50]
   stack <- moveStack(list(leroy,ricky))
   t <- brownian.bridge.dyn(spTransform(stack, center=TRUE), location.error=23.5, dimSize=1125, 
 			   time.step=6, ext=1.2)

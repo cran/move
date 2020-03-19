@@ -9,7 +9,7 @@ An overview of the functions in this package
 }
 
 \description{
-move is a package that contains functions to access movement data stored at \url{https://www.movebank.org} as well as tools to visualize and statistically analyse animal movement data. Move addresses ecological questions regarding movement.
+move is a package that contains functions to access movement data stored on \href{https://www.movebank.org}{Movebank} as well as tools to visualize and statistically analyse animal movement data. Move addresses ecological questions regarding movement.
 }
 
 \details{
@@ -35,20 +35,24 @@ Move objects can be created from files with the function:
 
 \section{II. Calculation of the utilization distribution}{
 
-With the function below the dynamic Brownian Bridge Movement Model calculates the utilization density from a Move object:
+The dynamic Brownian Bridge Movement Model calculates the occurrences distribution of a given track
   \tabular{ll}{
-    \code{brownian.bridge.dyn}\tab To calculate the utilization density\cr
+    \code{brownian.bridge.dyn}\tab To calculate the occurrences distribution\cr
+    \code{getVolumeUD}\tab To calculate the Utilization distribution (UD)\cr
   }
 }
 
 \section{III. Accessing values}{
 
   \tabular{ll}{
-    \code{coordinates}\tab Track-coordinates of the Move Object\cr
-    \code{as.data.frame}\tab A data.frame with the important data of the Move Object\cr
-    \code{n.locs}\tab The number of locations\cr
-    \code{timeLag}\tab The time lags between the locations\cr
-    \code{projection}\tab The projection method of the track/raster\cr
+    \code{bbox}\tab Bounding box of a Move* object\cr
+    \code{coordinates}\tab Track-coordinates of a Move* object\cr
+    \code{extent}\tab Extent of a Move* object\cr
+    \code{namesIndiv}\tab Names of a Move* object\cr
+    \code{n.locs}\tab The number of locations a Move* object\cr
+    \code{projection}\tab The projection method of a Move* object or raster\cr
+    \code{timeLag}\tab The time lags between the locations of a Move* object\cr
+    \code{timestamps}\tab Track-timestamps of a Move* object\cr
     }
 }
 
@@ -63,8 +67,8 @@ The track or the utilization distribution can be plotted with the following func
 }
 
 \author{
-Bart Kranstauber, Marco Smolla \cr \cr
-Maintainer: Bart Kranstauber, Marco Smolla
+Bart Kranstauber, Marco Smolla, Anne Scharf \cr \cr
+Maintainer: Bart Kranstauber, Marco Smolla, Anne Scharf
 }
 
 \references{

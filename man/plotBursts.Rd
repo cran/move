@@ -9,7 +9,7 @@
 \title{Plotting the centroids of a bursted track}
 
 \description{
-  The \code{plotBursts} function plots bursted Move objects (see link{burst} for how to create a bursted Move Object). For every single burst a circle is plotted at the center of every segment of a track. A segment represents consecutive coordinates that belong to a single burst. The properties of the plotted circles (size and color) can represent different information (see 'Details').
+  The \code{plotBursts} function plots bursted Move objects (see \link{burst} for how to create a bursted Move object). The function plots a circle at the midpoint of each burst segment (consecutive coordinates that belong to a single burst).
   }
 
 \usage{
@@ -32,7 +32,7 @@
 }
 
 \details{
-\code{sizeFUN}. Circle colors correspond to burstIDs. The size of the circles is defined by a function. By default this function calculates the relative duration of a segment compared to the whole duration. The function can be adjusted to use a different measure using the \code{sizeFUN} argument.
+\emph{\code{sizeFUN}}\cr The color of the circles correspond to the burstIDs. The size of the cycles can have different meanings, depending on what function is defined. By default the size refers to the relative time of the burst segment compared to the whole track. This argument accepts any personalized function.
 }
 
 \note{

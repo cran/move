@@ -1,3 +1,8 @@
+Version 3.3.0
+  * Updated and completed both vignettes
+  * move function now accepts movement objects from the libraries ctmm, bcpa, EMbC and a data.frame object
+  * Added getMovebankLocationData function to download location data as a data.frame from Movebank
+
 Version 3.2.0
   * Use updated movebank api for downloading data, now depend on visible column. This might lead to small changes in the downloaded dataset if specific outlier combinations are used. 
   * Added getMovebankReferenceTable function to download reference data from movebank study.

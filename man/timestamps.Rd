@@ -26,7 +26,7 @@
 
 \value{
 vector of class \code{POSIXct}. \cr
-Note that for moveStacks a single string is returned without spliting by individual (see 'Examples').
+Note that for moveStacks a single string is returned without splitting by individual (see 'Examples').
 }
 
 \author{Marco Smolla & Anne Scharf}

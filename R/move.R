@@ -106,7 +106,7 @@ uniquePerID[c('location.long','location.lat')]<-F
 		    factor(individual.local.identifier[!unUsed])
 		  if (removeDuplicatedTimestamps) {
 		    message(
-		      "removeDupilcatedTimestamps was set to true we strongly suggest against it and that the problem is solved before because there is no systematic to which locations are removed. This can for example be done by marking them outlier in movebank."
+		      "removeDupilcatedTimestamps was set to TRUE, this will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates"
 		    )
 		    dupsDf <-
 		      (data.frame(format(timestamps(track), "%Y %m %d %H %M %OS4"), track@sensor))
@@ -239,6 +239,9 @@ setMethod(f="move",
 		  }
 	  }
 	  )
+
+## convert other classes to move objects
+
 setMethod(
   f = "move",
   signature = c(
@@ -252,3 +255,47 @@ setMethod(
     }
   }
 )
+
+
+setMethod(f = "move", 
+          signature = c(x = "telemetry",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"Move"))
+          })
+
+setMethod(f = "move", 
+          signature = c(x = "list",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"MoveStack"))
+          })
+
+# setMethod(f = "move", 
+#           signature = c(x = "track_xyt",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+#           definition = function(x, ...) {
+#             return(as(x,"Move"))
+#           })
+
+setMethod(f = "move", 
+          signature = c(x = "track",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"Move"))
+          })
+
+setMethod(f = "move", 
+          signature = c(x = "binClstPath",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"Move"))
+          })
+
+setMethod(f = "move", 
+          signature = c(x = "binClstStck",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"MoveStack"))
+          })
+
+setMethod(f = "move", 
+          signature = c(x = "data.frame",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"Move"))
+          })
+

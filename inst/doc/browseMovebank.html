@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Marco Smolla, Bart Kranstauber &amp; Anne Scharf" />
+
+<meta name="date" content="2020-03-19" />
+
+<title>Browsing Movebank within R</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Browsing Movebank within R</h1>
+<h4 class="author">Marco Smolla, Bart Kranstauber &amp; Anne Scharf</h4>
+<h4 class="date">2020-03-19</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">0.1</span> Introduction</a></li>
+<li><a href="#login-to-movebank"><span class="toc-section-number">1</span> Login to Movebank</a></li>
+<li><a href="#search-for-a-study-name-and-movebankid"><span class="toc-section-number">2</span> Search for a study name and MovebankID</a><ul>
+<li><a href="#search-for-a-study-name-with-keywords"><span class="toc-section-number">2.1</span> Search for a study name with keywords</a></li>
+<li><a href="#get-the-movebank-id-of-a-study"><span class="toc-section-number">2.2</span> Get the Movebank ID of a study</a></li>
+</ul></li>
+<li><a href="#get-information-about-the-study-tags-animals-and-deployments"><span class="toc-section-number">3</span> Get information about the study, tags, animals and deployments</a><ul>
+<li><a href="#get-general-information-of-a-study"><span class="toc-section-number">3.1</span> Get general information of a study</a></li>
+<li><a href="#get-information-about-sensors"><span class="toc-section-number">3.2</span> Get information about sensors</a></li>
+<li><a href="#get-information-about-the-animals-of-a-study"><span class="toc-section-number">3.3</span> Get information about the animals of a study</a></li>
+<li><a href="#get-all-reference-data-of-a-study"><span class="toc-section-number">3.4</span> Get all reference data of a study</a></li>
+</ul></li>
+<li><a href="#download-the-location-data-of-a-study-as-a-movemovestack-object"><span class="toc-section-number">4</span> Download the location data of a study as a ‘move/moveStack’ object</a><ul>
+<li><a href="#download-location-data-of-a-study"><span class="toc-section-number">4.1</span> Download location data of a study</a></li>
+<li><a href="#download-location-data-for-selected-individuals-of-a-study"><span class="toc-section-number">4.2</span> Download location data for selected individuals of a study</a></li>
+<li><a href="#download-location-data-for-a-selected-time-range"><span class="toc-section-number">4.3</span> Download location data for a selected time range</a></li>
+<li><a href="#dealing-with-duplicated-timestamps"><span class="toc-section-number">4.4</span> Dealing with duplicated timestamps</a></li>
+</ul></li>
+<li><a href="#download-location-data-of-a-study-as-a-data.frame"><span class="toc-section-number">5</span> Download location data of a study as a ‘data.frame’</a><ul>
+<li><a href="#download-location-data-of-a-study-1"><span class="toc-section-number">5.1</span> Download location data of a study</a></li>
+<li><a href="#download-location-data-for-a-selected-time-range-1"><span class="toc-section-number">5.2</span> Download location data for a selected time range</a></li>
+<li><a href="#download-location-data-including-locations-marked-as-outliers-in-movebank"><span class="toc-section-number">5.3</span> Download location data including locations marked as outliers in Movebank</a></li>
+</ul></li>
+<li><a href="#download-non-location-data-of-a-study-as-a-data.frame"><span class="toc-section-number">6</span> Download non-location data of a study as a ‘data.frame’</a><ul>
+<li><a href="#download-non-location-data-of-a-study"><span class="toc-section-number">6.1</span> Download non-location data of a study</a></li>
+<li><a href="#download-non-location-data-for-a-selected-time-range"><span class="toc-section-number">6.2</span> Download non-location data for a selected time range</a></li>
+<li><a href="#download-non-location-data-with-the-getmovebankdata-function"><span class="toc-section-number">6.3</span> Download non-location data with the ‘getMovebankData’ function</a></li>
+</ul></li>
+<li><a href="#download-data-from-the-movebank-data-repository-as-a-movemovestack-object"><span class="toc-section-number">7</span> Download data from the Movebank Data Repository as a ‘move/moveStack’ object</a></li>
+</ul>
+</div>
+
+<p></br></p>
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">0.1</span> Introduction</h2>
+<p>Movebank (www.movebank.org) is a free online database of animal tracking data, where data owners can manage their data and have the option to share it with colleagues or the public. If the public or a registered user has permission to see a study, the study can be downloaded as a .csv file and imported directly into R (see “An introduction to the ‘move’ package” vignette for details). Those with Movebank accounts can also log in, browse and download data they have access to directly within the <code>Move</code> package.<br />
+This vignette gives examples of how to login, search for studies, get sensor, animal and study IDs, download location data and non-location data, and access data from the Movebank Data Repository. All results will be based on the studies for which your account has permission to view or download. Movebank users retain ownership of their data and choose whether and with whom to share it.<br />
+To get more details of the options of a specific function, see the functions help file.</p>
+<p>A possible workflow could look like this:</p>
+<ul>
+<li><p>First you always have to create an object containing your credentials of your <a href="https://www.movebank.org/">Movebank</a> account in order to use the functions listed in this manual (except for Section 6.):<br />
+<strong>1. Login to Movebank</strong></p></li>
+<li><p>Then you can search for studies or get information about studies, animals, tags, etc.:<br />
+<strong>2. Search for a study name and MovebankID</strong><br />
+<strong>3. Get information about the study, tags, animals and deployments</strong></p></li>
+<li><p>Once you know the study name and the kind of data you want to download you can:<br />
+<strong>4. Download the location data of a study as a <code>move</code>/<code>moveStack</code> object</strong><br />
+<strong>5. Download the location data of a study as a <code>data.frame</code></strong><br />
+<strong>6. Download the non-location data of a study as a <code>data.frame</code></strong></p></li>
+<li><p>To download data published in the Movebank Data Repository you do not need to have an account on Movebank:<br />
+<strong>7. Download data from the Movebank Data Repository as a <code>move</code>/<code>moveStack</code> object </strong></p></li>
+</ul>
+<p></br></p>
+</div>
+<div id="login-to-movebank" class="section level1">
+<h1><span class="header-section-number">1</span> Login to Movebank</h1>
+<p>There are two ways to login. Either you login every time you use the functions that are presented in this vignette, or you use the <code>movebankLogin()</code> function to login to Movebank and create an object that stores your login information. You can pass this object on to every function you use to skip the login process. Use the username and password which you use to login on <a href="https://www.movebank.org">Movebank.</a> Note that the password is stored in this object meaning that if you store the session or objects, these are stored in plain text. If you want to hide the password while typing it might be worth to have a look at the package: “getPass”.</p>
+<p>If you do not have a Movebank account, you can register at <a href="https://www.movebank.org" class="uri">https://www.movebank.org</a> or download csv files of publicly available studies directly from Movebank and read them into the Move package as described in the help file of the <code>move()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;move&quot;</span>)
+loginStored &lt;-<span class="st"> </span><span class="kw">movebankLogin</span>(<span class="dt">username=</span><span class="st">&quot;user&quot;</span>, <span class="dt">password=</span><span class="st">&quot;password&quot;</span>)</code></pre></div>
+<p></br></p>
+</div>
+<div id="search-for-a-study-name-and-movebankid" class="section level1">
+<h1><span class="header-section-number">2</span> Search for a study name and MovebankID</h1>
+<div id="search-for-a-study-name-with-keywords" class="section level2">
+<h2><span class="header-section-number">2.1</span> Search for a study name with keywords</h2>
+<p>You can use the <code>searchMovebankStudies()</code> function to search within the study names for a specific study. For example, if you want to find all studies that worked with goose try the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">searchMovebankStudies</span>(<span class="dt">x=</span><span class="st">&quot;oose&quot;</span>, <span class="dt">login=</span>loginStored)</code></pre></div>
+<p>You may rather use the search term without the first letter, e.g. ‘oose’ instead of ‘Goose’ or ‘goose’, to find studies with both ways of writing.</p>
+</p>
+</div>
+<div id="get-the-movebank-id-of-a-study" class="section level2">
+<h2><span class="header-section-number">2.2</span> Get the Movebank ID of a study</h2>
+<p>All of the functions presented here can work with the study’s Movebank ID or the study name to find information within the database. Note that study names can be changed by the user, while the Movebank ID is created by the database and will always remain the same. If you want to work with the short Movebank ID instead of the longer study name, use <code>getMovebankID()</code>. This number can also be found on the ‘Study Details’ page of the study on Movebank.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankID</span>(<span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</code></pre></div>
+<p></br></p>
+</div>
+</div>
+<div id="get-information-about-the-study-tags-animals-and-deployments" class="section level1">
+<h1><span class="header-section-number">3</span> Get information about the study, tags, animals and deployments</h1>
+<div id="get-general-information-of-a-study" class="section level2">
+<h2><span class="header-section-number">3.1</span> Get general information of a study</h2>
+<p>You found a study you are interested in, let’s say ‘BCI Ocelot’. To get more information about this study, e.g. the authors of the study, license type, citation and more, use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankStudy</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</code></pre></div>
+</p>
+</div>
+<div id="get-information-about-sensors" class="section level2">
+<h2><span class="header-section-number">3.2</span> Get information about sensors</h2>
+<p>If you want to know which sensor types were used for each tag in this study you can use</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankSensors</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</code></pre></div>
+<p>To see all available sensor types on Movebank, use the same function leaving the <code>study</code> argument empty.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankSensors</span>(<span class="dt">login=</span>loginStored)</code></pre></div>
+<p>To get a list of the attributes that are available for the sensors of a particular study, use</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankSensorsAttributes</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</code></pre></div>
+</p>
+</div>
+<div id="get-information-about-the-animals-of-a-study" class="section level2">
+<h2><span class="header-section-number">3.3</span> Get information about the animals of a study</h2>
+<p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download data from a study on Movebank in R, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per study</strong>.</em></p>
+<p>A list of the animals names, their tag ids, sensors used and more information about to each individual is returned with this command</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankAnimals</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</code></pre></div>
+<p>Notice that some information about animals are stored as deployment-level information, for example animal-life-stage, which might vary across multiple deployments for the same individual.</p>
+</p>
+</div>
+<div id="get-all-reference-data-of-a-study" class="section level2">
+<h2><span class="header-section-number">3.4</span> Get all reference data of a study</h2>
+<p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download data from a study on Movebank in R, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per study</strong>.</em></p>
+<p>Get a table with all information associated to the animals, tags and deployments. This table is equivalent to the table obtained on the Movebank webpage trough the option ‘Download Reference Data’ of the study.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankReferenceTable</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</code></pre></div>
+<p></br></p>
+</div>
+</div>
+<div id="download-the-location-data-of-a-study-as-a-movemovestack-object" class="section level1">
+<h1><span class="header-section-number">4</span> Download the location data of a study as a ‘move/moveStack’ object</h1>
+<p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download data from a study on Movebank in R, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per study</strong>.</em></p>
+<div id="download-location-data-of-a-study" class="section level2">
+<h2><span class="header-section-number">4.1</span> Download location data of a study</h2>
+<p>An entire study can be downloaded:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored)</code></pre></div>
+</p>
+</div>
+<div id="download-location-data-for-selected-individuals-of-a-study" class="section level2">
+<h2><span class="header-section-number">4.2</span> Download location data for selected individuals of a study</h2>
+<p>Or you can specify to download data for one or several individuals:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for one individual</span>
+bobby &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">animalName=</span><span class="st">&quot;Bobby&quot;</span>, <span class="dt">login=</span>loginStored)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for several individuals</span>
+ocelot2ind &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">animalName=</span><span class="kw">c</span>(<span class="st">&quot;Bobby&quot;</span>,<span class="st">&quot;Darlen&quot;</span>), <span class="dt">login=</span>loginStored)</code></pre></div>
+</p>
+</div>
+<div id="download-location-data-for-a-selected-time-range" class="section level2">
+<h2><span class="header-section-number">4.3</span> Download location data for a selected time range</h2>
+<p>You can also limit your download to a given time range. The timestamp has to be in format ‘yyyyMMddHHmmssSSS’ or as a POSIXct, then it is converted to the character using the UTC timezone:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download all data between &quot;2003-03-22 17:44:00.000&quot; and &quot;2003-04-22 17:44:00.000&quot;</span>
+bci_ocelot_range1 &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored,
+                                     <span class="dt">timestamp_start=</span><span class="st">&quot;20030322174400000&quot;</span>,
+                                     <span class="dt">timestamp_end=</span><span class="st">&quot;20030422174400000&quot;</span>)
+
+<span class="co"># alternative:</span>
+t &lt;-<span class="st"> </span><span class="kw">strptime</span>(<span class="st">&quot;20030322174400&quot;</span>,<span class="dt">format=</span><span class="st">&quot;%Y%m%d%H%M%S&quot;</span>, <span class="dt">tz=</span><span class="st">'UTC'</span>)
+bci_ocelot_ranget &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>login,
+                                     <span class="dt">timestamp_start=</span>t,
+                                     <span class="dt">timestamp_end=</span>t<span class="op">+</span><span class="kw">as.difftime</span>(<span class="dv">31</span>,<span class="dt">units=</span><span class="st">'days'</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download all data before &quot;2003-07-24 20:00:00.000&quot;</span>
+bci_ocelot_range2 &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored, 
+                                     <span class="dt">timestamp_end=</span><span class="st">&quot;20030724200000000&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download all data after &quot;2003-07-01 20:00:00.000&quot; only for &quot;Bobby&quot;</span>
+bobby_range &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored, <span class="dt">animalName=</span><span class="st">&quot;Bobby&quot;</span>,
+                               <span class="dt">timestamp_start=</span><span class="st">&quot;20030701200000000&quot;</span>)</code></pre></div>
+</p>
+</div>
+<div id="dealing-with-duplicated-timestamps" class="section level2">
+<h2><span class="header-section-number">4.4</span> Dealing with duplicated timestamps</h2>
+<p>In case the study contains duplicated timestamps, you can set the argument <code>removeDuplicatedTimestamps=TRUE</code>. This will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored, 
+                              <span class="dt">removeDuplicatedTimestamps=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>Duplicated timestamps can occur for many different reasons. In some cases, one duplicate record might contain more complete information or a better location estimate than the other(s). In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function <code>getMovebankLocationData()</code>, find the duplicates using e.g. <code>getDuplicatedTimestamps()</code>, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function <code>move()</code>. These flagged duplicated records can be also marked as outliers in Movebank, by <a href="https://www.movebank.org/node/2874">adding an attribute</a> like e.g. “manually_marked_outlier” to the study. Another option is to edit the records in Movebank and mark the appropriate records as outliers. </br></p>
+</div>
+</div>
+<div id="download-location-data-of-a-study-as-a-data.frame" class="section level1">
+<h1><span class="header-section-number">5</span> Download location data of a study as a ‘data.frame’</h1>
+<p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download with R the data of a study on Movebank, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per data set</strong>.</em></p>
+<p>To download the location data from a study you can use the <code>getMovebankLocationData()</code> function. It returns a <code>data.frame</code>. Data from different sensors can be downloaded by specifying the sensor name in the <code>sensorID</code> argument. The valid names for the <code>sensorID</code> argument are those of the column ‘name’ or ‘id’ of the table returned by <code>(getMovebankSensors(login=loginloginStored)</code>. Location sensors (e.g. GPS, Radio Transmitter,…) are those marked as ‘true’ in the ‘is_location_sensor’ column of this table.</p>
+</p>
+<div id="download-location-data-of-a-study-1" class="section level2">
+<h2><span class="header-section-number">5.1</span> Download location data of a study</h2>
+<p>Download location data for a specific individual for a specific sensor. A vector of several sensors can be stated in the argument <code>sensorID</code> and/or of several individuals in the argument <code>animalName</code>. If the <code>animalName</code> argument is left empty, the data of all individuals is downloaded. If the <code>sensorID</code> argument is left empty, the data of all available location sensors of the study is downloaded:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="st">&quot;GPS&quot;</span>, 
+                           <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>, <span class="dt">login=</span>loginStored)</code></pre></div>
+</p>
+</div>
+<div id="download-location-data-for-a-selected-time-range-1" class="section level2">
+<h2><span class="header-section-number">5.2</span> Download location data for a selected time range</h2>
+<p>Location data can be also downloaded for a specific time range (See Section 4.3. for more details):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get acceleration data for all individuals of the study between the &quot;2013-08-15 15:00:00.000&quot; and &quot;2013-08-15 15:01:00.000&quot;</span>
+<span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="dv">653</span>, <span class="dt">login=</span>loginStored, 
+                           <span class="dt">timestamp_start=</span><span class="st">&quot;20130815150000000&quot;</span>,
+                           <span class="dt">timestamp_end=</span><span class="st">&quot;20130815150100000&quot;</span>)</code></pre></div>
+</div>
+<div id="download-location-data-including-locations-marked-as-outliers-in-movebank" class="section level2">
+<h2><span class="header-section-number">5.3</span> Download location data including locations marked as outliers in Movebank</h2>
+<p>There is also the option to include the locations marked as outliers in Movebank by setting the argument <code>includeOutliers=TRUE</code>. This is based on the column <code>visible</code> of the data. </br></p>
+</div>
+</div>
+<div id="download-non-location-data-of-a-study-as-a-data.frame" class="section level1">
+<h1><span class="header-section-number">6</span> Download non-location data of a study as a ‘data.frame’</h1>
+<p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download with R the data of a study on Movebank, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per data set</strong>.</em></p>
+<p>To download the non-location data from a study you can use the <code>getMovebankNonLocationData()</code> function. It returns a <code>data.frame</code>. Data from different sensors can be downloaded by specifying the sensor name in the <code>sensorID</code> argument. The valid names for the <code>sensorID</code> argument are those of the column ‘name’ or ‘id’ of the table returned by <code>(getMovebankSensors(login=loginloginStored)</code>. Non-location sensors (e.g. Acceleration, Magnetometer,…) are those marked as ‘false’ in the ‘is_location_sensor’ column of this table.</p>
+</p>
+<div id="download-non-location-data-of-a-study" class="section level2">
+<h2><span class="header-section-number">6.1</span> Download non-location data of a study</h2>
+<p>Download non location data for a specific individual for a specific sensor. A vector of several sensors can be stated in the argument <code>sensorID</code> and/or of several individuals in the argument <code>animalName</code>. If the <code>animalName</code> argument is left empty, the data of all individuals is downloaded. If the <code>sensorID</code> argument is left empty, the data of all available non location sensors of the study is downloaded:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="st">&quot;Acceleration&quot;</span>, 
+                           <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>, <span class="dt">login=</span>loginStored)</code></pre></div>
+</p>
+</div>
+<div id="download-non-location-data-for-a-selected-time-range" class="section level2">
+<h2><span class="header-section-number">6.2</span> Download non-location data for a selected time range</h2>
+<p>Non location data can be also downloaded for a specific time range (See Section 4.3. for more details):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get acceleration data for all individuals of the study between the &quot;2013-08-15 15:00:00.000&quot; and &quot;2013-08-15 15:01:00.000&quot;</span>
+<span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="dv">2365683</span>, <span class="dt">login=</span>loginStored, 
+                           <span class="dt">timestamp_start=</span><span class="st">&quot;20130815150000000&quot;</span>,
+                           <span class="dt">timestamp_end=</span><span class="st">&quot;20130815150100000&quot;</span>)</code></pre></div>
+</p>
+</div>
+<div id="download-non-location-data-with-the-getmovebankdata-function" class="section level2">
+<h2><span class="header-section-number">6.3</span> Download non-location data with the ‘getMovebankData’ function</h2>
+<p>There is also the option to download non-location data with the <code>getMovebankData()</code> function. With the argument <code>includeExtraSensors=TRUE</code> data of all non-location sensors available for that study will be downloaded and stored in the <code>unusedRecords</code> slot. With this option it is not possible to select specific sensors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mymove &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">login=</span>loginStored, 
+                          <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>,<span class="dt">includeExtraSensors=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## to get a data.frame containing the data for the non-location sensors use the &quot;unUsedRecords&quot; function
+nonlocation &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">unUsedRecords</span>(mymove))</code></pre></div>
+<p></br></p>
+</div>
+</div>
+<div id="download-data-from-the-movebank-data-repository-as-a-movemovestack-object" class="section level1">
+<h1><span class="header-section-number">7</span> Download data from the Movebank Data Repository as a ‘move/moveStack’ object</h1>
+<p>This function downloads data from the <a href="https://www.movebank.org/node/15294">‘Movebank Data Repository’</a>. It returns a <code>move</code> object (if only one individual is included) or a <code>moveStack</code> (if several individuals are included). If data of non-location sensors are included in the data set, these will be stored in the <code>unUsedRecords</code> slot of the move object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getDataRepositoryData</span>(<span class="st">&quot;doi:10.5441/001/1.2k536j54&quot;</span>)</code></pre></div>
+<p>Visit the dataset’s repository page by preceding the DOI with <a href="https://dx.doi.org/" class="uri">https://dx.doi.org/</a>&lt;<span class="math inline">\(doi\)</span>&gt;, for example <a href="https://dx.doi.org/10.5441/001/1.2k536j54" class="uri">https://dx.doi.org/10.5441/001/1.2k536j54</a>. From here you can view citations and download a README that might contain additional details needed to properly understand and reference the data. If analyzing these published datasets, always consult the related papers and cite the paper and dataset. If preparing analysis for publication, also contact the data owner if possible for their contribution.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

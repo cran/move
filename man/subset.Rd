@@ -33,7 +33,8 @@
 }
 
 \details{
-	The double square bracket method is used for sub setting a moveStack to a single move object according to the individual name or return a stack of multiple individuals. 
+The single square bracket method is used to select coordinates from a Move* object.
+The double square bracket method is used for sub setting a moveStack to a single move object according to the individual name or return a stack of multiple individuals. 
 }
 
 \value{same object class as the input containing the selected locations or individuals}

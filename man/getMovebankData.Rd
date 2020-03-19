@@ -11,9 +11,9 @@
 
 \docType{methods}
 
-\title{Download data from Movebank}
+\title{Download data from Movebank as a Move object}
 
-\description{This function downloads the location data and timestamp of a study stored in Movebank}
+\description{This function downloads the location data and timestamp of a study stored in Movebank as a move/moveStack object}
 
 \usage{
 \S4method{getMovebankData}{numeric,character,MovebankLogin}(study, animalName, login, ...)
@@ -62,7 +62,7 @@ When \code{deploymentAsIndividuals=TRUE} than the idData slot contains the infor
 See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 
 \code{removeDuplicatedTimestamps:}\cr
-It is possible to set \code{removeDuplicatedTimestamps=TRUE} which allows you delete the duplicated timestamps in case your data set contains them. It is strongly advised not to use this option because there is no control over which records are removed. It's better to edit the records in movebank and mark the appropriate records as outliers. Another option is to download the data as a .csv file from Movebank, use the \code{\link{getDuplicatedTimestamps}} function to identify the duplicate timestamps, decide which one to keep and than create a move/moveStack object with the function \link{move}.
+It is possible to set \code{removeDuplicatedTimestamps=TRUE} which allows you delete the duplicated timestamps in case your data set contains them. Using this argument will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates. In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function \link{getMovebankLocationData}, find the duplicates using e.g. \link{getDuplicatedTimestamps}, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function \link{move}. Another option is to edit the records in movebank and mark the appropriate records as outliers.
 
 \emph{includeOutliers:}\cr
 In Movebank outliers can be \href{https://www.movebank.org/node/42#mark_outliers}{marked manually} or using \href{https://www.movebank.org/node/33529}{filters}, including a duplicate filter that flags duplicate records based on user-selected attributes, retaining the first record of each duplicate set that was imported to the study. When \code{includeOutliers=FALSE} (default) these records are automatically placed in the UnusedRecords slots. If \code{includeOutliers=TRUE} these records are included along all other locations. This option can be useful if the user wants to e.g. implement their own filter/algorithm to identify outliers. Entries that contain NAs in the coordinate columns will always be included in the UnusedRecords slots.
@@ -79,7 +79,7 @@ Object of class '\link[=Move-class]{Move}' or '\link[=MoveStack-class]{MoveStack
 
 \author{Marco Smolla & Anne Scharf}
 
-\seealso{\link{movebankLogin}, \link{getMovebankNonLocationData}}
+\seealso{\link{movebankLogin},\link{getMovebankLocationData}, \link{getMovebankNonLocationData}}
 
 \examples{
 \dontrun{

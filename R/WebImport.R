@@ -424,8 +424,7 @@ setMethod(
     ## add users provided tag ID
     tagID <- getMovebank("tag", login, study_id=study)[,c("id", "local_identifier")]
     colnames(tagID) <- c("tag_id","tag_local_identifier")
-    TagNames <- merge.data.frame(trackDF[c("tag_id","timestamp")],tagID,by="tag_id", all.x=T)
-    trackDF$tag_local_identifier <- TagNames$tag_local_identifier
+    trackDF <- merge.data.frame(trackDF,tagID,by="tag_id", all.x=T)
     # trackDF$tag_id <- NULL ## could be removed as probably no one uses it....
     
     if (deploymentAsIndividuals) {
@@ -552,7 +551,7 @@ setMethod(
       factor(unUsed@trackIdUnUsedRecords, levels = levels(trackId))
     if (removeDuplicatedTimestamps) {
       message(
-        "removeDupilcatedTimestamps was set to true we strongly suggest against it and that the problem is solved before because there is no systematic to which locations are removed. This can for example be done by marking them outlier in movebank."
+        "removeDupilcatedTimestamps was set to TRUE, this will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates"
       )
       dupsDf <-
         (data.frame(
@@ -590,7 +589,7 @@ setMethod(
 )
 
 
-
+## getMovebankNonLocationData
 setGeneric("getMovebankNonLocationData", function(study,sensorID,animalName,login, ...) standardGeneric("getMovebankNonLocationData"))
 
 setMethod(f="getMovebankNonLocationData", 
@@ -690,6 +689,130 @@ setMethod(f="getMovebankNonLocationData",
             NonLocData$study_name <- as.character(getMovebankStudy(study, login)$name)
             return(NonLocData)
           })
+
+
+
+## getMovebankLocationData as table
+setGeneric("getMovebankLocationData", function(study,sensorID,animalName,login,...) standardGeneric("getMovebankLocationData"))
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="ANY",sensorID="missing",animalName="missing", login="missing"),
+          definition = function(study, sensorID, animalName, login=login, ...){ 
+            login <- movebankLogin()
+            getMovebankLocationData(study = study, login=login,...)
+          })
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="ANY",sensorID="ANY",animalName="ANY", login="missing"),
+          definition = function(study, sensorID, animalName, login=login, ...){ 
+            login <- movebankLogin()
+            getMovebankLocationData(study = study, sensorID = sensorID, animalName = animalName, login=login,...)
+          })
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="ANY",sensorID="ANY",animalName="missing", login="missing"),
+          definition = function(study, sensorID, animalName, login=login, ...){ 
+            login <- movebankLogin()
+            getMovebankLocationData(study = study, sensorID = sensorID, login=login,...)
+          })
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="character", sensorID="ANY",animalName="ANY",login="MovebankLogin"),
+          definition = function(study, sensorID, animalName, login, ...){ 
+            study <- getMovebankID(study, login) 
+            callGeneric()
+          })
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="numeric", sensorID="missing",animalName="ANY",login="MovebankLogin"),
+          definition = function(study, sensorID, animalName, login, ...){ 
+            allsens <- getMovebank("tag_type", login=login)[(c("id","is_location_sensor"))]
+            allNL <- allsens$id[allsens$is_location_sensor=="false"]
+            sensStudy <- unique(getMovebankSensors(study=study, login=login)$sensor_type_id)
+            sensorID <- sensStudy[sensStudy%in%allNL]
+            if(missing(animalName)){
+              getMovebankLocationData(study=study, sensorID=sensorID, login=login, ...)
+            }else{
+              getMovebankLocationData(study=study, sensorID=sensorID, login=login, animalName=animalName, ...)}
+          })
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="numeric", sensorID="character",animalName="ANY",login="MovebankLogin"),
+          definition = function(study, sensorID, animalName, login, ...){ 
+            ss <- getMovebank("tag_type", login=login)[c("name","id")]
+            sensorID<-ss[as.character(ss$name)%in%sensorID,'id']
+            callGeneric()
+          })
+
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="numeric",sensorID="numeric",animalName="missing", login="MovebankLogin"),
+          definition = function(study, sensorID, animalName, login, ...){ 
+            d<- getMovebank("individual", login=login, study_id=study, attributes=c('id'))$id
+            getMovebankLocationData(study=study, sensorID=sensorID, login=login, ..., animalName=d)
+          })
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="numeric",sensorID="numeric",animalName="character",login="MovebankLogin"),
+          definition = function(study, sensorID, animalName, login, ...){ 
+            d<- getMovebank("individual", login=login, study_id=study, attributes=c('id','local_identifier'))
+            animalName<-d[as.character(d$local_identifier)%in%animalName,'id']
+            callGeneric()
+          })
+
+setMethod(f="getMovebankLocationData", 
+          signature=c(study="numeric",sensorID="numeric", animalName="numeric", login="MovebankLogin"),
+          definition = function(study, sensorID, animalName, login, includeOutliers=FALSE, underscoreToDots=TRUE, ...){ 
+            idData <- getMovebank("individual", login=login, study_id=study, id=animalName,...)         
+            colnames(idData)[which(names(idData) == "id")] <- "individual_id"
+            
+            if(length(study)>1){stop("Download only possible for a single study")}
+            
+            sensorTypes <- getMovebank("tag_type", login=login)
+            if(length(sensorID)==0 | length(sensorID[!sensorID%in%sensorTypes$id])>0){stop("Sensor name(s) not valid. See 'getMovebankSensors(login)' for valid sensor names")}
+            
+            if(!(as.logical(sensorTypes$is_location_sensor[sensorTypes$id%in%sensorID]))){
+              stop("The selected sensor(s): '",paste0(sensorTypes$name[sensorTypes$id%in%sensorID & sensorTypes$is_location_sensor=="false"],collapse = ", "),"' is a/are non-location sensor(s). Only location data can be downloaded with this function. Use 'getMovebankNonLocationData' to download non-location data.")}
+            
+            sensorAnim <- getMovebankAnimals(study, login)[c("individual_id","sensor_type_id","taxon_canonical_name","local_identifier")]
+            if(length(sensorID[!sensorID%in%unique(sensorAnim$sensor_type_id)])>0){
+              NoSens <- as.character(sensorTypes$name[sensorTypes$id%in%sensorID[!sensorID%in%unique(sensorAnim$sensor_type_id)]])
+              stop("Sensor(s): '",paste0(NoSens,collapse = ", "), "' is/are not available for this study" )}
+            
+            NoDat <- idData$local_identifier[!unlist(lapply(1:nrow(idData),function(x){is.element(sensorID,sensorAnim$sensor_type_id[sensorAnim$individual_id==idData$individual_id[x]])}))]
+            if(length(NoDat)>0){
+              animalName <- animalName[!animalName%in%idData$individual_id[as.character(idData$local_identifier)%in%as.character(NoDat)]]
+              warning("Individual(s): '",paste0(as.character(NoDat),collapse = ", "),"' do(es) not have data for the one or more of the selected sensor(s). Data for this/these individual(s) are not downloaded.")}
+            
+            attribsAll <- unique(c(as.character(getMovebankSensorsAttributes(study, login)$short_name[getMovebankSensorsAttributes(study, login)$sensor_type_id%in%sensorID]),'sensor_type_id', 'deployment_id', 'event_id', 'individual_id', 'tag_id','tag_local_identifier','individual_local_identifier','study_id'))
+            attbsFrist <- c("event_id","visible","timestamp" ,"location_long","location_lat")
+            attribs <- c(attbsFrist,attribsAll[!attribsAll%in%attbsFrist])
+            
+            LocData <- getMovebank("event", login=login, study_id=study, sensor_type_id=sensorID, individual_id=animalName, attributes=attribs,...) 
+            LocData$timestamp <- as.POSIXct(strptime(as.character(LocData$timestamp), format = "%Y-%m-%d %H:%M:%OS",tz="UTC"), tz="UTC")
+            LocData$study_name <- as.character(getMovebankStudy(study, login)$name)
+            for(i in unique(LocData$sensor_type_id)){
+              LocData$sensor_type[LocData$sensor_type_id==i] <- as.character(sensorTypes$name[sensorTypes$id==i])
+            }
+            
+            for(i in unique(LocData$individual_local_identifier)){
+              LocData$individual_taxon_canonical_name[LocData$individual_local_identifier==i] <- as.character(sensorAnim$taxon_canonical_name[sensorAnim$local_identifier==i])[1]
+            }
+            
+            if(!includeOutliers ){ # exclude outliers
+              LocDataOutl <- LocData[LocData$visible=="true",]
+              if(underscoreToDots){
+                names(LocDataOutl) <- gsub("_",".",names(LocDataOutl))
+                return(LocDataOutl)
+              }else{return(LocDataOutl)}
+            } 
+            
+            if(includeOutliers){ # include outliers
+              if(underscoreToDots){
+                names(LocData) <- gsub("_",".",names(LocData))
+                return(LocData)
+              }else{return(LocData)}
+            }
+          })
+
 
 
 ## get reference table

@@ -39,7 +39,6 @@ Anne Scharf
 \seealso{\code{\link{movebankLogin}}}
 \examples{
 \dontrun{
-
 # obtain a login
 login <- movebankLogin()
 getMovebankReferenceTable(study=74496970, login=login)[1:6,]

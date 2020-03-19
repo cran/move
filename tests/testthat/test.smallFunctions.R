@@ -63,7 +63,7 @@ data(leroy)
   })
 test_that('equalproj',{
   data(leroy)
-  data("ricky")
+ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 m<-  move(1:3,1:3, Sys.time()+1:3)
   re<-spTransform(ricky, center=T)
   expect_true(equalProj(list(leroy, ricky)))

@@ -6,7 +6,7 @@
 
 \docType{methods}
 
-\title{Convert a Move or MoveStack object to adehabitat compatible object}
+\title{Convert a Move or MoveStack object to a SpatialPointsDataFrame}
 
 \description{Convert a Move or MoveStack object to adehabitat compatible object. This is necessary because Move and MoveStack objects are not inherited by the object class that is typically used by the adehabitat package. Therefore, the \code{move2ade} function allows to use functions of the adehabitatHR package with objects that were originally created with the Move package. 
 }

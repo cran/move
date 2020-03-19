@@ -35,7 +35,7 @@
 \value{'\code{list}'}
 
 \note{
- After spliting any object, the coordinates in the @coords slot in the resulting objects are named "coords.x1" and "coords.x2" (due to the usage of functions of other packages within this function).
+ After splitting any object, the coordinates in the @coords slot in the resulting objects are named "coords.x1" and "coords.x2" (due to the usage of functions of other packages within this function).
 }
 
 \author{Marco Smolla & Anne Scharf}

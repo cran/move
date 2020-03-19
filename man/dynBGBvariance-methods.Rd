@@ -14,8 +14,8 @@ dynBGBvariance(move, locErr, margin, windowSize,...)
 \arguments{
   \item{move}{a \code{\link[=Move-class]{move}} object. This object must be in a projection different to longitude/latitude, use \code{spTransform} to transform your coordinates.}
    \item{locErr}{single numeric value or vector of the length of coordinates that describes the error of the location (sender/receiver) system in map units. Or a character string with the name of the column containing the location error can be provided.}
-  \item{margin}{The margin used for the behavioral change point analysis.}
-  \item{windowSize}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior.}
+  \item{margin}{The margin used for the behavioral change point analysis. This number has to be odd.}
+  \item{windowSize}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior. This number has to be odd.}
   \item{...}{Additional arguments}
 }
 \details{
@@ -29,7 +29,7 @@ a \link{dBGBvariance-class} object
 }
 
 \seealso{
-\link{dynBGB}
+\link{dynBGB}, \link{brownian.motion.variance.dyn}
 }
 \author{Bart Kranstauber & Anne Scharf}
 

@@ -36,7 +36,9 @@ See the 'browseMovebank' vignette for more information about security and how to
 
 \author{Marco Smolla & Anne Scharf}
 
-\seealso{\code{\link{movebankLogin}}}
+\seealso{
+\link{movebankLogin}, \link{getMovebankReferenceTable}
+}
 \examples{
 \dontrun{
 

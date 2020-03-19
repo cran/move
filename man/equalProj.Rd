@@ -29,7 +29,8 @@ It returns TRUE if none of the objects have a \code{proj4string}.
 \author{Bart Kranstauber & Anne Scharf}
 
 \examples{
-data(ricky)
+data(fishers)
+ricky<-fishers[['Ricky.T']]
 data(leroy)
 data(leroydbbmm)
 

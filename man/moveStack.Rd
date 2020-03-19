@@ -48,7 +48,7 @@ a '\link[=MoveStack-class]{MoveStack}' object
 
 \examples{
 data(leroy)
-data(ricky)
+ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 
 ## creating a moveStack from a list of move objects
 l <- list(ricky[200:270,], leroy[200:270,])

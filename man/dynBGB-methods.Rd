@@ -26,8 +26,8 @@
   \item{raster}{a \code{RasterLayer} object or a numeric value. If a \code{RasterLayer} is provided the \code{dynBGB} starts to calculate the UD based on that raster. If a numeric value is provided it is interpreted as the resolution of the square raster cells (in map units); the according raster will be calculated internally.}
   \item{locErr}{single numeric value or vector of the length of coordinates that describes the error of the location (sender/receiver) system in map units. Or a character string with the name of the column containing the location error can be provided.}
   \item{timeStep}{ It correspond to the size of the timer intervals taken for every integration step (in minutes). If left \code{NULL} 20.1 steps are taken in the shortest time interval. See 'Details'. Optional.}  
-  \item{margin}{The margin used for the behavioral change point analysis.}
-  \item{windowSize}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior.}
+  \item{margin}{The margin used for the behavioral change point analysis. This number has to be odd.}
+  \item{windowSize}{The size of the moving window along the track. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior. This number has to be odd.}
   \item{ext}{ Describes the amount of extension of the bounding box around the animal track. It can be numeric (same extension into all four directions), vector of two (first x, then y directional extension) or vector of four  (xmin, xmax, ymin, ymax extension). Only considered in combination with a numeric raster argument or the dimSize argument.}
   \item{dimSize}{ numeric. dimSize is only used if \code{raster} is not set. \code{dimSize} is interpreted as the number of cells along the largest dimension of the track. The according raster will be calculated internally.}
   \item{...}{Currently no other arguments implemented.

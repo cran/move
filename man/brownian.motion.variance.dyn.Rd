@@ -18,8 +18,8 @@
 \arguments{
 	\item{object}{a \code{\link[=Move-class]{move}}, \code{\link[=MoveStack-class]{moveStack}} or \code{\link[=MoveBurst-class]{moveBurst}} object can be used for variance calculation. This object must be in a flat coordinate system (projection different to longitude/latitude), use \code{spTransform} to transform your coordinates.}
 	\item{location.error}{single numeric value or vector of the length of coordinates that describes the error of the location (sender/receiver) system in map units.}
-	\item{window.size}{The size of the moving window along the track for the variance calculation. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior.}
-	\item{margin}{The margin size used for variance calculation.}
+	\item{window.size}{The size of the moving window along the track for the variance calculation. Larger windows provide more stable/accurate estimates of the brownian motion variance but are less well able to capture more frequent changes in behavior. This number has to be odd.}
+	\item{margin}{The margin size used for variance calculation. This number has to be odd.}
 }
 
 \value{
@@ -36,7 +36,7 @@
 
 
 \seealso{
-	\link{brownian.bridge.dyn}
+	\link{brownian.bridge.dyn}, link{dynBGBvariance}
 }
 
 \examples{

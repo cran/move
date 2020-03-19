@@ -28,7 +28,7 @@ thinDistanceAlongTrack(x, interval = NA, tolerance = NA,
   \item{...}{Currently not implemented.}
 }
 
-\details{The functions search for consecutive segments with a cumulative sum of the time lag (or distance) corresponding to interval and tolerance values. From each selected chunk of the track, only the first and last location are kept in the new object, this new segment is labeled with "selected". The segments labeled as "notSelected" are those parts of the track that did not fulfill the indicated interval.
+\details{The functions search for consecutive segments with a cumulative sum of the time lag (or distance) corresponding to interval and tolerance values. From each selected chunk of the track, only the first and last location are kept in the new object, this new segment is labeled with "selected". The segments labeled as "notSelected" are those parts of the track that did not fulfill the indicated interval. A "notSelected" burst can correspond to multiple consecutive segments that have a larger timelag than the one specified, or a single large time gap that is present in the original data.\cr
 Note that in the case of \code{thinDistanceAlongTrack}, the distances between the locations in the new object do not represent the distance that the animal actually traveled, as the intermediate location are removed.}
 
 \note{This function finds the maximal number of segments that meet the criteria but does not ensure that the average matches the set interval.}

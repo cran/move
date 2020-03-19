@@ -24,6 +24,7 @@ test_that('false login',{
   expect_error(getMovebankData(123413, animalName=c("Mancha","Yara"), login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
   expect_error(getMovebankSensorsAttributes(123413, login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
   expect_error(getMovebankSensorsAttributes("BCI Ocelot", login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
+  expect_error(getMovebankLocationData("BCI Ocelot", login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
   expect_error(getMovebankNonLocationData("BCI Ocelot", login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
   expect_error(getMovebankReferenceTable("BCI Ocelot", login=l),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
   
@@ -37,6 +38,7 @@ test_that('without login',{
     expect_error(getMovebankStudy("BCI Ocelot"),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
     expect_error(getMovebankAnimals("BCI Ocelot"),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
     expect_error(getMovebankSensorsAttributes("BCI Ocelot"),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
+    expect_error(getMovebankLocationData("BCI Ocelot"),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
     expect_error(getMovebankNonLocationData("BCI Ocelot"),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
     expect_error(getMovebankReferenceTable("BCI Ocelot"),"It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available."       )
     

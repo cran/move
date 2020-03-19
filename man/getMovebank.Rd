@@ -38,14 +38,14 @@
 		\item \code{getMovebank("study", login)}: returns all studies where the user has permission to see the data. You may have permission to see only the study details, view some or all tracks but not download data, or view and download some or all data. Also, there are studies that you do not have permission to see at all, these studies will not be included in this list. See also \link{getMovebankStudies}.
 		\item \code{getMovebank("study", login, i_am_owner=T)}: returns all studies where the user is a data manager. 
 		\item \code{getMovebank("study", login, study_id)}:  returns a summary of information about one or more studies. See also \link{getMovebankStudy}.
-		\item \code{getMovebank("tag", login, study_id)}: returns tag reference information from a study.
-		\item \code{getMovebank("individual", login, study_id))}: returns animal reference information from a study. See also \link{getMovebankAnimals}.
-		\item \code{getMovebank("deployment", login, study_id)}: returns deployment reference information from a study.
-		\item \code{getMovebank("event", login, study_id,...)}: returns the sensor measurements from a study. See also \link{getMovebankData}, \link{getMovebankNonLocationData}.
+		\item \code{getMovebank("tag", login, study_id)}: returns tag reference information from a study. See also \link{getMovebankReferenceTable}.
+		\item \code{getMovebank("individual", login, study_id)}: returns animal reference information from a study. See also \link{getMovebankAnimals}, \link{getMovebankReferenceTable}.
+		\item \code{getMovebank("deployment", login, study_id)}: returns deployment reference information from a study. See also \link{getMovebankReferenceTable}.
+		\item \code{getMovebank("event", login, study_id,...)}: returns the sensor measurements from a study. See also \link{getMovebankData}, \link{getMovebankLocationData}, \link{getMovebankNonLocationData}.
 	}
 
 	The default columns of \code{getMovebank("event", login,study_id,...)} are \emph{timestamp, location_lat, location_long, individual_id, tag_id}. If the downloaded study only contains GPS data, these default columns are suitable, but for all other sensors, additional columns are required. The columns available vary among sensor type and tag manufacturer, the complete list of available attributes for a specific study can be obtained with:
-	\code{unique(c(as.character(getMovebankSensorsAttributes(study, login=login)$short_name), 'sensor_type_id', 'deployment_id', 'event_id', 'individual_id', 'tag_id'))}
+	\code{unique(c(as.character(getMovebankSensorsAttributes(study, login=login)$short_name), 'sensor_type_id', 'deployment_id', 'event_id', 'individual_id', 'tag_id'))}. If \code{attributes="all"} than all attributes that are present in the study will be downloaded.
 
 	The definitions of the content of the columns is detailed in the \href{http://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
 }
@@ -72,7 +72,7 @@
 }
 
 \seealso{ 
-	\link{movebankLogin}, \link{getMovebankData}, \link{getMovebankNonLocationData}, \link{getMovebankAnimals}, \link{getMovebankID}, \link{getMovebankSensors}, \link{getMovebankSensorsAttributes}, \link{getMovebankStudies}, \link{getMovebankStudy}, \link{searchMovebankStudies} 
+	\link{movebankLogin}, \link{getMovebankData}, \link{getMovebankLocationData}, \link{getMovebankNonLocationData}, \link{getMovebankReferenceTable}, \link{getMovebankAnimals}, \link{getMovebankID}, \link{getMovebankSensors}, \link{getMovebankSensorsAttributes}, \link{getMovebankStudies}, \link{getMovebankStudy}, \link{searchMovebankStudies} 
 
 }
 
@@ -113,11 +113,8 @@ head(getMovebank("individual", login=login,
 		 study_id=studyID)[, c("id", "local_identifier")])
 
 ## get GPS and accelerometer data within a time period
-## create a vector with attributes for all sensors included in the study
-attrib <- unique(c(as.character(getMovebankSensorsAttributes(studyID, 
-							     login=login)$short_name), 
-		   'sensor_type_id', 'deployment_id', 'event_id', 
-		   'individual_id', 'tag_id'))
+## to download all attributes for all sensors included in the study
+attrib <- "all"
 ## get measurments for a given time period, in this case for GPS and 
 ## accelerometer, and between "2013-06-25 03:55:00.000" and "2013-06-26 10:25:00.000"
 getMovebank("event", login=login, study_id=studyID, sensor_type_id=c(653,2365683), 

@@ -4,7 +4,7 @@ test_that('raster2contour',
             data("dbbmmstack")
             data("leroydbbmm")
             s<-raster2contour(leroydbbmm ,levels=(o<-1:9/10))
-            expect_equal(as.factor(o), data.frame(s)[,'level'])
+            expect_equal(as.character(o), as.character(data.frame(s)$level))
             ss<-raster2contour(dbbmmstack)
             expect_equal(unique(names(dbbmmstack)) ,unique(ss$individual.local.identifier))
           })

@@ -8,7 +8,7 @@
 
 \title{Extract the names of the individuals of a move or moveStack object}
 
-\description{This function returns the names of the individuals from a move or movesStack object.}
+\description{This function returns the names of the individuals from a move or moveStack object.}
 
 \usage{
   namesIndiv(obj)

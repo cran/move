@@ -21,7 +21,7 @@ Identifies all pairs of duplicated timestamps within an individual and sensor ty
 
 \arguments{
   \item{x}{full path to the csv (or compressed) file location downloaded from a Movebank study, or to the zip file location downloaded from the EnvData tool in Movebank. \cr
-  \code{data.frame} read into R from a csv file downloaded from Movebank.\cr
+  \code{data.frame} read into R from a csv file downloaded from Movebank, or downloaded with \code{getMovebankLocationData}.\cr
   \code{factor} containing the name(s) of the individual(s) if non-Movebank data are provided.}
   \item{timestamps}{vector containing timestamps with POSIXct conversion if non-Movebank data are provided,i.e. \code{as.POSIXct(data$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC")}}
   \item{sensorType}{optional, character or vector of characters containing sensor type(s) if non-Movebank data are provided.}

@@ -19,7 +19,6 @@ test_that('move',
           {
             expect_error(move())
             #expect_error(move(x=1:10, y=1:10, time=as.POSIXct(1:10, origin="1970-1-1"))) #we now allow projection to be NA
-	    skip_on_cran()
             expect_silent(data <-
                             move(
                               fileUri <- system.file("extdata", "leroy.csv.gz", package = "move")
@@ -34,7 +33,7 @@ test_that('move',
             expect_message(
               data3 <-
                 move(file(fileUri), removeDuplicatedTimestamps = T),
-              'removeDupilcatedTimestamps was set to true we strongly suggest against it and that the problem is solved before because there is no systematic to which locations are removed. This can for example be done by marking them outlier in movebank'
+              'removeDupilcatedTimestamps was set to TRUE, this will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates'
             )
             expect_silent(suppressMessages(data3 <-
                                              move(
