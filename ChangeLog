@@ -1,3 +1,7 @@
+Version 4.0.0
+
+	* updates to account for changes in rgdal and sp
+
 Version 3.3.0
   * Updated and completed both vignettes
   * move function now accepts movement objects from the libraries ctmm, bcpa, EMbC and a data.frame object

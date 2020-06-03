@@ -4,7 +4,7 @@ setMethod(f = "spTransform",
 	  function(x, center=FALSE, ...){
 		  if(!center)
 			  stop('spTransform without center or proj string does not make much sense')
-		  spTransform(x=x, center=center, CRSobj="+proj=aeqd +ellps=WGS84")
+		  spTransform(x=x, center=center, CRSobj="+proj=aeqd +datum=WGS84")
 	  })
 
 setMethod(f = "spTransform", 
@@ -22,7 +22,11 @@ setMethod(f = "spTransform",
 			  }
 			  mid.range.lon <- (max(coordinates(x)[ ,1])+min(coordinates(x)[ ,1]))/2
 			  mid.range.lat  <- (max(coordinates(x)[ ,2])+min(coordinates(x)[ ,2]))/2
-			  CRSobj <- CRS(paste(CRSobj@projargs," +lon_0=",mid.range.lon," +lat_0=", mid.range.lat, sep=""))
+			  if(grepl(pattern='+lat_0=0',CRSobj@projargs)){
+				  CRSobj <- CRS(sub('lat_0=0',paste0("lat_0=",mid.range.lat),sub('lon_0=0',paste0("lon_0=",mid.range.lon),CRSobj@projargs)))
+			  }else{
+				  CRSobj<-CRS(paste(CRSobj@projargs," +lon_0=",mid.range.lon," +lat_0=", mid.range.lat, sep=""))
+			  }
 		  } 
 
 		  coordsnew <- spTransform(x=as(x,'SpatialPointsDataFrame'), CRSobj=CRSobj)

@@ -492,7 +492,7 @@ setMethod(
       SpatialPointsDataFrame(
         trackDF[!outliers, c('location_long', 'location_lat')],
         data = trackDF[!outliers, ],
-        proj4string = CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"),
+        proj4string = CRS("+proj=longlat +datum=WGS84"),
         match.ID = T
       )
     

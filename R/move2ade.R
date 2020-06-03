@@ -84,29 +84,29 @@ setAs("list","MoveStack", function(from){
 })
 
 
-# # track_xyt from amt
-# setAs("track_xyt","Move", function(from){
-#   if("track_xyt" %in% class(from)){
-#     if("id" %in% names(from)){
-#       if(any(duplicated(paste0(from$t_,from$id)))){
-#         warning("data contains duplicates. By default 1st entery is kept, and subsequent duplicates are removed. If this is not wanted, please remove duplicates from original input object")
-#         from <- from[!duplicated(paste0(from$t_,from$id)),]
-#       }
-#     }else{
-#       if(any(duplicated(from$t_))){
-#         warning("data contains duplicates. By default 1st entery is kept, and subsequent duplicates are removed. If this is not wanted, please remove duplicates from original input object")
-#         from <- from[!duplicated(from$t_),]
-#       }
-#     }
-#     mv <- move(x= from$x_,
-#                y= from$y_,
-#                time= from$t_,
-#                data= data.frame(from[!names(from)%in%c("x_","y_","t_","id")]),
-#                proj= if(is.null(attr(from,"crs"))){as.character(NA)}else{attr(from,"crs")},
-#                animal= if("id"%in%names(from)){as.character(from$id)}else{"unnamed"})
-#     return(mv)
-#   }
-# })
+# track_xyt from amt
+setAs("track_xyt","Move", function(from){
+  if("track_xyt" %in% class(from)){
+    if("id" %in% names(from)){
+      if(any(duplicated(paste0(from$t_,from$id)))){
+        warning("data contains duplicates. By default 1st entery is kept, and subsequent duplicates are removed. If this is not wanted, please remove duplicates from original input object")
+        from <- from[!duplicated(paste0(from$t_,from$id)),]
+      }
+    }else{
+      if(any(duplicated(from$t_))){
+        warning("data contains duplicates. By default 1st entery is kept, and subsequent duplicates are removed. If this is not wanted, please remove duplicates from original input object")
+        from <- from[!duplicated(from$t_),]
+      }
+    }
+    mv <- move(x= from$x_,
+               y= from$y_,
+               time= from$t_,
+               data= data.frame(from[!names(from)%in%c("x_","y_","t_","id")]),
+               proj= if(is.null(attr(from,"crs"))){as.character(NA)}else{attr(from,"crs")},
+               animal= if("id"%in%names(from)){as.character(from$id)}else{"unnamed"})
+    return(mv)
+  }
+})
 
 ## track from bcpa
 setAs("track","Move", function(from){
@@ -131,7 +131,7 @@ setAs("binClstPath","Move", function(from){
                 y= from@pth$lat,
                 time= from@pth$dTm,
                 data= data.frame(velocity.m.s=from@X[,1], turn.rad=from@X[,2], W=from@W, A=from@A ),
-                proj= if(from@tracks@proj4string@projargs==""){as.character(NA)}else{from@tracks@proj4string@projargs},
+                proj= from@tracks@proj4string@projargs,
                 animal= "unnamed")
     return(mv)
   }
@@ -168,7 +168,7 @@ setAs("data.frame","Move", function(from){
                  y= from$location.lat, 
                  time= as.POSIXct(from$timestamp,format="%Y-%m-%d %H:%M:%S", tz="UTC"), 
                  data= from, 
-                 proj= CRS("+proj=longlat +ellps=WGS84"),
+                 proj= CRS("+proj=longlat +datum=WGS84"),
                  animal= from$individual.local.identifier, 
                  sensor= from$sensor.type)
       return(mv)
@@ -182,7 +182,7 @@ setAs("data.frame","Move", function(from){
                  y= from$location_lat, 
                  time= as.POSIXct(from$timestamp,format="%Y-%m-%d %H:%M:%S", tz="UTC"), 
                  data= from, 
-                 proj= CRS("+proj=longlat +ellps=WGS84"),
+                 proj= CRS("+proj=longlat +datum=WGS84"),
                  animal= from$individual_local_identifier,
                  sensor= from$sensor_type)
       return(mv)

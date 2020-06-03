@@ -90,7 +90,7 @@ uniquePerID[c('location.long','location.lat')]<-F
 
 		  df <- df[!unUsed, , drop = FALSE]
 		  coordinates(df) <- ~ location.long + location.lat
-		  proj4string(df) <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84")
+		  proj4string(df) <- CRS("+proj=longlat +datum=WGS84")
 		  if (class(df) == 'SpatialPoints'){# to make sure we feed a spdf
 		    df <-
 		    new('SpatialPointsDataFrame', df, data = data.frame(coordinates(df)))}
@@ -269,11 +269,11 @@ setMethod(f = "move",
             return(as(x,"MoveStack"))
           })
 
-# setMethod(f = "move", 
-#           signature = c(x = "track_xyt",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
-#           definition = function(x, ...) {
-#             return(as(x,"Move"))
-#           })
+setMethod(f = "move", 
+          signature = c(x = "track_xyt",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),
+          definition = function(x, ...) {
+            return(as(x,"Move"))
+          })
 
 setMethod(f = "move", 
           signature = c(x = "track",y = 'missing',time = 'missing', data = 'missing', proj = 'missing'),

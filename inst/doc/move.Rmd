@@ -91,6 +91,7 @@ The following objects containing movement data can also be read in by the `move(
 - object of class `ltraj` from the library *adehabitatLT*
 - object of class `telemetry` or a list of telemetry objects from the library *ctmm*
 - object of class `track` from the library *bcpa*
+- object of class `track_xyt` from the library *amt*
 - object of class `binClstPath` or `binClstStck` from the library *EMbC*
 - object of class `data.frame` containing data downloaded from Movebank webpage or with getMovebankLocationData
 
@@ -106,7 +107,8 @@ In the following example a `MoveStack` is created from two `Move` objects:
 ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 data(leroy)
 # if argument forceTz is not stated, the timestamp is converted to the computer timezone
-myStack <- moveStack(list(leroy, ricky),forceTz="UTC")
+rickyP<-spTransform(ricky, crs(leroy))
+myStack <- moveStack(list(leroy, rickyP),forceTz="UTC")
 ```
 
 In the overview the information of all individuals is combined.
@@ -483,7 +485,7 @@ The `Move*` object used to calculate the dBBMM needs to be projected and, the lo
 leroyRed <- leroy[1:200] # reducing dataset for example
 leroy.prj <- spTransform(leroyRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
-dBB.leroy <- brownian.bridge.dyn(leroy.prj, ext=.45, raster=100, location.error=20)
+dBB.leroy <- brownian.bridge.dyn(leroy.prj, ext=.85, raster=100, location.error=20)
 ```
 
 The resulting object will be of class `DBBMM`, `DBBMMStack`, or `DBBMMBurstStack` depending on the input class. All of them contain a raster or a rasterStack were all pixels of each raster sum up to 1 (besides the `DBBMMBurstStack`, for details see 'Calculating a dBBMM from a MoveBurst' section)
@@ -534,7 +536,7 @@ The dBBMM can also be calculated for a `MoveBurst`, for all burst types, or only
 leroyBRed <- leroy.burst[1:155] # reducing dataset for example
 leroyB.prj <- spTransform(leroyBRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
-dBB.leroyB <- brownian.bridge.dyn(leroyB.prj, ext=.45, raster=100, location.error=20)
+dBB.leroyB <- brownian.bridge.dyn(leroyB.prj, ext=1.25, raster=100, location.error=20)
 
 plot(dBB.leroyB)
 ```
@@ -572,7 +574,7 @@ plot(UDleroy.night, main="UD of 'Night'")
 
 To calculate the dBBMM for a specific or a subset of burst types, these have to be stated in the argument "burstType". In this case the dBBMM is calculated only taking into account the burst segments "Night":
 ```{r,fig.width=9, fig.height=3, message=F}
-dBB.leroyB.night <- brownian.bridge.dyn(leroyB.prj, ext=.45, raster=100, location.error=20, burstType="Night")
+dBB.leroyB.night <- brownian.bridge.dyn(leroyB.prj, ext=.75, raster=100, location.error=20, burstType="Night")
 
 plot(dBB.leroyB.night,nr=1)
 ```

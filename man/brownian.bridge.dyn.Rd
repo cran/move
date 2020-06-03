@@ -92,7 +92,7 @@ data(leroy)
 data2 <- spTransform(leroy[30:90,], CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)
 
 ## create a DBBMM object
-dbbmm <- brownian.bridge.dyn(object=data2, location.error=12, dimSize=125, ext=.45, 
+dbbmm <- brownian.bridge.dyn(object=data2, location.error=12, dimSize=125, ext=1.2, 
 			     time.step=2, margin=15)
 
 plot(dbbmm)
@@ -100,7 +100,8 @@ plot(dbbmm)
 \dontshow{
 data(fishers)
   leroy <- leroy[1:50]
-  ricky <- move(system.file("extdata","ricky.csv.gz", package="move"))[1:50]
+  ricky <- spTransform(move(system.file("extdata","ricky.csv.gz", package="move"))[1:50], 
+		       crs(leroy))
   stack <- moveStack(list(leroy,ricky))
   t <- brownian.bridge.dyn(spTransform(stack, center=TRUE), location.error=23.5, dimSize=1125, 
 			   time.step=6, ext=1.2)

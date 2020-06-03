@@ -24,7 +24,8 @@ leroy
 ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 data(leroy)
 # if argument forceTz is not stated, the timestamp is converted to the computer timezone
-myStack <- moveStack(list(leroy, ricky),forceTz="UTC")
+rickyP<-spTransform(ricky, crs(leroy))
+myStack <- moveStack(list(leroy, rickyP),forceTz="UTC")
 
 ## ---- eval=T------------------------------------------------------------------
 myStack
@@ -264,7 +265,7 @@ legend("bottomleft", c("Corridor", "Non-corridor"), col=c("black", "grey"), lty=
 leroyRed <- leroy[1:200] # reducing dataset for example
 leroy.prj <- spTransform(leroyRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
-dBB.leroy <- brownian.bridge.dyn(leroy.prj, ext=.45, raster=100, location.error=20)
+dBB.leroy <- brownian.bridge.dyn(leroy.prj, ext=.85, raster=100, location.error=20)
 
 ## ----fig.width=5, fig.height=5, message=F-------------------------------------
 plot(dBB.leroy, main="dBBMM")
@@ -298,7 +299,7 @@ plot(ud50, main="UD50")
 leroyBRed <- leroy.burst[1:155] # reducing dataset for example
 leroyB.prj <- spTransform(leroyBRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
-dBB.leroyB <- brownian.bridge.dyn(leroyB.prj, ext=.45, raster=100, location.error=20)
+dBB.leroyB <- brownian.bridge.dyn(leroyB.prj, ext=1.25, raster=100, location.error=20)
 
 plot(dBB.leroyB)
 
@@ -325,7 +326,7 @@ UDleroy.night <- getVolumeUD(rasterNightUD)
 plot(UDleroy.night, main="UD of 'Night'")
 
 ## ----fig.width=9, fig.height=3, message=F-------------------------------------
-dBB.leroyB.night <- brownian.bridge.dyn(leroyB.prj, ext=.45, raster=100, location.error=20, burstType="Night")
+dBB.leroyB.night <- brownian.bridge.dyn(leroyB.prj, ext=.75, raster=100, location.error=20, burstType="Night")
 
 plot(dBB.leroyB.night,nr=1)
 

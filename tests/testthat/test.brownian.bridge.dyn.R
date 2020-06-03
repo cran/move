@@ -198,7 +198,8 @@ test_that('Brownian bridge, running with character and vector input to location 
 test_that('Brownian bridge, running with character and vector input to location error for stacks',{
 		  skip_on_os('solaris')
   data(leroy)
-  ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
+  ricky<-spTransform(move(system.file("extdata","ricky.csv.gz", package="move")),
+                     crs(leroy))
   data <-
     spTransform(moveStack(list(leroy[1:75,], ricky[1:73,])), center = T)
   data2 <- data

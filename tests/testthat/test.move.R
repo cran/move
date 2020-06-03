@@ -126,22 +126,22 @@ test_that('move',
             expect_is(move(1:2, 1:2, Sys.time() + 1:2, animal = c(2:1)), 'MoveStack')
             tt <- Sys.time() + 1:2
             expect_equal(
-              m2 <- move(1:2, 1:2, tt, proj = "+proj=longlat +ellps=WGS84") ,
-              move(1:2, 1:2, tt, proj = CRS("+proj=longlat +ellps=WGS84"))
+              m2 <- move(1:2, 1:2, tt, proj = "+proj=longlat +datum=WGS84") ,
+              move(1:2, 1:2, tt, proj = CRS("+proj=longlat +datum=WGS84"))
             )
             expect_equal(m1 <- move(1:2, 1:2, tt) ,
                          move(1:2, 1:2, tt, proj = CRS()))
 	    skip_on_cran()
-            expect_silent(proj4string(m1) <- '+proj=longlat +ellps=WGS84')
+            expect_silent(proj4string(m1) <- '+proj=longlat +datum=WGS84')
             expect_equal(m1, m2)
             expect_equal(
-              move(1:2, 1:2, tt , data = data.frame(3:4), proj = "+proj=longlat +ellps=WGS84") ,
+              move(1:2, 1:2, tt , data = data.frame(3:4), proj = "+proj=longlat +datum=WGS84") ,
               move(
                 1:2,
                 1:2,
                 tt,
                 data = data.frame(3:4),
-                proj = CRS("+proj=longlat +ellps=WGS84")
+                proj = CRS("+proj=longlat +datum=WGS84")
               )
             )
        
