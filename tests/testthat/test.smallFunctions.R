@@ -68,7 +68,7 @@ ricky<-spTransform(
   crs(leroy))
 m<-  move(1:3,1:3, Sys.time()+1:3)
   re<-spTransform(ricky, center=T)
-  expect_true(equalProj(list(leroy, ricky)))
+  expect_true(equalProj(list(spTransform(leroy, crs(ricky)), ricky)))
   expect_false(equalProj(list(leroy, re)))
   expect_true(equalProj(list(m)))
   expect_true(equalProj(list(re)))

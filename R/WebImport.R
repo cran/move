@@ -413,7 +413,8 @@ setMethod(
     colnames(trackDF)[which(names(trackDF) == "name")] <-
       "sensor_type"
 
-    
+    if(!is.factor(trackDF$sensor_type))
+      trackDF$sensor_type<-factor(trackDF$sensor_type)
     trackDF$sensor_type <- droplevels(trackDF$sensor_type)
     trackDF <-
       merge.data.frame(trackDF, unique(idData[, c("individual_id", "local_identifier")]), by =
@@ -505,6 +506,8 @@ setMethod(
       paste(format(trackDF$timestamp, "%Y %m %d %H %M %OS4"),
             trackDF[[idCol]],
             trackDF$sensor_type_id)
+    if(!is.factor(spdf[[idCol]]))
+	spdf[[idCol]]<-factor(spdf[[idCol]])
     trackId <- droplevels(spdf[[idCol]])
     spdf[[idCol]] <- NULL
     if (anyDuplicated(id)) {

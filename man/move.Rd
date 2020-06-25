@@ -23,7 +23,7 @@ Create a Move object
 }
 
 \description{
-This function creates \code{Move} or \code{MoveStack} object from a .csv file with location data downloaded from a Movebank study, from a zip file downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} (environmental annotation tool) of a Movebank study, from a \code{\link[adehabitatLT]{ltraj}}, \code{\link[ctmm:as.telemetry]{telemetry}}, \code{\link[amt:make_track]{track_xyt}}, \code{\link[bcpa:MakeTrack]{track}} or \code{\link[EMbC:binClstPath-class]{binClstPath}} object or from own data. If you use your own data you need to set the projection method with the 'proj' argument and specify which columns of your data contain the coordinates and timestamps. 
+This function creates \code{Move} or \code{MoveStack} object from a .csv file with location data downloaded from a Movebank study, from a zip file downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} (environmental annotation tool) of a Movebank study, from a \code{\link[adehabitatLT:as.ltraj]{ltraj}}, \code{\link[ctmm:as.telemetry]{telemetry}}, \code{\link[amt:track]{track_xyt}}, \code{\link[bcpa:MakeTrack]{track}} or \code{\link[EMbC:binClstPath-class]{binClstPath}} object or from own data. If you use your own data you need to set the projection method with the 'proj' argument and specify which columns of your data contain the coordinates and timestamps. 
 }
 
 \usage{
@@ -44,9 +44,9 @@ This function creates \code{Move} or \code{MoveStack} object from a .csv file wi
 
 \arguments{
 \item{x}{full path to the csv (or compressed) file location downloaded from a Movebank study, OR to the zip file location downloaded from the \href{https://www.movebank.org/node/6607}{EnvData} tool in Movebank. \cr
-a \code{\link[adehabitatLT]{ltraj}} object from the package adehabitatLT.\cr
+a \code{\link[adehabitatLT:as.ltraj]{ltraj}} object from the package adehabitatLT.\cr
 a \code{\link[ctmm:as.telemetry]{telemetry}} object or list of telemetry objects from the package ctmm.\cr
-a \code{\link[amt:make_track]{track_xyt}} object from the package amt.\cr
+a \code{\link[amt:track]{track_xyt}} object from the package amt.\cr
 a \code{\link[bcpa:MakeTrack]{track}} object from the package bcpa.\cr
 a \code{\link[EMbC:binClstPath-class]{binClstPath}} or a \code{\link[EMbC:binClstStck-class]{binClstStck}} object from the package EMbC.\cr
 a \code{data.frame} object downloaded from Movebank webpage or with \code{getMovebankLocationData}.\cr

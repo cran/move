@@ -100,8 +100,9 @@ plot(dbbmm)
 \dontshow{
 data(fishers)
   leroy <- leroy[1:50]
-  ricky <- spTransform(move(system.file("extdata","ricky.csv.gz", package="move"))[1:50], 
-		       crs(leroy))
+  ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))[1:50]
+  leroy <- spTransform(leroy, 
+		       crs(ricky))
   stack <- moveStack(list(leroy,ricky))
   t <- brownian.bridge.dyn(spTransform(stack, center=TRUE), location.error=23.5, dimSize=1125, 
 			   time.step=6, ext=1.2)

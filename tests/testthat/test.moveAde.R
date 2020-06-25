@@ -1,8 +1,9 @@
 context('move ade')
 test_that('moveAde',
 {
-data(fishers)
-data<-fishers[['Ricky.T']]
+  skip_on_os('mac')
+  data(fishers)
+  data<-fishers[['Ricky.T']]
 	dataSp<-spTransform(data, center=T)
 	dataLtraj<-as(dataSp, 'ltraj')
 	dataBack<-as(dataLtraj, 'Move')

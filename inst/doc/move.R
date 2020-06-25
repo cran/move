@@ -24,8 +24,8 @@ leroy
 ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 data(leroy)
 # if argument forceTz is not stated, the timestamp is converted to the computer timezone
-rickyP<-spTransform(ricky, crs(leroy))
-myStack <- moveStack(list(leroy, rickyP),forceTz="UTC")
+leroyP<-spTransform(leroy, proj4string(ricky))
+myStack <- moveStack(list(leroyP, ricky),forceTz="UTC")
 
 ## ---- eval=T------------------------------------------------------------------
 myStack

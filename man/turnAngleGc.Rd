@@ -20,7 +20,7 @@
 }
 
 \details{
-	On great circle tracks the bearing of arrival on a point is not the same as witch the previous point was left. This function returns the difference between these bearings between -180 and 180. The bearings are calculated using the functions \code{\link[geosphere]{bearing}} and \code{\link[geosphere]{finalBearing}} of the geosphere package.
+	On great circle tracks the bearing of arrival on a point is not the same as witch the previous point was left. This function returns the difference between these bearings between -180 and 180. The bearings are calculated using the functions \code{\link[geosphere]{bearing}} and \code{\link[geosphere:finalDirection]{finalBearing}} of the geosphere package.
 }
 
 \author{Bart Kranstauber & Anne Scharf}

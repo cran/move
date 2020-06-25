@@ -14,7 +14,7 @@ output:
 always_allow_html: yes
 vignette: >
  %\VignetteKeyword{animal movement, GPS, tracking data, Movebank}
- %\VignetteIndexEntry{Functions to download data and information from Movebank} 
+ %\VignetteIndexEntry{Browsing Movebank within R} 
  %\VignetteEncoding{UTF-8}
  %\VignetteEngine{knitr::rmarkdown}
 ---

@@ -21,7 +21,7 @@
 }
 
 \details{
-There is also the possibility to convert between a \link[adehabitatLT]{ltraj} object and a Move or MoveStack: \cr
+There is also the possibility to convert between a \link[adehabitatLT:as.ltraj]{ltraj} object and a Move or MoveStack: \cr
 \code{as(x,"ltraj")} where "x" is a Move or MoveStack object\cr
 \code{as(x,"Move")} or \code{as(x,"MoveStack")} where "x" is a ltraj object
 }

@@ -90,7 +90,7 @@ uniquePerID[c('location.long','location.lat')]<-F
 
 		  df <- df[!unUsed, , drop = FALSE]
 		  coordinates(df) <- ~ location.long + location.lat
-		  proj4string(df) <- CRS("+proj=longlat +datum=WGS84")
+		  proj4string(df) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84")
 		  if (class(df) == 'SpatialPoints'){# to make sure we feed a spdf
 		    df <-
 		    new('SpatialPointsDataFrame', df, data = data.frame(coordinates(df)))}

@@ -1,5 +1,5 @@
 ---
-title: "An introduction to the 'move' package"
+title: "Using the move package"
 author: "Marco Smolla, Bart Kranstauber & Anne Scharf"
 date: "`r Sys.Date()`"
 output:
@@ -107,8 +107,8 @@ In the following example a `MoveStack` is created from two `Move` objects:
 ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 data(leroy)
 # if argument forceTz is not stated, the timestamp is converted to the computer timezone
-rickyP<-spTransform(ricky, crs(leroy))
-myStack <- moveStack(list(leroy, rickyP),forceTz="UTC")
+leroyP<-spTransform(leroy, proj4string(ricky))
+myStack <- moveStack(list(leroyP, ricky),forceTz="UTC")
 ```
 
 In the overview the information of all individuals is combined.

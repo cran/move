@@ -1,3 +1,7 @@
+Version 4.0.2
+
+	* fix small issues with cran checks
+
 Version 4.0.0
 
 	* updates to account for changes in rgdal and sp
