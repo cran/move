@@ -73,7 +73,6 @@ test_that("use dots",{
 test_that("forcetz",{
   a<-move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1', tz="UTC"),proj=CRS('+proj=longlat +ellps=WGS84'))
   b<-move(x=1:10,y=1:10,time=as.POSIXct(1:10, origin='1970-1-1', tz="UTC"),proj=CRS('+proj=longlat +ellps=WGS84'),animal=gl(2,5))
-  expect_equal(attributes(timestamps(moveStack(a,b)))$tzone,NULL)
   expect_equal(attributes(t<-timestamps(moveStack(a,b, forceTz="UTC")))$tzone,"UTC")
   expect_true(all.equal(t[1:10], timestamps(a), check.names=F))
   expect_true(all.equal(t[11:20], timestamps(b), check.names=F))

@@ -1,7 +1,7 @@
 Package: move
 Type: Package
 Title: Visualizing and Analyzing Animal Track Data
-Version: 4.0.2
+Version: 4.0.4
 Authors@R: c(person("Bart", "Kranstauber", role = c("aut", "cre"),
                      email = "b.kranstauber@uva.nl"),
               person("Marco", "Smolla", role = "aut"),
@@ -13,7 +13,7 @@ Description: Contains functions to access movement data stored in 'movebank.org'
     Move helps addressing movement ecology questions.
 License: GPL (>= 3)
 URL: https://bartk.gitlab.io/move/
-BugReports: https://gitlab.com/bartk/move/issues
+BugReports: https://gitlab.com/bartk/move/-/issues
 LazyLoad: yes
 LazyData: yes
 LazyDataCompression: xz
@@ -25,13 +25,13 @@ Suggests: adehabitatHR, adehabitatLT, markdown, rmarkdown, circular,
 Imports: httr, memoise, xml2, Rcpp
 LinkingTo: Rcpp
 SystemRequirements: C++11
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2020-06-25 12:03:02 UTC; root
+Packaged: 2020-09-11 19:50:43 UTC; bart
 Author: Bart Kranstauber [aut, cre],
   Marco Smolla [aut],
   Anne K Scharf [aut]
 Maintainer: Bart Kranstauber <b.kranstauber@uva.nl>
 Repository: CRAN
-Date/Publication: 2020-06-25 15:50:02 UTC
+Date/Publication: 2020-09-12 05:50:40 UTC
