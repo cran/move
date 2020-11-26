@@ -56,12 +56,16 @@ setMethod(f="getMovebank",
 		  if(grepl(pattern="The requested download may contain copyrighted material. You may only download it if you agree with the terms listed below. If study-specific terms have not been specified, read the \"General Movebank Terms of Use\".",
 		        cont[1]))  stop("You need a permission to access this data set. Go to www.movebank.org and accept the license terms when downloading the data set (you only have to do this once per data set).")
 		  data <- read.csv(textConnection(cont), colClasses=cols)
+      if(any(grepl(pattern = 'The.request.has.not.been.applied.because.it.lacks.valid.authentication.credentials.for.the.target.resource', x=colnames(data)))) stop("There are no credentials")
+		  if(any(grepl(pattern = 'The.server.understood.the.request.but.refuses.to.authorize', x=colnames(data)))) stop("There are no valid credentials")
 		  
 		  if(any(grepl(pattern="You.may.only.download.it.if.you.agree.with.the.terms", x=colnames(data)))) stop("You need a permission to access this data set. Go to www.movebank.org and accept the license terms when downloading the data set (you only have to do this once per data set).")
 		  if (any(grepl(pattern="X.html..head..title.Apache.Tomcat", colnames(data)))) stop("It looks like you are not allowed to download this data set, either by permission but maybe also an invalid password. Or there is a sensor for which no attributes are available.")
 		  if (any(grepl(pattern="are.not.available.for.download", colnames(data)))) stop("You have no permission to download this data set.")
 		  if (any(grepl(pattern="503 Service Temporarily Unavailable", unlist(head(data))))) stop("Movebank is (temporarily) unavailable")
 		  if (any(grepl(pattern="No.data.are.available.for.download", colnames(data)))) stop("Api reports: No data are available for download")
+		  if (any(grepl(pattern="By accepting this document the user agrees to the following", data[,1]))) stop("It looks like you are not allowed to download this data set, have you agreed to the license terms in the web interface?")
+		  
 		  return(data)
 	  })
 

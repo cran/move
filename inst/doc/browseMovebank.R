@@ -48,7 +48,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 #  
 #  # alternative:
 #  t <- strptime("20030322174400",format="%Y%m%d%H%M%S", tz='UTC')
-#  bci_ocelot_ranget <- getMovebankData(study="BCI Ocelot", login=login,
+#  bci_ocelot_ranget <- getMovebankData(study="BCI Ocelot", login=loginStored,
 #                                       timestamp_start=t,
 #                                       timestamp_end=t+as.difftime(31,units='days'))
 

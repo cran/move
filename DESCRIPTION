@@ -1,7 +1,7 @@
 Package: move
 Type: Package
 Title: Visualizing and Analyzing Animal Track Data
-Version: 4.0.4
+Version: 4.0.6
 Authors@R: c(person("Bart", "Kranstauber", role = c("aut", "cre"),
                      email = "b.kranstauber@uva.nl"),
               person("Marco", "Smolla", role = "aut"),
@@ -28,10 +28,10 @@ SystemRequirements: C++11
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2020-09-11 19:50:43 UTC; bart
+Packaged: 2020-11-26 13:31:50 UTC; bart
 Author: Bart Kranstauber [aut, cre],
   Marco Smolla [aut],
   Anne K Scharf [aut]
 Maintainer: Bart Kranstauber <b.kranstauber@uva.nl>
 Repository: CRAN
-Date/Publication: 2020-09-12 05:50:40 UTC
+Date/Publication: 2020-11-26 15:50:06 UTC

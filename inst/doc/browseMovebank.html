@@ -12,7 +12,7 @@
 
 <meta name="author" content="Marco Smolla, Bart Kranstauber &amp; Anne Scharf" />
 
-<meta name="date" content="2020-09-11" />
+<meta name="date" content="2020-11-26" />
 
 <title>Browsing Movebank within R</title>
 
@@ -301,7 +301,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Browsing Movebank within R</h1>
 <h4 class="author">Marco Smolla, Bart Kranstauber &amp; Anne Scharf</h4>
-<h4 class="date">2020-09-11</h4>
+<h4 class="date">2020-11-26</h4>
 
 
 <div id="TOC">
@@ -446,7 +446,7 @@ To get more details of the options of a specific function, see the functions hel
 <a class="sourceLine" id="cb13-5" title="5"></a>
 <a class="sourceLine" id="cb13-6" title="6"><span class="co"># alternative:</span></a>
 <a class="sourceLine" id="cb13-7" title="7">t &lt;-<span class="st"> </span><span class="kw">strptime</span>(<span class="st">&quot;20030322174400&quot;</span>,<span class="dt">format=</span><span class="st">&quot;%Y%m%d%H%M%S&quot;</span>, <span class="dt">tz=</span><span class="st">&#39;UTC&#39;</span>)</a>
-<a class="sourceLine" id="cb13-8" title="8">bci_ocelot_ranget &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>login,</a>
+<a class="sourceLine" id="cb13-8" title="8">bci_ocelot_ranget &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored,</a>
 <a class="sourceLine" id="cb13-9" title="9">                                     <span class="dt">timestamp_start=</span>t,</a>
 <a class="sourceLine" id="cb13-10" title="10">                                     <span class="dt">timestamp_end=</span>t<span class="op">+</span><span class="kw">as.difftime</span>(<span class="dv">31</span>,<span class="dt">units=</span><span class="st">&#39;days&#39;</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># download all data before &quot;2003-07-24 20:00:00.000&quot;</span></a>
