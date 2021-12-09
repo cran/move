@@ -39,6 +39,6 @@ See the 'browseMovebank' vignette for more information about security and how to
 \dontrun{
 # obtain a login
 login<-movebankLogin()
-getMovebankStudy(study="BCI Agouti", login=login)
+getMovebankStudy(study="Coatis on BCI Panama (data from Powell et al. 2017)", login=login)
 }
 }

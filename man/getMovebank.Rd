@@ -8,7 +8,7 @@
 
 \title{Download Data from Movebank}
 
-\description{An enhanced function to download information of studies, animals, deployments and tags, and sensor measurements from \href{http://www.movebank.org}{Movebank}. Many of the options of this function have been included as separate more user friendly functions listed in the \emph{See Also} section below. }
+\description{An enhanced function to download information of studies, animals, deployments and tags, and sensor measurements from \href{https://www.movebank.org}{Movebank}. Many of the options of this function have been included as separate more user friendly functions listed in the \emph{See Also} section below. }
 
 \usage{
 \S4method{getMovebank}{character,MovebankLogin}(entity_type , login, ...) 
@@ -25,7 +25,7 @@
 	\item{\code{individual_id}}{numeric. It is the internal individual Movebank identifier. A single individual or a vector of several individuals from the same study can be specified. It corresponds to the \emph{id} values of \code{getMovebank("individual", login, study_id)}. Optional.}
 	\item{\code{deployment_id}}{numeric. It is the deployment Movebank identifier. A single deployment or a vector of several deployments from the same study can be specified. It corresponds to the \emph{id} values of \code{getMovebank("deployment", login, study_id)}. Optional.}
 	\item{\code{sensor_type_id}}{numeric. It is the numeric id of the sensor type. A single sensor type or a vector of several sensor types can be specified. The corresponding numeric id for each sensor type can be found through \code{getMovebank("tag_type", login)}. To obtain the sensor types available in the study use \code{\link{getMovebankSensors}}. Optional.}
-	\item{\code{attributes}}{character. A single attribute or a vector of attributes can be specified. Optional. See 'Details' for more information.}
+	\item{\code{attributes}}{character. A single attribute, a vector of attributes or "all" can be specified. Optional. See 'Details' for more information.}
  \item{\code{timestamp_start, timestamp_end}}{character or POSIXct. Starting and/or ending timestamp to download the data for a specific time period. Timestamps have to be provided in format 'yyyyMMddHHmmssSSS'. If POSIXct then it is converted to character using UTC as a time zone, note that this can change the time. Optional.}
  }
  }
@@ -45,9 +45,9 @@
 	}
 
 	The default columns of \code{getMovebank("event", login,study_id,...)} are \emph{timestamp, location_lat, location_long, individual_id, tag_id}. If the downloaded study only contains GPS data, these default columns are suitable, but for all other sensors, additional columns are required. The columns available vary among sensor type and tag manufacturer, the complete list of available attributes for a specific study can be obtained with:
-	\code{unique(c(as.character(getMovebankSensorsAttributes(study, login=login)$short_name), 'sensor_type_id', 'deployment_id', 'event_id', 'individual_id', 'tag_id'))}. If \code{attributes="all"} than all attributes that are present in the study will be downloaded.
+	\code{getMovebankSensorsAttributes(study, login=login)}. If \code{attributes="all"} than all attributes that are present in the study will be downloaded.
 
-	The definitions of the content of the columns is detailed in the \href{http://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
+	The definitions of the content of the columns is detailed in the \href{https://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
 }
 
 
@@ -85,10 +85,10 @@
 ## first create the login object 
 login <- movebankLogin()
 
-## get Movebank ID from study
-studyID <- getMovebankID(study="MPIO white stork lifetime tracking data (2013-2014)", 
-			 login=login)
-studyID2 <- getMovebankID(study="BCI Ocelot", login=login)
+anne## get Movebank ID from study
+studyID <- getMovebankID(study="MPIAB white stork lifetime tracking data (2013-2014)", 
+                         login=login)
+studyID2 <- getMovebankID(study="Ocelots on Barro Colorado Island, Panama", login=login)
 
 ## get a summary of information about the two studies
 getMovebank("study", login=login, study_id=c(studyID,studyID2)) 
@@ -110,7 +110,7 @@ indID <- getMovebank("individual", login=login, study_id=studyID)$id[50]
 ## the correspondence table between the individual ID and the 
 ## animal names can be obtained like this
 head(getMovebank("individual", login=login, 
-		 study_id=studyID)[, c("id", "local_identifier")])
+                 study_id=studyID)[, c("id", "local_identifier")])
 
 ## get GPS and accelerometer data within a time period
 ## to download all attributes for all sensors included in the study
@@ -118,32 +118,28 @@ attrib <- "all"
 ## get measurments for a given time period, in this case for GPS and 
 ## accelerometer, and between "2013-06-25 03:55:00.000" and "2013-06-26 10:25:00.000"
 getMovebank("event", login=login, study_id=studyID, sensor_type_id=c(653,2365683), 
-	    individual_id=indID, attributes=attrib, timestamp_start="20130625035500000", 
-	    timestamp_end="20130626102500000 ")
+            individual_id=indID, attributes=attrib, timestamp_start="20130625035500000", 
+            timestamp_end="20130626102500000 ")
 
 ## get all GPS data for 2 individuals
-## create a vector with attributes only for GPS data
-attribs<-getMovebankSensorsAttributes(studyID, login)
-attribGPS <- unique(c(as.character(attribs$short_name[attribs$sensor_type_id==653]), 
-		      'sensor_type_id', 'deployment_id', 'event_id', '
-		      individual_id', 'tag_id'))
+## get movebank ID of another individual of this study
 indID2 <- getMovebank("individual", login=login, study_id=studyID)$id[35]
-## get GPS measurements for these two individuals
+## get GPS measurements for these two individuals with all available attributes
 head(storks <- getMovebank("event", login=login, study_id=studyID, 
-			   sensor_type_id=653, individual_id=c(indID,indID2), 
-			   attributes=attribGPS))
+                           sensor_type_id=653, individual_id=c(indID,indID2), 
+                           attributes="all"))
 
 ## create moveStack
 ## get the names of the individuals as they appear on Movebank
 (individualNames <- getMovebank("individual", login=login, 
-				study_id=studyID)[c(35,50), c("id", "local_identifier")])
+                                study_id=studyID)[c(35,50), c("id", "local_identifier")])
 head(storks2 <- merge(storks,individualNames,by.x="individual_id", by.y="id"))
 
 myMoveStack <- move(x=storks2$location_long, y=storks2$location_lat,
-		    time=as.POSIXct(storks2$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC"),
-		    data=storks2, 
-		    proj=CRS("+proj=longlat +ellps=WGS84"), 
-		    animal=storks2$local_identifier)
+                    time=as.POSIXct(storks2$timestamp, format="%Y-%m-%d %H:%M:%S", tz="UTC"),
+                    data=storks2, 
+                    proj=CRS("+proj=longlat +ellps=WGS84"), 
+                    animal=storks2$local_identifier)
 
 plot(myMoveStack, type="l")
 }

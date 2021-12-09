@@ -14,7 +14,9 @@ test_that("print move",{
   expect_output(print( burst(leroy, t)),sprintf('bursts      : X02: %i, X03: %i',table(t)[1],table(t)[2]))
   leroy@license<-"asdfasd"
   expect_output(print(leroy), "license     : asdfasd")
-
-
+  expect_warning(leroy, NA)
+  data("fishers")
+  expect_warning(fishers, NA)
+  
   
 })

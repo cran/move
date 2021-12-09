@@ -1,6 +1,7 @@
 ###extract names of individuals from Move
-if (!isGeneric("namesIndiv")) {setGeneric("namesIndiv", function(obj) standardGeneric("namesIndiv"))}
-
+if (!isGeneric("namesIndiv", where = topenv(parent.frame()))) {
+	setGeneric("namesIndiv", function(obj) standardGeneric("namesIndiv"))
+}
 setMethod("namesIndiv", ".MoveTrackSingle", function(obj){
   return(rownames(idData(obj, drop=F)))
 })

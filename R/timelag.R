@@ -1,5 +1,5 @@
 
-if (!isGeneric("timeLag")) {
+if (!isGeneric("timeLag", where = topenv(parent.frame()))) {
 	setGeneric("timeLag", function(x, ...) standardGeneric("timeLag"))
 }
 setMethod("timeLag", 

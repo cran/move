@@ -77,16 +77,16 @@ You may rather use the search term without the first letter, e.g. 'oose' instead
 All of the functions presented here can work with the study’s Movebank ID or the study name to find information within the database. Note that study names can be changed by the user, while the Movebank ID is created by the database and will always remain the same. If you want to work with the short Movebank ID instead of the longer study name, use `getMovebankID()`. This number can also be found on the 'Study Details' page of the study on Movebank.
 
 ```{r, eval=F}
-getMovebankID("BCI Ocelot",login=loginStored)
+getMovebankID("Ocelots on Barro Colorado Island, Panama",login=loginStored)
 ```
 
 </br>  
 
 # Get information about the study, tags, animals and deployments
 ## Get general information of a study
-You found a study you are interested in, let's say 'BCI Ocelot'. To get more information about this study, e.g. the authors of the study, license type, citation and more, use:
+You found a study you are interested in, let's say 'Ocelots on Barro Colorado Island, Panama'. To get more information about this study, e.g. the authors of the study, license type, citation and more, use:
 ```{r, eval=F}
-getMovebankStudy(study="BCI Ocelot",login=loginStored)
+getMovebankStudy(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 ```
 
 </p>
@@ -94,7 +94,7 @@ getMovebankStudy(study="BCI Ocelot",login=loginStored)
 ## Get information about sensors
 If you want to know which sensor types were used for each tag in this study you can use
 ```{r, eval=F}
-getMovebankSensors(study="BCI Ocelot",login=loginStored)
+getMovebankSensors(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 ```
 
 To see all available sensor types on Movebank, use the same function leaving the `study` argument empty.
@@ -104,7 +104,7 @@ getMovebankSensors(login=loginStored)
 
 To get a list of the attributes that are available for the sensors of a particular study, use
 ```{r, eval=F}
-getMovebankSensorsAttributes(study="BCI Ocelot",login=loginStored)
+getMovebankSensorsAttributes(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 ```
 
 </p>
@@ -114,7 +114,7 @@ NOTE: _**Agreement to license terms**: to be able to download data from a study 
 
 A list of the animals names, their tag ids, sensors used and more information about to each individual is returned with this command
 ```{r, eval=F}
-getMovebankAnimals(study="BCI Ocelot",login=loginStored)
+getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 ```
 Notice that some information about animals are stored as deployment-level information, for example animal-life-stage, which might vary across multiple deployments for the same individual.
 
@@ -125,7 +125,7 @@ NOTE: _**Agreement to license terms**: to be able to download data from a study 
 
 Get a table with all information associated to the animals, tags and deployments. This table is equivalent to the table obtained on the Movebank webpage trough the option 'Download Reference Data' of the study.
 ```{r, eval=F}
-getMovebankReferenceTable(study="BCI Ocelot",login=loginStored)
+getMovebankReferenceTable(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 ```
 
 </br>  
@@ -138,7 +138,7 @@ NOTE: _**Agreement to license terms**: to be able to download data from a study 
 An entire study can be downloaded:
 
 ```{r, eval=F}
-bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored)
+bci_ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored)
 ```
 
 </p>
@@ -147,12 +147,12 @@ bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored)
 Or you can specify to download data for one or several individuals:
 ```{r, eval=F}
 # for one individual
-bobby <- getMovebankData(study="BCI Ocelot", animalName="Bobby", login=loginStored)
+bobby <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName="Bobby", login=loginStored)
 ```
 
 ```{r, eval=F}
 # for several individuals
-ocelot2ind <- getMovebankData(study="BCI Ocelot", animalName=c("Bobby","Darlen"), login=loginStored)
+ocelot2ind <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName=c("Bobby","Darlen"), login=loginStored)
 ```
 
 </p>
@@ -161,25 +161,25 @@ ocelot2ind <- getMovebankData(study="BCI Ocelot", animalName=c("Bobby","Darlen")
 You can also limit your download to a given time range. The timestamp has to be in format 'yyyyMMddHHmmssSSS' or as a POSIXct, then it is converted to the character using the UTC timezone:
 ```{r, eval=F}
 # download all data between "2003-03-22 17:44:00.000" and "2003-04-22 17:44:00.000"
-bci_ocelot_range1 <- getMovebankData(study="BCI Ocelot", login=loginStored,
+bci_ocelot_range1 <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored,
                                      timestamp_start="20030322174400000",
                                      timestamp_end="20030422174400000")
 
 # alternative:
 t <- strptime("20030322174400",format="%Y%m%d%H%M%S", tz='UTC')
-bci_ocelot_ranget <- getMovebankData(study="BCI Ocelot", login=loginStored,
+bci_ocelot_ranget <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored,
                                      timestamp_start=t,
                                      timestamp_end=t+as.difftime(31,units='days'))
 ```
 ```{r, eval=F}
 # download all data before "2003-07-24 20:00:00.000"
-bci_ocelot_range2 <- getMovebankData(study="BCI Ocelot", login=loginStored, 
+bci_ocelot_range2 <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored, 
                                      timestamp_end="20030724200000000")
 
 ```
 ```{r, eval=F}
 # download all data after "2003-07-01 20:00:00.000" only for "Bobby"
-bobby_range <- getMovebankData(study="BCI Ocelot", login=loginStored, animalName="Bobby",
+bobby_range <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored, animalName="Bobby",
                                timestamp_start="20030701200000000")
 ```
 
@@ -189,7 +189,7 @@ bobby_range <- getMovebankData(study="BCI Ocelot", login=loginStored, animalName
 In case the study contains duplicated timestamps, you can set the argument `removeDuplicatedTimestamps=TRUE`. This will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates. 
 
 ```{r, eval=F}
-bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored, 
+bci_ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored, 
                               removeDuplicatedTimestamps=TRUE)
 ```
 Duplicated timestamps can occur for many different reasons. In some cases, one duplicate record might contain more complete information or a better location estimate than the other(s). In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function `getMovebankLocationData()`, find the duplicates using e.g. `getDuplicatedTimestamps()`, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function `move()`. These flagged duplicated records can be also marked as outliers in Movebank, by [adding an attribute](https://www.movebank.org/node/2874) like e.g. "manually_marked_outlier" to the study. Another option is to edit the records in Movebank and mark the appropriate records as outliers.

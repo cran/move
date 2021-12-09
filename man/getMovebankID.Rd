@@ -20,7 +20,7 @@
 }
 
 \details{
-  \code{getMovebankID} belongs to the Movebank browsing functions and returns the Movebank ID of a study as it is stored on \href{http://www.movebank.org}{Movebank}. This number can also be found on the \emph{Study Details} page of the study on Movebank.
+  \code{getMovebankID} belongs to the Movebank browsing functions and returns the Movebank ID of a study as it is stored on \href{https://www.movebank.org}{Movebank}. This number can also be found on the \emph{Study Details} page of the study on Movebank.
 }
 
 \seealso{\code{\link{movebankLogin}}}
@@ -40,6 +40,6 @@ The function returns one '\code{numeric}' value.}
 
 #obtain a login
 login<-movebankLogin()
-getMovebankID(study="BCI Ocelot", login=login)
+getMovebankID(study="Ocelots on Barro Colorado Island, Panama", login=login)
 }
 }

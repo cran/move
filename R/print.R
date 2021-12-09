@@ -22,7 +22,7 @@ setMethod("print", ".MoveTrackStack", function(x){
 	  d<-apply(idData(x, drop=F), 2, range)
 	  nc<- apply(nchar(d),2, max)
 	  nc<-paste0("%",nc, "s")
-	  mapply(sprintf, d, nc)
+	 # mapply(sprintf, d, nc)
 	  cat("min ID Data :", paste(sprintf(sub("%NAs","%s",nc), d[1,]), collapse=', '),"\n")
 	  cat("max ID Data :", paste(sprintf(sub("%NAs","%s",nc), d[2,]), collapse=', '),"\n")
 	  }

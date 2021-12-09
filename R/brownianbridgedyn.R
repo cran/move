@@ -8,7 +8,7 @@ setMethod(f = "brownian.bridge.dyn",
 		  location.error <- do.call("$", list(object, location.error))
 		  if(is.null(location.error))
 			  stop('column indicated for location error probably does not exist')
-		  brownian.bridge.dyn(object = object, location.error = location.error, raster = raster, ext=ext, ...)
+		  brownian.bridge.dyn(object = object, location.error = location.error, raster = raster, margin = margin, window.size = window.size, ext=ext, ...)
 	  })
 
 ### if neither a raster nor the dimSize is given, then the cell size is
@@ -73,7 +73,8 @@ setMethod(f = "brownian.bridge.dyn",
 		  ncol <- ((xmax - xmin)/raster)
 		  ex <- extent(c(xmin, xmax, ymin, ymax))
 		  rst <- raster(ncols = ncol, nrows = nrow, crs = proj4string(object), ex)
-		  return(brownian.bridge.dyn(object = object, raster = rst, location.error = location.error, margin = margin, window.size = window.size, ext = ext,  ...))
+ 		  return(brownian.bridge.dyn(object = object, raster = rst, location.error = location.error, margin = margin, window.size = window.size, 
+ 		                             ext = ext,  ...))
 	  })
 
 setMethod(f = "brownian.bridge.dyn", 

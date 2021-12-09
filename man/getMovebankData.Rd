@@ -41,10 +41,10 @@
 
 \details{
 \code{getMovebankData} belongs to the Movebank browsing functions and returns a \link[=Move-class]{Move} object from studies with only one animal or a \link[=MoveStack-class]{MoveStack} object for studies with multiple animals.\cr
-Remember that you need an account on \href{http://www.movebank.org}{Movebank}, see \link{movebankLogin}.
+Remember that you need an account on \href{https://www.movebank.org}{Movebank}, see \link{movebankLogin}.
 
 \emph{Attribute names:}\cr
-The definitions of the content of the columns within the @idData, @sensor, @data slots of the move or moveStack object is detailed in the \href{http://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
+The definitions of the content of the columns within the @idData, @sensor, @data slots of the move or moveStack object is detailed in the \href{https://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
 
 \code{includeExtraSensors:}\cr
 If this \code{includeExtraSensors=TRUE} the data of all non location sensors (e.g. acceleration, magnetometer, etc) available in the study will be downloaded and stored in the unUsedRecords slot. Data from a single or a set of non location sensors can be also downloaded as a \code{data.frame} with the function \link{getMovebankNonLocationData}
@@ -87,10 +87,10 @@ Object of class '\link[=Move-class]{Move}' or '\link[=MoveStack-class]{MoveStack
 login<-movebankLogin()
 
 # returns a MoveStack object from the specified study
-getMovebankData(study="BCI Ocelot", login=login) 
+getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=login) 
 
 # returns a Move object (there is only one individual in this study)
-getMovebankData(study="BCI Agouti", login=login) 
+getMovebankData(study="Coatis on BCI Panama (data from Powell et al. 2017)", login=login) 
 
 # returns a MoveStack with two individuals
 getMovebankData(study=123413, animalName=c("Mancha","Yara"), login=login) 
@@ -99,6 +99,5 @@ getMovebankData(study=123413, animalName=c("Mancha","Yara"), login=login)
 (ocelots <- getMovebankData(study=123413, animalName=c("Mancha","Yara"), 
                             login=login, timestamp_end="20030506194510000"))
 
-timestamps(ocelots)
-}
+timestamps(ocelots)}
 }

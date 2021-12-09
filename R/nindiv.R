@@ -1,5 +1,5 @@
 ###extract number of locations from Move
-if (!isGeneric("n.indiv")) {setGeneric("n.indiv", function(obj) standardGeneric("n.indiv"))}
+if (!isGeneric("n.indiv", where = topenv(parent.frame()))) {setGeneric("n.indiv", function(obj) standardGeneric("n.indiv"))}
 
 setMethod("n.indiv", "Move", function(obj){
   return(1)

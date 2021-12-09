@@ -20,10 +20,10 @@ library(move)
 ## ---- eval=T------------------------------------------------------------------
 leroy
 
-## ----message=F----------------------------------------------------------------
+## ----message=F, warning=F-----------------------------------------------------
 ricky<-move(system.file("extdata","ricky.csv.gz", package="move"))
 data(leroy)
-# if argument forceTz is not stated, the timestamp is converted to the computer timezone
+## if argument forceTz is not stated, the timestamp is converted to the computer timezone
 leroyP<-spTransform(leroy, proj4string(ricky))
 myStack <- moveStack(list(leroyP, ricky),forceTz="UTC")
 
@@ -40,13 +40,13 @@ myStack
 ## -----------------------------------------------------------------------------
 timestamps(leroy)[1:3]
 
-# For a MoveStack the output is a continuous vector of timestamps of all individuals:
+## For a MoveStack the output is a continuous vector of timestamps of all individuals:
 timestamps(myStack)[1:3]
 
 ## -----------------------------------------------------------------------------
 coordinates(leroy)[1:3,]
 
-# For a MoveStack the output is one matrix containing the coordinates of all individuals:
+## For a MoveStack the output is one matrix containing the coordinates of all individuals:
 coordinates(myStack)[1:3,]
 
 ## -----------------------------------------------------------------------------
@@ -79,33 +79,33 @@ n.indiv(myStack)
 levels(sensor(leroy))
 
 ## -----------------------------------------------------------------------------
-# all information
+## all information
 as.data.frame(unUsedRecords(leroy))[1:3,]
 
-# only the timestamps of the unused records:
+## only the timestamps of the unused records:
 leroy@timestampsUnUsedRecords[1:3]
 
-# only the data of the unused records:
+## only the data of the unused records:
 leroy@dataUnUsedRecords[1:3,]
 
-# only the sensor of the unused records:
+## only the sensor of the unused records:
 levels(leroy@sensorUnUsedRecords)
 
 
 ## ---- eval=F------------------------------------------------------------------
-#  bci_ocelot <- getMovebankData(study="BCI Ocelot")
+#  coatis_bci <- getMovebankData(study="Coatis on BCI Panama (data from Powell et al. 2017)")
 #  
-#  # the study name:
-#  bci_ocelot@study
-#  ## [1] "BCI Ocelot"
+#  ## the study name:
+#  coatis_bci@study
+#  # [1] "Coatis on BCI Panama (data from Powell et al. 2017)"
 #  
-#  # how to cite the study:
-#  citations(bci_ocelot)
-#  ## [1] "Moreno RS, Kays R, Giacalone-Willis J, Aliaga-Rossel, E (2012) Ámbito de Hogar y Actividad Circadiana del Ocelote (Leopardus pardalis) en la Isla de Barro Colorado, Panamá. Mesoamericana 16(3), 30–39."
+#  ## how to cite the study:
+#  citations(coatis_bci)
+#  # [1] "Powell RA, Ellwood S, Kays R, Maran T (2017) Stink or swim: techniques to meet the challenges for the study and conservation of small critters that hide, swim, or climb, and may otherwise make themselves unpleasant. In Macdonald DW, Newman C, Harrington LA, eds, Biology and Conservation of Musteloids. Oxford University Press, Oxford. p 216–230. doi:10.1093/oso/9780198759805.003.0008"
 #  
-#  # license terms of the study
-#  licenseTerms(bci_ocelot)
-#  ## [1] "May be used for educational purposes. Exploration for scientific study is fine but contact Roland Kays (roland.kays@naturalsciences.org) before using in any publication to discuss collaboration."
+#  ## license terms of the study
+#  licenseTerms(coatis_bci)
+#  # [1] "These data have been published by the Movebank Data Repository with DOI "http://dx.doi.org/10.5441/001/1.41076dq1"
 
 ## ---- eval=T------------------------------------------------------------------
 trackId(myStack)[1:3]
@@ -135,22 +135,22 @@ trackId(myStack)[1:3]
 #  noOneAndTwo <- myStack[[-c(1,2)]]
 
 ## ---- eval=F------------------------------------------------------------------
-#  # subset to locations 1-50
+#  ## subset to locations 1-50
 #  leroySub <- leroy[1:50]
 
 ## ---- eval=F------------------------------------------------------------------
-#  # select the locations 1-50 from a movestack. WARNING: this will just select the 50 first locations in order of occurrence, in this case they correspond to the first individual of the movestack
+#  ## select the locations 1-50 from a movestack. WARNING: this will just select the 50 first locations in order of occurrence, in this case they correspond to the first individual of the movestack
 #  myStackSub <- myStack[1:50]
 #  
-#  # to select locations 1-50 from each individual
+#  ## to select locations 1-50 from each individual
 #  myStackSubs <- moveStack(lapply(split(myStack), function(x){x[1:50]}))
 
 ## ---- eval=F------------------------------------------------------------------
-#  # selecting a specific day
+#  ## selecting a specific day
 #  leroyOneDay <- leroy[as.Date(timestamps(leroy))==as.Date("2009-02-25")]
-#  # selecting a range of days
+#  ## selecting a range of days
 #  leroy3Days <- leroy[as.Date(timestamps(leroy))%in%c(as.Date("2009-02-25"):as.Date("2009-02-28"))]
-#  # selecting a specific month
+#  ## selecting a specific month
 #  myStackMarch <- myStack[month(timestamps(myStack))==3]
 
 ## ----message=FALSE------------------------------------------------------------
@@ -191,55 +191,55 @@ load("a.Rdata")
 ggmap(m)+geom_path(data=leroyDF, aes(x=location.long, y=location.lat))
 
 ## -----------------------------------------------------------------------------
-# from a move object (a vector is returned)
+## from a move object (a vector is returned)
 timeLag(leroy, units="mins")[1:5]
 
-# from a moveStack object (a list of vectors is returned)
+## from a moveStack object (a list of vectors is returned)
 str(timeLag(myStack, units="mins"))
 
 ## -----------------------------------------------------------------------------
-# from a move object (a vector is returned)
+## from a move object (a vector is returned)
 distance(leroy)[1:5]
 
-# from a moveStack object (a list of vectors is returned)
+## from a moveStack object (a list of vectors is returned)
 str(distance(myStack))
 
 ## -----------------------------------------------------------------------------
-# from a move object (a vector is returned)
+## from a move object (a vector is returned)
 speed(leroy)[1:5]
 
-# from a moveStack object (a list of vectors is returned)
+## from a moveStack object (a list of vectors is returned)
 str(speed(myStack))
 
 ## -----------------------------------------------------------------------------
-# from a move object (a vector is returned)
+## from a move object (a vector is returned)
 angle(leroy)[1:5]
 
-# from a moveStack object (a list of vectors is returned)
+## from a moveStack object (a list of vectors is returned)
 str(angle(myStack))
 
 ## -----------------------------------------------------------------------------
-# from a move object (a vector is returned)
+## from a move object (a vector is returned)
 turnAngleGc(leroy)[1:5]
 
-# from a moveStack object (a list of vectors is returned)
+## from a moveStack object (a list of vectors is returned)
 str(turnAngleGc(myStack))
 
 ## ---- message=F---------------------------------------------------------------
 library(maptools)
-# night is defined here as the time when the sun, at the beginning and end of a segment, is 6 degrees below the horizon
+## night is defined here as the time when the sun, at the beginning and end of a segment, is 6 degrees below the horizon
 DayNight <- rep("Day", n.locs(leroy)-1)
 DayNight[solarpos(leroy[-n.locs(leroy)], timestamps(leroy)[-n.locs(leroy)])[,2] < -6 & solarpos(leroy[-1], timestamps(leroy)[-1])[,2] < -6] <- "Night"
 
-# assigning to each segment if it is during daytime or night
+## assigning to each segment if it is during daytime or night
 leroy.burst <- burst(x=leroy, f=DayNight)
 
 ## ----fig.width=5, fig.height=5------------------------------------------------
 plot(leroy.burst, type="l", col=c("red", "black"), asp=1)
 legend("bottomleft",legend=c("day","night"), col=c("red", "black"), lty=1)
 
-## ----fig.width=5, fig.height=5, message=F-------------------------------------
-## in the default the size of the cicles is relative to the total time spent within each burst segment 
+## ----fig.width=5, fig.height=5, message=F, warning=F--------------------------
+### in the default the size of the cicles is relative to the total time spent within each burst segment 
 plotBursts(leroy.burst,breaks=5, col=c("red", "black"), pch=19, add=F,main="Size of points: total time spent in burst segment", asp=1)
 legend("bottomleft",legend=c("day","night"), col=c("red", "black"), pch=19)
 
@@ -261,7 +261,7 @@ LeroyCorr <- corridor(leroy)
 plot(LeroyCorr, type="l", xlab="Longitude", ylab="Latitude", col=c("black", "grey"), lwd=c(1,2))
 legend("bottomleft", c("Corridor", "Non-corridor"), col=c("black", "grey"), lty=c(1,1), bty="n")
 
-## ---- message=F---------------------------------------------------------------
+## ---- message=F, warning=F----------------------------------------------------
 leroyRed <- leroy[1:200] # reducing dataset for example
 leroy.prj <- spTransform(leroyRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
@@ -276,19 +276,19 @@ UDleroy <- getVolumeUD(dBB.leroy)
 par(mfrow=c(1,2))
 plot(UDleroy, main="UD")
 
-# also a contour can be added
+## also a contour can be added
 plot(UDleroy, main="UD and contour lines")
 contour(UDleroy, levels=c(0.5, 0.95), add=TRUE, lwd=c(0.5, 0.5), lty=c(2,1))
 
 ## ----fig.width=12, fig.height=4-----------------------------------------------
 par(mfrow=c(1,3))
 
-# mantaining the lower probabilities
+## mantaining the lower probabilities
 ud95 <- UDleroy
 ud95[ud95>.95] <- NA
 plot(ud95, main="UD95")
 
-# or extracting the area with a given probability, where cells that belong to the given probability will get the value 1 while the others get 0
+## or extracting the area with a given probability, where cells that belong to the given probability will get the value 1 while the others get 0
 ud95 <- UDleroy<=.95
 plot(ud95, main="UD95")
 
@@ -309,29 +309,29 @@ UDleroyB <- getVolumeUD(leroyBud)
 
 plot(UDleroyB)
 
-## ----fig.width=10, fig.height=5, fig.show='hold', message=F-------------------
+## ----fig.width=10, fig.height=5, fig.show='hold', message=F, warning=F--------
 par(mfrow=c(1,2))
-# select all layers corresponding to "Day", sum them up, and convert them to class .UD
+## select all layers corresponding to "Day", sum them up, and convert them to class .UD
 daylayers <- grep("Day", names(dBB.leroyB))
 rasterDay <- sum(dBB.leroyB[[daylayers]])
 rasterDayUD <- as(rasterDay,".UD")
 UDleroy.day <- getVolumeUD(rasterDayUD)
 plot(UDleroy.day, main="UD of 'Day'")
 
-# same for layer corresponding to "Night"
+## same for layer corresponding to "Night"
 nightlayers <- grep("Night", names(dBB.leroyB))
 rasterNight <- sum(dBB.leroyB[[nightlayers]])
 rasterNightUD <- as(rasterNight,".UD")
 UDleroy.night <- getVolumeUD(rasterNightUD)
 plot(UDleroy.night, main="UD of 'Night'")
 
-## ----fig.width=9, fig.height=3, message=F-------------------------------------
+## ----fig.width=9, fig.height=3, message=F, warning=F--------------------------
 dBB.leroyB.night <- brownian.bridge.dyn(leroyB.prj, ext=.75, raster=100, location.error=20, burstType="Night")
 
 plot(dBB.leroyB.night,nr=1)
 
 ## -----------------------------------------------------------------------------
-# check the timeLag of data. If there are timelags shorter than the intended scedule, use the argument "timestep" 
+## check the timeLag of data. If there are timelags shorter than the intended scedule, use the argument "timestep" 
 rickyRed <- ricky[1:100]
 summary(timeLag(rickyRed,"mins")) 
 
@@ -341,18 +341,18 @@ summary(timeLag(rickyRed,"mins"))
 #  ts <- median(timeLag(rickyRed,"mins"))
 #  BB.ricky <- brownian.bridge.dyn(ricky.prj, ext=.45, dimSize=100, location.error=20,time.step=ts/15)
 
-## ---- error=T,fig.width=10, fig.height=5,message=F----------------------------
-# creating a gappy data set
+## ---- error=T,fig.width=10, fig.height=5,message=F, warning=F-----------------
+## creating a gappy data set
 leroyWithGap <- leroy[-c(50:500,550:850)]
 leroyWithGap_p <- spTransform(leroyWithGap, center=TRUE)
 
-# calculate the dBBMM with the default extent gives an error that it is too small
+## calculate the dBBMM with the default extent gives an error that it is too small
 dbb <- brownian.bridge.dyn(leroyWithGap_p, raster=100, location.error=20)
 
-# making the extent bigger seems to solve the problem
+## making the extent bigger seems to solve the problem
 dbb <- brownian.bridge.dyn(leroyWithGap_p, raster=100, location.error=20, ext=4)
 
-# but than the UD is not very informative
+## but than the UD is not very informative
 ud <- getVolumeUD(dbb)
 
 par(mfrow=c(1,2))
@@ -363,17 +363,17 @@ plot(ud, main="UD with locations")
 points(leroyWithGap_p, col="red",  cex=.5, pch=20)
 contour(ud, levels=c(0.5, 0.95), add=TRUE, lwd=c(0.5, 0.5), lty=c(2,1))
 
-## ----fig.width=10, fig.height=5, message=F------------------------------------
-# calculate the dynamic brownian motion variance of the gappy track
+## ----fig.width=10, fig.height=5, message=F, warning=F-------------------------
+## calculate the dynamic brownian motion variance of the gappy track
 dbbv <- brownian.motion.variance.dyn(leroyWithGap_p, location.error=20, window.size=31, margin=11)
 
-# the intended GPS fix rate of leroy was 15min, so we will ignore for example all segments that have a larger time lag than 5hours. The 'dBMvariance' object resulting from the function above, contains the slot '@interest' in which those segments marked as FALSE won't be included in the calculation of the dBBMM. Therefore we set all segments with time lag larger than 300mins to false
+## the intended GPS fix rate of leroy was 15min, so we will ignore for example all segments that have a larger time lag than 5hours. The 'dBMvariance' object resulting from the function above, contains the slot '@interest' in which those segments marked as FALSE won't be included in the calculation of the dBBMM. Therefore we set all segments with time lag larger than 300mins to false
 dbbv@interest[timeLag(leroyWithGap_p,"mins")>300] <- FALSE
 
-# then we use the 'dBMvariance' object to calculate the dBBMM
+## then we use the 'dBMvariance' object to calculate the dBBMM
 dbb.corrected <- brownian.bridge.dyn(dbbv, raster=100, ext=.45,location.error=20)
 
-# now the UD makes more sense
+## now the UD makes more sense
 ud.corrected <- getVolumeUD(dbb.corrected)
 
 par(mfrow=c(1,2))
@@ -393,7 +393,7 @@ values(leoryBud)[values(getVolumeUD(leoryBud))>.999999]<-0
 ## the rasters have to be standerdized so the pixels sum up to 1
 leoryBud_2<-(leoryBud/cellStats(leoryBud,sum))
 emd(leoryBud_2)
-# the result is an matrix of distances of the class 'dist'
+## the result is an matrix of distances of the class 'dist'
 
 ## ---- fig.width=5,fig.height=5, fig.show='hold'-------------------------------
 ## providing the number of locations. In this case the interpolated trajectory will have 500 locations with a regular timelag
@@ -427,7 +427,7 @@ lines(leroyRed, col="red")
 legend("bottomleft", c("True locations", "Interpolated locations"), col=c("red", "black"), pch=c(20,1))
 
 ## -----------------------------------------------------------------------------
-### selecting those segments that have a time interval of 45 mins plus/minus 5 mins. The original data have a fix every ~15mins.
+## selecting those segments that have a time interval of 45 mins plus/minus 5 mins. The original data have a fix every ~15mins.
 thintime <- thinTrackTime(leroyRed, interval = as.difftime(45, units='mins'),
                           tolerance = as.difftime(5, units='mins'))
 
@@ -435,7 +435,7 @@ thintime <- thinTrackTime(leroyRed, interval = as.difftime(45, units='mins'),
 data.frame(TL=timeLag(thintime,"mins"),burst=thintime@burstId)[15:25,]
 
 ## ---- eval=F------------------------------------------------------------------
-#  ### selecting those segments that have a travel distance of ~300m in the original track
+#  ## selecting those segments that have a travel distance of ~300m in the original track
 #  thindist <- thinDistanceAlongTrack(leroyRed, interval = 300, tolerance = 10)
 
 ## ---- eval=F------------------------------------------------------------------
@@ -467,13 +467,13 @@ data.frame(TL=timeLag(thintime,"mins"),burst=thintime@burstId)[15:25,]
 ## ---- eval=F------------------------------------------------------------------
 #  ## kml or kmz of movestack ##
 #  library(plotKML)
-#  # open a file to write the content
+#  ## open a file to write the content
 #  kml_open('myStack.kml')
-#  # write the movement data individual-wise
+#  ## write the movement data individual-wise
 #  for(i in levels(trackId(myStack))){
 #    kml_layer(as(myStack[[i]],'SpatialLines'))
 #  }
-#  # close the file
+#  ## close the file
 #  kml_close('myStack.kml')
 #  
 #  ## export KML using writeOGR ##

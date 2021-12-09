@@ -12,13 +12,29 @@
 
 <meta name="author" content="Marco Smolla, Bart Kranstauber &amp; Anne Scharf" />
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2021-12-08" />
 
 <title>Browsing Movebank within R</title>
 
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
-<style type="text/css">code{white-space: pre;}</style>
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
@@ -104,6 +120,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
+
 
 
 
@@ -301,7 +318,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Browsing Movebank within R</h1>
 <h4 class="author">Marco Smolla, Bart Kranstauber &amp; Anne Scharf</h4>
-<h4 class="date">2020-11-26</h4>
+<h4 class="date">2021-12-08</h4>
 
 
 <div id="TOC">
@@ -380,7 +397,7 @@ To get more details of the options of a specific function, see the functions hel
 <div id="get-the-movebank-id-of-a-study" class="section level2">
 <h2><span class="header-section-number">2.2</span> Get the Movebank ID of a study</h2>
 <p>All of the functions presented here can work with the study’s Movebank ID or the study name to find information within the database. Note that study names can be changed by the user, while the Movebank ID is created by the database and will always remain the same. If you want to work with the short Movebank ID instead of the longer study name, use <code>getMovebankID()</code>. This number can also be found on the ‘Study Details’ page of the study on Movebank.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">getMovebankID</span>(<span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">getMovebankID</span>(<span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
 <p></br></p>
 </div>
 </div>
@@ -388,25 +405,25 @@ To get more details of the options of a specific function, see the functions hel
 <h1><span class="header-section-number">3</span> Get information about the study, tags, animals and deployments</h1>
 <div id="get-general-information-of-a-study" class="section level2">
 <h2><span class="header-section-number">3.1</span> Get general information of a study</h2>
-<p>You found a study you are interested in, let’s say ‘BCI Ocelot’. To get more information about this study, e.g. the authors of the study, license type, citation and more, use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">getMovebankStudy</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
+<p>You found a study you are interested in, let’s say ‘Ocelots on Barro Colorado Island, Panama’. To get more information about this study, e.g. the authors of the study, license type, citation and more, use:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">getMovebankStudy</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
 </p>
 </div>
 <div id="get-information-about-sensors" class="section level2">
 <h2><span class="header-section-number">3.2</span> Get information about sensors</h2>
 <p>If you want to know which sensor types were used for each tag in this study you can use</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">getMovebankSensors</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">getMovebankSensors</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
 <p>To see all available sensor types on Movebank, use the same function leaving the <code>study</code> argument empty.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">getMovebankSensors</span>(<span class="dt">login=</span>loginStored)</a></code></pre></div>
 <p>To get a list of the attributes that are available for the sensors of a particular study, use</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">getMovebankSensorsAttributes</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">getMovebankSensorsAttributes</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
 </p>
 </div>
 <div id="get-information-about-the-animals-of-a-study" class="section level2">
 <h2><span class="header-section-number">3.3</span> Get information about the animals of a study</h2>
 <p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download data from a study on Movebank in R, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per study</strong>.</em></p>
 <p>A list of the animals names, their tag ids, sensors used and more information about to each individual is returned with this command</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">getMovebankAnimals</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">getMovebankAnimals</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
 <p>Notice that some information about animals are stored as deployment-level information, for example animal-life-stage, which might vary across multiple deployments for the same individual.</p>
 </p>
 </div>
@@ -414,7 +431,7 @@ To get more details of the options of a specific function, see the functions hel
 <h2><span class="header-section-number">3.4</span> Get all reference data of a study</h2>
 <p>NOTE: <em><strong>Agreement to license terms</strong>: to be able to download data from a study on Movebank in R, you might first have to accept the license terms for the study. For this go to www.movebank.org, search for your study of interest, click on the download tab, and accept the license terms. <strong>This only has to be done once per study</strong>.</em></p>
 <p>Get a table with all information associated to the animals, tags and deployments. This table is equivalent to the table obtained on the Movebank webpage trough the option ‘Download Reference Data’ of the study.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">getMovebankReferenceTable</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">getMovebankReferenceTable</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a></code></pre></div>
 <p></br></p>
 </div>
 </div>
@@ -424,43 +441,43 @@ To get more details of the options of a specific function, see the functions hel
 <div id="download-location-data-of-a-study" class="section level2">
 <h2><span class="header-section-number">4.1</span> Download location data of a study</h2>
 <p>An entire study can be downloaded:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
 </p>
 </div>
 <div id="download-location-data-for-selected-individuals-of-a-study" class="section level2">
 <h2><span class="header-section-number">4.2</span> Download location data for selected individuals of a study</h2>
 <p>Or you can specify to download data for one or several individuals:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># for one individual</span></a>
-<a class="sourceLine" id="cb11-2" title="2">bobby &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">animalName=</span><span class="st">&quot;Bobby&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
+<a class="sourceLine" id="cb11-2" title="2">bobby &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">animalName=</span><span class="st">&quot;Bobby&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># for several individuals</span></a>
-<a class="sourceLine" id="cb12-2" title="2">ocelot2ind &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">animalName=</span><span class="kw">c</span>(<span class="st">&quot;Bobby&quot;</span>,<span class="st">&quot;Darlen&quot;</span>), <span class="dt">login=</span>loginStored)</a></code></pre></div>
+<a class="sourceLine" id="cb12-2" title="2">ocelot2ind &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">animalName=</span><span class="kw">c</span>(<span class="st">&quot;Bobby&quot;</span>,<span class="st">&quot;Darlen&quot;</span>), <span class="dt">login=</span>loginStored)</a></code></pre></div>
 </p>
 </div>
 <div id="download-location-data-for-a-selected-time-range" class="section level2">
 <h2><span class="header-section-number">4.3</span> Download location data for a selected time range</h2>
 <p>You can also limit your download to a given time range. The timestamp has to be in format ‘yyyyMMddHHmmssSSS’ or as a POSIXct, then it is converted to the character using the UTC timezone:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># download all data between &quot;2003-03-22 17:44:00.000&quot; and &quot;2003-04-22 17:44:00.000&quot;</span></a>
-<a class="sourceLine" id="cb13-2" title="2">bci_ocelot_range1 &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored,</a>
+<a class="sourceLine" id="cb13-2" title="2">bci_ocelot_range1 &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored,</a>
 <a class="sourceLine" id="cb13-3" title="3">                                     <span class="dt">timestamp_start=</span><span class="st">&quot;20030322174400000&quot;</span>,</a>
 <a class="sourceLine" id="cb13-4" title="4">                                     <span class="dt">timestamp_end=</span><span class="st">&quot;20030422174400000&quot;</span>)</a>
 <a class="sourceLine" id="cb13-5" title="5"></a>
 <a class="sourceLine" id="cb13-6" title="6"><span class="co"># alternative:</span></a>
 <a class="sourceLine" id="cb13-7" title="7">t &lt;-<span class="st"> </span><span class="kw">strptime</span>(<span class="st">&quot;20030322174400&quot;</span>,<span class="dt">format=</span><span class="st">&quot;%Y%m%d%H%M%S&quot;</span>, <span class="dt">tz=</span><span class="st">&#39;UTC&#39;</span>)</a>
-<a class="sourceLine" id="cb13-8" title="8">bci_ocelot_ranget &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored,</a>
+<a class="sourceLine" id="cb13-8" title="8">bci_ocelot_ranget &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored,</a>
 <a class="sourceLine" id="cb13-9" title="9">                                     <span class="dt">timestamp_start=</span>t,</a>
 <a class="sourceLine" id="cb13-10" title="10">                                     <span class="dt">timestamp_end=</span>t<span class="op">+</span><span class="kw">as.difftime</span>(<span class="dv">31</span>,<span class="dt">units=</span><span class="st">&#39;days&#39;</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># download all data before &quot;2003-07-24 20:00:00.000&quot;</span></a>
-<a class="sourceLine" id="cb14-2" title="2">bci_ocelot_range2 &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored, </a>
+<a class="sourceLine" id="cb14-2" title="2">bci_ocelot_range2 &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored, </a>
 <a class="sourceLine" id="cb14-3" title="3">                                     <span class="dt">timestamp_end=</span><span class="st">&quot;20030724200000000&quot;</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># download all data after &quot;2003-07-01 20:00:00.000&quot; only for &quot;Bobby&quot;</span></a>
-<a class="sourceLine" id="cb15-2" title="2">bobby_range &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored, <span class="dt">animalName=</span><span class="st">&quot;Bobby&quot;</span>,</a>
+<a class="sourceLine" id="cb15-2" title="2">bobby_range &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored, <span class="dt">animalName=</span><span class="st">&quot;Bobby&quot;</span>,</a>
 <a class="sourceLine" id="cb15-3" title="3">                               <span class="dt">timestamp_start=</span><span class="st">&quot;20030701200000000&quot;</span>)</a></code></pre></div>
 </p>
 </div>
 <div id="dealing-with-duplicated-timestamps" class="section level2">
 <h2><span class="header-section-number">4.4</span> Dealing with duplicated timestamps</h2>
 <p>In case the study contains duplicated timestamps, you can set the argument <code>removeDuplicatedTimestamps=TRUE</code>. This will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;BCI Ocelot&quot;</span>, <span class="dt">login=</span>loginStored, </a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored, </a>
 <a class="sourceLine" id="cb16-2" title="2">                              <span class="dt">removeDuplicatedTimestamps=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Duplicated timestamps can occur for many different reasons. In some cases, one duplicate record might contain more complete information or a better location estimate than the other(s). In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function <code>getMovebankLocationData()</code>, find the duplicates using e.g. <code>getDuplicatedTimestamps()</code>, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function <code>move()</code>. These flagged duplicated records can be also marked as outliers in Movebank, by <a href="https://www.movebank.org/node/2874">adding an attribute</a> like e.g. “manually_marked_outlier” to the study. Another option is to edit the records in Movebank and mark the appropriate records as outliers. </br></p>
 </div>

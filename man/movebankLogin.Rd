@@ -26,7 +26,7 @@ Creates an object that can be used with all Movebank browsing functions.
 }
 
 \details{
-Use this function to login to \href{http://www.movebank.org}{Movebank}. After you logged in, you can use the Movebank browsing functions from the move package.
+Use this function to login to \href{https://www.movebank.org}{Movebank}. After you logged in, you can use the Movebank browsing functions from the move package.
 
 If the function is left empty, you'll be requested to enter your username and password. This option is useful to keep Movebank login data confidential when R-code is shared.
 }

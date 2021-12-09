@@ -99,7 +99,7 @@ To read in a data.frame as a move/movestack object without specifying which argu
 
 \value{returns an object of class '\code{\link[=Move-class]{move}}' or '\code{\link[=MoveStack-class]{moveStack}}'.
 
-If data of Movebank are used, the definitions of the content of the columns within the @idData, @sensor, @data slots of the move or moveStack object is detailed in the \href{http://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
+If data of Movebank are used, the definitions of the content of the columns within the @idData, @sensor, @data slots of the move or moveStack object is detailed in the \href{https://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
 
 When the move or moveStack is created providing a path to a .csv or .zip file downloaded from Movebank the coordinates in the @coords slot are named "location.long" and "location.lat". When the move or moveStack is created by providing a \code{data.frame}, the coordinates in the @coords slot are named "coords.x1" and "coords.x2".
 }

@@ -128,6 +128,7 @@ setMethod(f = "brownian.motion.variance.dyn",
 setMethod(f = "brownian.motion.variance.dyn", signature = c(object = ".MoveTrackSingleBurst", 
 							    location.error = "numeric", window.size = "numeric", margin = "numeric"), definition = function(object, 
 							    location.error, window.size, margin) {
+
 	res <- brownian.motion.variance.dyn(as(object, ".MoveTrackSingle"), location.error = location.error, 
 					    window.size = window.size, margin = margin)
 	return(new("dBMvarianceBurst", as(res, "dBMvarianceTmp"), object))

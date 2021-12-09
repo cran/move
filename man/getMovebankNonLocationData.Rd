@@ -35,11 +35,11 @@
 }
 \details{
 \code{getMovebankNonLocationData} belongs to the Movebank browsing functions and returns a \code{data.frame} with data from one or multiple non-location sensors from studies with one animal or multiple animals.\cr
-Remember that you need an account on \href{http://www.movebank.org}{Movebank}, see \code{\link{movebankLogin}}.\cr
+Remember that you need an account on \href{https://www.movebank.org}{Movebank}, see \code{\link{movebankLogin}}.\cr
 Note that \link{getMovebankData} has also the option to download non location alongside with the location data.
 
 \emph{Attribute names:}\cr
-The definitions of the content of the columns of the returned \code{data.frame} is detailed in the \href{http://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
+The definitions of the content of the columns of the returned \code{data.frame} is detailed in the \href{https://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
 
 \code{sensorID}:\cr
 See \link{getMovebankSensors} to obtain all available sensors of the study of interest. The valid names for this argument are those of the the columns "name" or "id" of the table returned by \code{getMovebankSensors(login)}. The valid numeric Ids are also in the column "sensor_type_id" in the table returned for a specific study with \code{getMovebankSensors(study,login)}. This function only accepts non-location sensors which are marked as "false"" in the "is_location_sensor" column of the table returned by \code{getMovebankSensors(login)}.

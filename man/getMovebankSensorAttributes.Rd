@@ -24,7 +24,7 @@
 \details{
   \code{getMovebankSensorAttributes} belongs to the Movebank browsing functions and returns the attributes of the sensors of a study, i.e. what is the sensor id and which data types are stored for this sensor (e.g. GPS sensors store longitude and latitude locations, and timestamps and have 653 as their ID on Movebank).
   
-  The definition of each of the attributes is detailed in the \href{http://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
+  The definition of each of the attributes is detailed in the \href{https://www.movebank.org/node/2381}{Attribute Dictionary on Movebank}
   
   The correspondence between the sensor type and the sensor type id can be found with the function \code{\link{getMovebankSensors}}, leaving the study argument empty.
 }
@@ -44,6 +44,6 @@ See the 'browseMovebank' vignette for more information about security and how to
 
 # obtain a login
 login<-movebankLogin()
-getMovebankSensorsAttributes(study=82207, login=login)
+getMovebankSensorsAttributes(study=2950149, login=login)
 }
 }

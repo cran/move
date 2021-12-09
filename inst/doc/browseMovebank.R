@@ -9,62 +9,62 @@ knitr::opts_chunk$set(collapse = TRUE)
 #  searchMovebankStudies(x="oose", login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  getMovebankID("BCI Ocelot",login=loginStored)
+#  getMovebankID("Ocelots on Barro Colorado Island, Panama",login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  getMovebankStudy(study="BCI Ocelot",login=loginStored)
+#  getMovebankStudy(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  getMovebankSensors(study="BCI Ocelot",login=loginStored)
+#  getMovebankSensors(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
 #  getMovebankSensors(login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  getMovebankSensorsAttributes(study="BCI Ocelot",login=loginStored)
+#  getMovebankSensorsAttributes(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  getMovebankAnimals(study="BCI Ocelot",login=loginStored)
+#  getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  getMovebankReferenceTable(study="BCI Ocelot",login=loginStored)
+#  getMovebankReferenceTable(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
-#  bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored)
+#  bci_ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
 #  # for one individual
-#  bobby <- getMovebankData(study="BCI Ocelot", animalName="Bobby", login=loginStored)
+#  bobby <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName="Bobby", login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
 #  # for several individuals
-#  ocelot2ind <- getMovebankData(study="BCI Ocelot", animalName=c("Bobby","Darlen"), login=loginStored)
+#  ocelot2ind <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName=c("Bobby","Darlen"), login=loginStored)
 
 ## ---- eval=F------------------------------------------------------------------
 #  # download all data between "2003-03-22 17:44:00.000" and "2003-04-22 17:44:00.000"
-#  bci_ocelot_range1 <- getMovebankData(study="BCI Ocelot", login=loginStored,
+#  bci_ocelot_range1 <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored,
 #                                       timestamp_start="20030322174400000",
 #                                       timestamp_end="20030422174400000")
 #  
 #  # alternative:
 #  t <- strptime("20030322174400",format="%Y%m%d%H%M%S", tz='UTC')
-#  bci_ocelot_ranget <- getMovebankData(study="BCI Ocelot", login=loginStored,
+#  bci_ocelot_ranget <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored,
 #                                       timestamp_start=t,
 #                                       timestamp_end=t+as.difftime(31,units='days'))
 
 ## ---- eval=F------------------------------------------------------------------
 #  # download all data before "2003-07-24 20:00:00.000"
-#  bci_ocelot_range2 <- getMovebankData(study="BCI Ocelot", login=loginStored,
+#  bci_ocelot_range2 <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored,
 #                                       timestamp_end="20030724200000000")
 #  
 
 ## ---- eval=F------------------------------------------------------------------
 #  # download all data after "2003-07-01 20:00:00.000" only for "Bobby"
-#  bobby_range <- getMovebankData(study="BCI Ocelot", login=loginStored, animalName="Bobby",
+#  bobby_range <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored, animalName="Bobby",
 #                                 timestamp_start="20030701200000000")
 
 ## ---- eval=F------------------------------------------------------------------
-#  bci_ocelot <- getMovebankData(study="BCI Ocelot", login=loginStored,
+#  bci_ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", login=loginStored,
 #                                removeDuplicatedTimestamps=TRUE)
 
 ## ---- eval=F------------------------------------------------------------------

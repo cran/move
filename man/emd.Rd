@@ -20,7 +20,7 @@
 \arguments{
   \item{x}{A \code{Raster}, \code{RasterStack}, \code{RasterBrick}, \code{SpatialPoints}, \code{SpatialPointsDataFrame}, \code{\link[=DBBMM-class]{DBBMM}} or \code{\link[=DBBMMStack-class]{DBBMMStack}} object. These objects can represent a probability surface, i.e. comparability  is easiest when the sum of values is equal to 1. In the case of a SpatialPointsDataFrame the first column of the data is used as weights. In the case of SpatialPoints all points are weighted equally.}
   \item{y}{same class as provided in '\code{x}', with the exception of RasterStack, RasterBrick and DBBMMStack, where in order to compare the utilization distributions stored within the layers of one object this argument can be left empty. Alternatively another set of rasters can be provided to compare with.}
-  \item{gc}{logical, if FALSE (default) euclidean distances are calculated, if TURE great circle distances will be used. See 'Details'.}
+  \item{gc}{logical, if FALSE (default) euclidean distances are calculated, if TRUE great circle distances will be used. See 'Details'.}
   \item{threshold}{numeric, the maximal distance (in map units) over which locations are compared.}
   \item{...}{Currently not used}
 }

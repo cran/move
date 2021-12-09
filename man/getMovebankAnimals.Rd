@@ -44,6 +44,6 @@ See the 'browseMovebank' vignette for more information about security and how to
 
 # obtain a login
 login<-movebankLogin()
-getMovebankAnimals(study=82207, login=login)
+getMovebankAnimals(study=2950149, login=login)
 }
 }

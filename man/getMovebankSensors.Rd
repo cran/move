@@ -46,7 +46,7 @@ See the 'browseMovebank' vignette for more information about security and how to
 login<-movebankLogin()
 
 ## obtain sensors types of each tag in the specified study
-getMovebankSensors(study=123413, login=login)
+getMovebankSensors(study=2950149, login=login)
 
 ## obtain all sensors available on Movebank
 getMovebankSensors(login=login)

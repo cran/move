@@ -1,3 +1,11 @@
+Version 4.1.6
+
+	* Fix distance error
+	* use licence_terms in download
+	* Update vignette
+        * Improved error reporting long url
+        * Fixed bug in brownian.bridge.dyn where window.size was not used
+
 Version 4.0.4
 
 	* Changes to movestack test as R changes behaviour
@@ -11,24 +19,29 @@ Version 4.0.0
 	* updates to account for changes in rgdal and sp
 
 Version 3.3.0
-  * Updated and completed both vignettes
-  * move function now accepts movement objects from the libraries ctmm, bcpa, EMbC and a data.frame object
-  * Added getMovebankLocationData function to download location data as a data.frame from Movebank
+
+        * Updated and completed both vignettes
+        * move function now accepts movement objects from the libraries ctmm, bcpa, EMbC and a data.frame object
+        * Added getMovebankLocationData function to download location data as a data.frame from Movebank
 
 Version 3.2.0
-  * Use updated movebank api for downloading data, now depend on visible column. This might lead to small changes in the downloaded dataset if specific outlier combinations are used. 
-  * Added getMovebankReferenceTable function to download reference data from movebank study.
-  * Added namesIndiv to get names of individuals in a move/moveStack object.
-  * Now getMovebankData includes user defined tag number information.
+
+        * Use updated movebank api for downloading data, now depend on visible column. This might lead to small changes in the downloaded dataset if specific outlier combinations are used. 
+        * Added getMovebankReferenceTable function to download reference data from movebank study.
+        * Added namesIndiv to get names of individuals in a move/moveStack object.
+        * Now getMovebankData includes user defined tag number information.
 
 Version 3.1.0
-  * Add track thining
+
+        * Add track thining
 	* Maintenance release with bug fixes to solve some issues
 	
 Version 3.0.2
+
 	* Maintenance release to solve some issues with testing
 
 Version 3.0.0
+
 	* Remove constraint to have no unused timestamps at observed timestamps
 	* Add download function for movebank data repository
 	* Now getMovebankData gets records per individual and not deployment (make sure code is adjusted where needed)
@@ -40,11 +53,13 @@ Version 3.0.0
 	* Implemented download of acc and other extra movebank data
 
 Version 2.1.0
+
 	* Added earth movers distance functions
 	* Added replacement methods for burstIds
 	* Added functionality to change burstStacks to Udstacks
 
 Version 2.0.0
+
 	* Increases speed of the Brownian bridge calculation by not
 	calculation for the whole grid any more (no need any more to minimize
 	raster size)
