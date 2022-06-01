@@ -51,6 +51,7 @@ Segment midpoints that meet both of these requirements are considered as a 'corr
 }
 
 \examples{
+if(requireNamespace("circular") & requireNamespace("maptools")){
 ## with a move object 
   data(leroy)  
   tmp <- corridor(leroy, plot=TRUE)
@@ -61,4 +62,5 @@ Segment midpoints that meet both of these requirements are considered as a 'corr
   stacktmp <- corridor(fishers[c(1:400,sum(n.locs(fishers))-(400:1)),])
   plot(stacktmp[[2]], col=c("red","black")[stacktmp[[2]]@burstId])
   lines(stacktmp[[2]], col=c("red","black")[c(stacktmp[[2]]@burstId,NA)])
+}
 }

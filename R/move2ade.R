@@ -21,17 +21,24 @@ if(!isClass("ltraj"))
 
 
 setAs("Move", "ltraj", function(from){
+      if(!requireNamespace("adehabitatLT"))
+        stop('adehabitatLT needs to be installed for this conversion to work')
       if(isLonLat(from))
 	      warning('Converting a long lat projected object while the ltraj does not deal with long lat projected data')
       adehabitatLT::as.ltraj(as.data.frame(coordinates(from)),date=timestamps(from), id=rownames(from@idData), typeII=T, infolocs=data.frame(sensor=from@sensor,from@data))
 })
 setAs("MoveStack", "ltraj", function(from){
-      if(isLonLat(from))
+  if(!requireNamespace("adehabitatLT"))
+    stop('adehabitatLT needs to be installed for this conversion to work')
+  if(isLonLat(from))
 	      warning('Converting a long lat projected object while the ltraj does not deal with long lat projected data')
       adehabitatLT::as.ltraj(as.data.frame(coordinates(from)),date=timestamps(from), id=from@trackId, typeII=T, infolocs=data.frame(sensor=from@sensor,from@data))
 })
 
 setAs("ltraj", "Move", function(from) {
+  if(!requireNamespace("adehabitatLT"))
+    stop('adehabitatLT needs to be installed for this conversion to work')
+  
     if (!inherits(from, "ltraj"))
         stop("from should be of class \"ltraj\"")
     if(length(from)!=1)
@@ -57,7 +64,7 @@ setAs("ltraj", "MoveStack", function(from) {
 
 ## telemetry from ctmm
 setAs("telemetry","Move", function(from){
-  if(class(from)=="telemetry"){
+  if(inherits(from,"telemetry")){
     mv <- move(x= from$x, y= from$y,
                time= as.POSIXct(from$t,origin="1970-01-01",tz=from@info$timezone),
                proj= if(is.null(from@info$projection)){as.character(NA)}else{from@info$projection},
@@ -86,7 +93,7 @@ setAs("list","MoveStack", function(from){
 
 # track_xyt from amt
 setAs("track_xyt","Move", function(from){
-  if("track_xyt" %in% class(from)){
+  if(inherits(from,"track_xyt" )){
     if("id" %in% names(from)){
       if(any(duplicated(paste0(from$t_,from$id)))){
         warning("data contains duplicates. By default 1st entery is kept, and subsequent duplicates are removed. If this is not wanted, please remove duplicates from original input object")
@@ -110,7 +117,7 @@ setAs("track_xyt","Move", function(from){
 
 ## track from bcpa
 setAs("track","Move", function(from){
-  if("track" %in% class(from)){
+  if(inherits(from, "track")){
     warning("Objects of class 'track' do not contain projection information. You can add this information to the move object with the function 'projection()'")
     if("POSIXct" %in%class(from$Time) | "POSIXt" %in% class(from$Time)){
       mv <- move(x= from$X,
@@ -126,7 +133,7 @@ setAs("track","Move", function(from){
 
 ## binClstPath and binClstStck from EMbC
 setAs("binClstPath","Move", function(from){
-  if(class(from)=="binClstPath"){
+  if(inherits(from, "binClstPath")){
     mv <-  move(x= from@pth$lon,
                 y= from@pth$lat,
                 time= from@pth$dTm,
@@ -138,7 +145,7 @@ setAs("binClstPath","Move", function(from){
 })
 
 setAs("binClstStck","MoveStack", function(from){
-  if(class(from)=="binClstStck"){
+  if(inherits(from,"binClstStck")){
     mv <-  moveStack(lapply(1:length(from@bCS), function(i){
       move(x= from@bCS[[i]]@pth$lon,
            y= from@bCS[[i]]@pth$lat,
@@ -154,7 +161,7 @@ setAs("binClstStck","MoveStack", function(from){
 
 ## data.frame from Movebank
 setAs("data.frame","Move", function(from){
-  if(class(from)=="data.frame"){
+  if(inherits((from),"data.frame")){
     warning("Assumptions: data.frame comes from Movebank; coordinates are in lat/long; timestamp format is: \"%Y-%m-%d %H:%M:%S\"; timezone is UTC. If this is not the case please use the alternative import function")
     
     if(sum(c(all(c("timestamp", "location.long",  "location.lat", "individual.local.identifier", "sensor.type") %in% names(from)),all(c("location_lat","location_long", "timestamp", "individual_local_identifier","sensor_type") %in% names(from))))==0) stop("The entered data.frame does not seem to be from Movebank. Please use the alternative import function.")

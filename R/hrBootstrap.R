@@ -2,7 +2,7 @@ setGeneric("hrBootstrap", function(x, rep=100, plot=TRUE, level=95, levelMax=100
 setMethod("hrBootstrap", 
 	  signature=c(x="SpatialPoints"),
 	  definition=function(x, ...){
-		  if (class(x)=="SpatialPoints") nlocs <- length(x) else nlocs <- n.locs(x)
+		  if (class(x)[1]=="SpatialPoints") nlocs <- length(x) else nlocs <- n.locs(x)
 		  j <- round(exp(log(10)*seq(log10(5),log10(nlocs),by=0.1)))
 		  message(paste(j, collapse=" "))
 		  crds<-coordinates(x)
@@ -18,7 +18,7 @@ setMethod("hrBootstrap",
 			  col <- list(5,2,1,2,5)
 			  b <- list(qll,a,col)
 
-			  if (class(x)=="SpatialPoints"){
+			  if (class(x)[1]=="SpatialPoints"){
 				  hline <- as.numeric(adehabitatHR::mcp.area(x, percent=levelMax, plotit=F, unin=unin, unout=unout),lty=7)
 			  } else {
 				  hline <- as.numeric(adehabitatHR::mcp.area(move2ade(x), percent=levelMax, plotit=F, unin=unin, unout=unout),lty=7)

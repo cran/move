@@ -20,8 +20,8 @@ setMethod(f = "move",
 	  })
 setMethod(f = "move", 
 	  signature = c(x="connection",y='missing',time='missing', data='missing', proj='missing'), 
-	  definition = function(x, removeDuplicatedTimestamps=F,...){
-		  if(version$major=='3' & version$minor=='1.0'){# exception to type convert back then that got reverted, setting colclasses causes problems with quoted downloads from envData
+	  definition = function(x, removeDuplicatedTimestamps=F, ...){
+		  if(version$major == '3' & version$minor == '1.0'){# exception to type convert back then that got reverted, setting colclasses causes problems with quoted downloads from envData
 		  df <- read.csv(x, header=TRUE, sep=",", dec=".", stringsAsFactors=T, colClasses=c(location.long='numeric', location.lat='numeric'))
 		  }else{
 		  df <- read.csv(x, header=TRUE, sep=",", dec=".", stringsAsFactors=T)
@@ -84,14 +84,14 @@ uniquePerID[c('location.long','location.lat')]<-F
 		  {
 			  warning('omiting ',sum(s),' individual(s) because they do not have observation data')
 			  unUsedRecords<-unUsedRecords[(as.character(unUsedRecords@trackIdUnUsedRecords) %in% rownames(idData)[!s]),]
-			  idData<-idData[!s,drop=FALSE,]
-			  unUsedRecords@trackIdUnUsedRecords<-factor(unUsedRecords@trackIdUnUsedRecords, levels=rownames(idData))
+			  idData<-idData[!s,drop = FALSE,]
+			  unUsedRecords@trackIdUnUsedRecords <- factor(unUsedRecords@trackIdUnUsedRecords, levels=rownames(idData))
 		  }
 
 		  df <- df[!unUsed, , drop = FALSE]
 		  coordinates(df) <- ~ location.long + location.lat
 		  proj4string(df) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84")
-		  if (class(df) == 'SpatialPoints'){# to make sure we feed a spdf
+		  if (class(df)[1]== 'SpatialPoints'){# to make sure we feed a spdf
 		    df <-
 		    new('SpatialPointsDataFrame', df, data = data.frame(coordinates(df)))}
 		  track <-
@@ -207,12 +207,15 @@ setMethod(f="move",
 		  
 		  rownames(idData) <- unique(animal)
 		  auxData <- data.frame(data[names(data)[!names(data)%in%c( colnames(idData))]])
-		  
-		  if (ncol(auxData)==0) auxData <- data.frame(auxData, empty=NA)
-	  
+		  crds<-cbind(x,y, deparse.level = 0)
+		  if (ncol(auxData)==0) {
+		    auxData <- data.frame(auxData, empty=NA)
+		    row.names(auxData)<-row.names(crds)
+		  }
+
 		  spdf <- SpatialPointsDataFrame(
 		  #  coords = cbind(location.long=x,location.lat=y),
-		    coords = cbind(x,y, deparse.level = 0),
+		    coords = crds,
 		    data = auxData, 
 		    proj4string = proj,
 		    match.ID = TRUE)

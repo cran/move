@@ -291,7 +291,7 @@ setClass(Class = ".UDBurstStack", contains = c("RasterStack"),
 		 #if (!all(apply(values(object), MARGIN = 2, FUN = function(X) isTRUE(all.equal(sum(X), 1, check.attributes=F))))) 
 		 if(!all.equal(1,sum(s<-cellStats(object,'sum')), check.attributes=F)) 
 			 stop("All values in a burst stack need to sum up to one")
-		 if(class(z<-getZ(object))!='difftime')
+		 if(!inherits(z<-getZ(object),'difftime'))
 			 stop('The Z vector needs to represent the time contribution in the for of a difftime vector')
 		 if(!
 		    all.equal( s , as.numeric(z, units='mins')/sum(as.numeric(z, units='mins')), check.attributes=F)

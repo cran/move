@@ -1,3 +1,9 @@
+Version 4.1.8
+
+  * Check namespace requirements in examples and tests
+  * Clarify examples for emd and angles
+  * Change class inheritance checks
+
 Version 4.1.6
 
 	* Fix distance error

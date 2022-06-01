@@ -57,6 +57,7 @@ The number of locations used in each step are printed in the console.
 \author{Marco Smolla & Anne Scharf}
   
 \examples{
+if(requireNamespace("adehabitatHR")){
 ## for a Move object
   m <- move(x=rnorm(55), y=rnorm(55), time=as.POSIXct(1:55, origin="1970-1-1"), 
 	          proj=CRS("+proj=aeqd +ellps=WGS84"), animal='a')    
@@ -70,5 +71,6 @@ The number of locations used in each step are printed in the console.
 
 ## for a SpatialPoints object
   hrBootstrap(as(m,"SpatialPoints"),rep=5, unout="m2", plot=TRUE) 
+}
 }
 

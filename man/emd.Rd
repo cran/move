@@ -45,6 +45,7 @@ For more details of the method see 'References'.
   ## to optimize the calculation, the cells outside of the 99.99\% UD contour 
   # are removed by setting them to zero.
   values(dbbmmstack)[values(getVolumeUD(dbbmmstack))>.999999]<-0
+  ## transform each layer to a probability surface (i.e. sum of their values is 1)
   stk<-(dbbmmstack/cellStats(dbbmmstack,sum))
   emd(stk[[1]],stk[[2]])
   emd(stk)
@@ -63,8 +64,13 @@ For more details of the method see 'References'.
   leroyBp <- spTransform(leroyB, CRSobj="+proj=aeqd +ellps=WGS84", center=TRUE)
   leroyBdbb <- brownian.bridge.dyn(object=leroyBp[750:850], location.error=12, raster=600, 
                                    ext=.45, time.step=15/15, margin=15)
+  
+  ## transform the DBBMMBurstStack into a UDStack
   leoryBud <- UDStack(leroyBdbb)
+  ## to optimize the calculation, the cells outside of the 99.99\% UD contour 
+  # are removed by setting them to zero.
   values(leoryBud)[values(getVolumeUD(leoryBud))>.999999]<-0
+  ## transform each layer to a probability surface (i.e. sum of their values is 1)
   stk2<-(leoryBud/cellStats(leoryBud,sum))
   emd(stk2)
 }

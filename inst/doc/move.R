@@ -1,5 +1,6 @@
 ## ---- echo=FALSE, include=FALSE-----------------------------------------------
 knitr::opts_chunk$set(collapse = F, dpi=60, fig.retina = 1)
+options('rgdal_show_exportToProj4_warnings'='none')
 
 ## ---- echo=F,message=F--------------------------------------------------------
 library(move)
@@ -387,12 +388,12 @@ contour(ud.corrected, levels=c(0.5, 0.95), add=TRUE, lwd=c(0.5, 0.5), lty=c(2,1)
 ## ---- message=F, warning=F----------------------------------------------------
 ## e.g. compare the utilization distributions of the day and night UDs of Leroy
 dBB.leroyB <- brownian.bridge.dyn(leroyB.prj, ext=1.5, raster=500, location.error=20)
-leoryBud <- UDStack(dBB.leroyB)
+leroyBud <- UDStack(dBB.leroyB)
 ## to optimize the calculation, the cells outside of the 99.99% UD contour are removed by setting them to zero.
-values(leoryBud)[values(getVolumeUD(leoryBud))>.999999]<-0
-## the rasters have to be standerdized so the pixels sum up to 1
-leoryBud_2<-(leoryBud/cellStats(leoryBud,sum))
-emd(leoryBud_2)
+values(leroyBud)[values(getVolumeUD(leroyBud))>.999999]<-0
+## the rasters have to be standardized so the pixels sum up to 1
+leroyBud_2<-(leroyBud/cellStats(leroyBud,sum))
+emd(leroyBud_2)
 ## the result is an matrix of distances of the class 'dist'
 
 ## ---- fig.width=5,fig.height=5, fig.show='hold'-------------------------------

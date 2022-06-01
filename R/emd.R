@@ -19,12 +19,12 @@ setMethod("emd", signature = c(x = "SpatialPoints", y = "SpatialPoints"),
                    threshold = NULL,
                    ...)
           {
-            if (class(x) == "SpatialPointsDataFrame") {
+            if (inherits(x, "SpatialPointsDataFrame")) {
               xv <- data.frame(x)[, names(x)[1]]
             } else{
               xv <- rep(1, length(x)) / length(x)
             }
-            if (class(y) == "SpatialPointsDataFrame") {
+            if (inherits(y, "SpatialPointsDataFrame")) {
               yv <- data.frame(y)[, names(y)[1]]
             } else{
               yv <- rep(1, length(y)) / length(y)

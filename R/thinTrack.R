@@ -2,11 +2,11 @@ setGeneric("thinTrackTime", function(x,interval=NA, tolerance=NA, criteria=c('cl
 setMethod(f = "thinTrackTime",
 	  signature=c(x=".MoveTrackSingle"),
 	  definition=function(x, interval=NA, tolerance=NA, criteria=c('closest','first','all'), ...){
-		  if(class(interval)=="difftime")
+		  if(inherits(interval,"difftime"))
 		  {
 			  interval<-as.numeric(interval,units="secs")
 		  }
-		  if(class(tolerance)=="difftime")
+		  if(inherits(tolerance,"difftime"))
 		  {
 			  tolerance<-as.numeric(tolerance,units="secs")
 		  }

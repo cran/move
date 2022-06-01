@@ -30,7 +30,7 @@ setMethod("[", signature(x=".MoveTrack"), function(x, i, j, ...) {
   }else{i<-T}
   if(missing(j))
     j<-T
-  if(class(i)=="character")
+  if(is.character(i))
     stop("Not sure if these methods work for class character")
   callNextMethod(x=x,i=i,j=j,...)
 })
@@ -102,7 +102,7 @@ setMethod("[",
             }
             if (missing(j)) 
               j <- T
-            if (class(i) == "character") 
+            if (is.character(i)) 
               stop("Not sure if these methods work for class character")
 #            if (class(j) == "character") 
 #              stop("Not sure if these methods work for class character")

@@ -1,5 +1,7 @@
 context('corridor')
 test_that("corridor",{
+  skip_if_not(requireNamespace('maptools'))
+  skip_if_not(requireNamespace('circular'))
   data(leroy)
   expect_s4_class(   corridor(leroy),'MoveBurst')
   expect_warning(expect_s4_class(corridor(leroy,speedProp = .99, circProp = .01),'MoveBurst'),'No corridor points found')
