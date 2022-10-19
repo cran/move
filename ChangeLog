@@ -1,8 +1,16 @@
+Version 4.1.10
+
+        * Fix cran errors in example
+	* Integrate download suggestions
+	* Style package
+	* Fix stacking timestamps in unused records
+	* Fix getMovebankLocationData for multiple sensors
+
 Version 4.1.8
 
-  * Check namespace requirements in examples and tests
-  * Clarify examples for emd and angles
-  * Change class inheritance checks
+        * Check namespace requirements in examples and tests
+        * Clarify examples for emd and angles
+        * Change class inheritance checks
 
 Version 4.1.6
 

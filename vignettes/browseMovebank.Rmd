@@ -193,6 +193,34 @@ bci_ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", 
                               removeDuplicatedTimestamps=TRUE)
 ```
 Duplicated timestamps can occur for many different reasons. In some cases, one duplicate record might contain more complete information or a better location estimate than the other(s). In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function `getMovebankLocationData()`, find the duplicates using e.g. `getDuplicatedTimestamps()`, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function `move()`. These flagged duplicated records can be also marked as outliers in Movebank, by [adding an attribute](https://www.movebank.org/node/2874) like e.g. "manually_marked_outlier" to the study. Another option is to edit the records in Movebank and mark the appropriate records as outliers.
+
+</p>
+
+## Downloading a study with many locations
+If the study to be downloaded has many locations (probably in the order of 10s of millions, depends a bit on the available internet speed), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. Bellow some examples of how one could do this.
+
+```{r, eval=F}
+## fist get the animal names of the study
+animalDF <- getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
+animalNames <- animalDF$local_identifier[animalDF$number_of_events>0] ## to make sure only to include the animals that actually have locations
+
+## if one is sure that all individuals in the study have locations, this is a shorter way to go
+# animalNames <- getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)$local_identifier
+
+## OPTION 1: create a loop to download each individual and afterwards create a MoveStack (if study is very large, maybe option 2 is better)
+animalList <- lapply(animalNames, function(x){
+  print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+  getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName=x, login=loginStored, removeDuplicatedTimestamps=T)
+})
+ocelotsMS <- moveStack(animalList, forceTz="UTC")
+
+## OPTION 2: if the study is very large, loading and handling the large moveStack might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files
+animalList <- lapply(animalNames, function(x){
+  print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+  ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName=x, login=loginStored, removeDuplicatedTimestamps=T)
+  save(file=paste0("/path/to/my/folder/OcelotsIndv/",x,".RData"), ocelot)
+})
+```
 </br>  
 
 # Download location data of a study as a 'data.frame'
@@ -224,6 +252,30 @@ getMovebankLocationData(study=74496970 , sensorID=653, login=loginStored,
 
 ## Download location data including locations marked as outliers in Movebank
 There is also the option to include the locations marked as outliers in Movebank by setting the argument `includeOutliers=TRUE`. This is based on the column `visible` of the data.
+</br>  
+
+## Downloading a study with many locations
+If the study to be downloaded has many locations (probably in the order of 10s of millions, depends a bit on the available internet speed), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. Bellow some examples of how one could do this.
+
+```{r, eval=F}
+## fist get the animal names of the study
+animalNames <- getMovebankAnimals(study=74496970,login=loginStored)$local_identifier
+
+## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the "TryCatch" function in case there are individuals with no data.
+animalList <- lapply(animalNames, function(x){
+  print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+  tryCatch(getMovebankLocationData(study=74496970, animalName=x, sensorID="GPS", login=loginStored), error=function(e) NULL)
+})
+storksDF <- do.call("rbind", animalList)
+
+## OPTION 2: if the study is very large, loading and handling the large data.frame might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files. Use the "TryCatch" function in case there are individuals with no data.
+animalList <- lapply(animalNames, function(x){
+  print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+  tryCatch({storkDF <- getMovebankLocationData(study=74496970, animalName=x, sensorID="GPS", login=loginStored)
+ save(file=paste0("/path/to/my/folder/StorkIndv/",x,".RData"), storkDF)
+ }, error=function(e) NULL)
+})
+```
 </br>  
 
 # Download non-location data of a study as a 'data.frame'
@@ -265,6 +317,30 @@ mymove <- getMovebankData(study=74496970, login=loginStored,
 nonlocation <- as.data.frame(unUsedRecords(mymove))
 ```
 
+</br>  
+
+## Downloading a study with a lot of data
+If the study to be downloaded has a lot of data (probably in the order of 10s of millions, depends a bit on the available internet speed), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. Bellow some examples of how one could do this.
+
+```{r, eval=F}
+## fist get the animal names of the study
+animalNames <- getMovebankAnimals(study=74496970,login=loginStored)$local_identifier
+
+## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the "TryCatch" function in case there are individuals with no data.
+animalList <- lapply(animalNames, function(x){
+  print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+  tryCatch(getMovebankNonLocationData(study=74496970, animalName=x, sensorID=2365683, login=loginStored), error=function(e) NULL)
+})
+storksACC <- do.call("rbind", animalList)
+
+## OPTION 2: if the study is very large, loading and handling the large data.frame might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files. Use the "TryCatch" function in case there are individuals with no data.
+animalList <- lapply(animalNames, function(x){
+  print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+  tryCatch({storkACC <- getMovebankNonLocationData(study=74496970, animalName=x, sensorID=2365683, login=loginStored)
+ save(file=paste0("/path/to/my/folder/StorkIndv/",x,".RData"), storkACC)
+ }, error=function(e) NULL)
+})
+```
 </br>  
 
 # Download data from the Movebank Data Repository as a 'move/moveStack' object

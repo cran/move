@@ -12,7 +12,7 @@
 
 <meta name="author" content="Marco Smolla, Bart Kranstauber &amp; Anne Scharf" />
 
-<meta name="date" content="2022-05-31" />
+<meta name="date" content="2022-10-19" />
 
 <title>Using the move package</title>
 
@@ -107,13 +107,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -319,7 +326,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Using the move package</h1>
 <h4 class="author">Marco Smolla, Bart Kranstauber &amp; Anne Scharf</h4>
-<h4 class="date">2022-05-31</h4>
+<h4 class="date">2022-10-19</h4>
 
 
 <div id="TOC">
@@ -459,7 +466,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## max ID Data : NA, NA, true, gps, Martes pennanti, 1016, Ricky.T, Urban fisher GPS tracking, Eastern Standard Time, NA 
 ## individuals : Leroy, Ricky.T 
 ## unused rec. : 2959 
-## date created: 2022-05-31 14:03:34</code></pre>
+## date created: 2022-10-19 17:19:50</code></pre>
 <p>It is also possible to break down a <code>MoveStack</code> into a list of <code>Move</code> objects using the <code>split()</code> function. This is often useful to do calculations with functions that require lists as an input as e.g. <code>lapply()</code>. This list of <code>Move</code> objects can be transformed easily back into a <code>MoveStack</code> with the function <code>moveStack()</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">unstacked &lt;-<span class="st"> </span><span class="kw">split</span>(myStack)</a>
 <a class="sourceLine" id="cb8-2" title="2">myStack &lt;-<span class="st"> </span><span class="kw">moveStack</span>(unstacked, <span class="dt">forceTz=</span><span class="st">&quot;UTC&quot;</span>) </a></code></pre></div>

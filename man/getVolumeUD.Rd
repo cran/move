@@ -8,7 +8,7 @@
 
 \title{Utilization distribution (UD)}
 
-\description{The UD represents the minimum area in which an animal has some specified probability of being located.}
+\description{The UD represents the minimum area in which an animal has some specified probability of being located (Cumulative Distribution Function).}
 
 \usage{
   \S4method{getVolumeUD}{.UD}(x, ...)

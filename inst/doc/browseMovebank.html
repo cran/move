@@ -12,7 +12,7 @@
 
 <meta name="author" content="Marco Smolla, Bart Kranstauber &amp; Anne Scharf" />
 
-<meta name="date" content="2022-05-31" />
+<meta name="date" content="2022-10-19" />
 
 <title>Browsing Movebank within R</title>
 
@@ -107,13 +107,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -319,7 +326,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Browsing Movebank within R</h1>
 <h4 class="author">Marco Smolla, Bart Kranstauber &amp; Anne Scharf</h4>
-<h4 class="date">2022-05-31</h4>
+<h4 class="date">2022-10-19</h4>
 
 
 <div id="TOC">
@@ -341,16 +348,19 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><a href="#download-location-data-for-selected-individuals-of-a-study"><span class="toc-section-number">4.2</span> Download location data for selected individuals of a study</a></li>
 <li><a href="#download-location-data-for-a-selected-time-range"><span class="toc-section-number">4.3</span> Download location data for a selected time range</a></li>
 <li><a href="#dealing-with-duplicated-timestamps"><span class="toc-section-number">4.4</span> Dealing with duplicated timestamps</a></li>
+<li><a href="#downloading-a-study-with-many-locations"><span class="toc-section-number">4.5</span> Downloading a study with many locations</a></li>
 </ul></li>
 <li><a href="#download-location-data-of-a-study-as-a-data.frame"><span class="toc-section-number">5</span> Download location data of a study as a ‘data.frame’</a><ul>
 <li><a href="#download-location-data-of-a-study-1"><span class="toc-section-number">5.1</span> Download location data of a study</a></li>
 <li><a href="#download-location-data-for-a-selected-time-range-1"><span class="toc-section-number">5.2</span> Download location data for a selected time range</a></li>
 <li><a href="#download-location-data-including-locations-marked-as-outliers-in-movebank"><span class="toc-section-number">5.3</span> Download location data including locations marked as outliers in Movebank</a></li>
+<li><a href="#downloading-a-study-with-many-locations-1"><span class="toc-section-number">5.4</span> Downloading a study with many locations</a></li>
 </ul></li>
 <li><a href="#download-non-location-data-of-a-study-as-a-data.frame"><span class="toc-section-number">6</span> Download non-location data of a study as a ‘data.frame’</a><ul>
 <li><a href="#download-non-location-data-of-a-study"><span class="toc-section-number">6.1</span> Download non-location data of a study</a></li>
 <li><a href="#download-non-location-data-for-a-selected-time-range"><span class="toc-section-number">6.2</span> Download non-location data for a selected time range</a></li>
 <li><a href="#download-non-location-data-with-the-getmovebankdata-function"><span class="toc-section-number">6.3</span> Download non-location data with the ‘getMovebankData’ function</a></li>
+<li><a href="#downloading-a-study-with-a-lot-of-data"><span class="toc-section-number">6.4</span> Downloading a study with a lot of data</a></li>
 </ul></li>
 <li><a href="#download-data-from-the-movebank-data-repository-as-a-movemovestack-object"><span class="toc-section-number">7</span> Download data from the Movebank Data Repository as a ‘move/moveStack’ object</a></li>
 </ul>
@@ -480,7 +490,33 @@ To get more details of the options of a specific function, see the functions hel
 <p>In case the study contains duplicated timestamps, you can set the argument <code>removeDuplicatedTimestamps=TRUE</code>. This will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">bci_ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">login=</span>loginStored, </a>
 <a class="sourceLine" id="cb16-2" title="2">                              <span class="dt">removeDuplicatedTimestamps=</span><span class="ot">TRUE</span>)</a></code></pre></div>
-<p>Duplicated timestamps can occur for many different reasons. In some cases, one duplicate record might contain more complete information or a better location estimate than the other(s). In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function <code>getMovebankLocationData()</code>, find the duplicates using e.g. <code>getDuplicatedTimestamps()</code>, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function <code>move()</code>. These flagged duplicated records can be also marked as outliers in Movebank, by <a href="https://www.movebank.org/node/2874">adding an attribute</a> like e.g. “manually_marked_outlier” to the study. Another option is to edit the records in Movebank and mark the appropriate records as outliers. </br></p>
+<p>Duplicated timestamps can occur for many different reasons. In some cases, one duplicate record might contain more complete information or a better location estimate than the other(s). In case you want to control which of the duplicate timestamps are kept and which are deleted, we recommend to download the data as a .csv file from Movebank or to use the function <code>getMovebankLocationData()</code>, find the duplicates using e.g. <code>getDuplicatedTimestamps()</code>, decide which of the duplicated timestamp to retain, and than create a move/moveStack object with the function <code>move()</code>. These flagged duplicated records can be also marked as outliers in Movebank, by <a href="https://www.movebank.org/node/2874">adding an attribute</a> like e.g. “manually_marked_outlier” to the study. Another option is to edit the records in Movebank and mark the appropriate records as outliers.</p>
+</p>
+</div>
+<div id="downloading-a-study-with-many-locations" class="section level2">
+<h2><span class="header-section-number">4.5</span> Downloading a study with many locations</h2>
+<p>If the study to be downloaded has many locations (probably in the order of 10s of millions, depends a bit on the available internet speed), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. Bellow some examples of how one could do this.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co">## fist get the animal names of the study</span></a>
+<a class="sourceLine" id="cb17-2" title="2">animalDF &lt;-<span class="st"> </span><span class="kw">getMovebankAnimals</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>,<span class="dt">login=</span>loginStored)</a>
+<a class="sourceLine" id="cb17-3" title="3">animalNames &lt;-<span class="st"> </span>animalDF<span class="op">$</span>local_identifier[animalDF<span class="op">$</span>number_of_events<span class="op">&gt;</span><span class="dv">0</span>] <span class="co">## to make sure only to include the animals that actually have locations</span></a>
+<a class="sourceLine" id="cb17-4" title="4"></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="co">## if one is sure that all individuals in the study have locations, this is a shorter way to go</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="co"># animalNames &lt;- getMovebankAnimals(study=&quot;Ocelots on Barro Colorado Island, Panama&quot;,login=loginStored)$local_identifier</span></a>
+<a class="sourceLine" id="cb17-7" title="7"></a>
+<a class="sourceLine" id="cb17-8" title="8"><span class="co">## OPTION 1: create a loop to download each individual and afterwards create a MoveStack (if study is very large, maybe option 2 is better)</span></a>
+<a class="sourceLine" id="cb17-9" title="9">animalList &lt;-<span class="st"> </span><span class="kw">lapply</span>(animalNames, <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb17-10" title="10">  <span class="kw">print</span>(<span class="kw">paste0</span>(x,<span class="st">&quot; (&quot;</span>,<span class="kw">match</span>(x,animalNames), <span class="st">&quot; of &quot;</span>, <span class="kw">length</span>(animalNames),<span class="st">&quot;)&quot;</span>))</a>
+<a class="sourceLine" id="cb17-11" title="11">  <span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">animalName=</span>x, <span class="dt">login=</span>loginStored, <span class="dt">removeDuplicatedTimestamps=</span>T)</a>
+<a class="sourceLine" id="cb17-12" title="12">})</a>
+<a class="sourceLine" id="cb17-13" title="13">ocelotsMS &lt;-<span class="st"> </span><span class="kw">moveStack</span>(animalList, <span class="dt">forceTz=</span><span class="st">&quot;UTC&quot;</span>)</a>
+<a class="sourceLine" id="cb17-14" title="14"></a>
+<a class="sourceLine" id="cb17-15" title="15"><span class="co">## OPTION 2: if the study is very large, loading and handling the large moveStack might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files</span></a>
+<a class="sourceLine" id="cb17-16" title="16">animalList &lt;-<span class="st"> </span><span class="kw">lapply</span>(animalNames, <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb17-17" title="17">  <span class="kw">print</span>(<span class="kw">paste0</span>(x,<span class="st">&quot; (&quot;</span>,<span class="kw">match</span>(x,animalNames), <span class="st">&quot; of &quot;</span>, <span class="kw">length</span>(animalNames),<span class="st">&quot;)&quot;</span>))</a>
+<a class="sourceLine" id="cb17-18" title="18">  ocelot &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="st">&quot;Ocelots on Barro Colorado Island, Panama&quot;</span>, <span class="dt">animalName=</span>x, <span class="dt">login=</span>loginStored, <span class="dt">removeDuplicatedTimestamps=</span>T)</a>
+<a class="sourceLine" id="cb17-19" title="19">  <span class="kw">save</span>(<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;/path/to/my/folder/OcelotsIndv/&quot;</span>,x,<span class="st">&quot;.RData&quot;</span>), ocelot)</a>
+<a class="sourceLine" id="cb17-20" title="20">})</a></code></pre></div>
+<p></br></p>
 </div>
 </div>
 <div id="download-location-data-of-a-study-as-a-data.frame" class="section level1">
@@ -491,21 +527,43 @@ To get more details of the options of a specific function, see the functions hel
 <div id="download-location-data-of-a-study-1" class="section level2">
 <h2><span class="header-section-number">5.1</span> Download location data of a study</h2>
 <p>Download location data for a specific individual for a specific sensor. A vector of several sensors can be stated in the argument <code>sensorID</code> and/or of several individuals in the argument <code>animalName</code>. If the <code>animalName</code> argument is left empty, the data of all individuals is downloaded. If the <code>sensorID</code> argument is left empty, the data of all available location sensors of the study is downloaded:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="st">&quot;GPS&quot;</span>, </a>
-<a class="sourceLine" id="cb17-2" title="2">                           <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="st">&quot;GPS&quot;</span>, </a>
+<a class="sourceLine" id="cb18-2" title="2">                           <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
 </p>
 </div>
 <div id="download-location-data-for-a-selected-time-range-1" class="section level2">
 <h2><span class="header-section-number">5.2</span> Download location data for a selected time range</h2>
 <p>Location data can be also downloaded for a specific time range (See Section 4.3. for more details):</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="co"># get acceleration data for all individuals of the study between the &quot;2013-08-15 15:00:00.000&quot; and &quot;2013-08-15 15:01:00.000&quot;</span></a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="dv">653</span>, <span class="dt">login=</span>loginStored, </a>
-<a class="sourceLine" id="cb18-3" title="3">                           <span class="dt">timestamp_start=</span><span class="st">&quot;20130815150000000&quot;</span>,</a>
-<a class="sourceLine" id="cb18-4" title="4">                           <span class="dt">timestamp_end=</span><span class="st">&quot;20130815150100000&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="co"># get acceleration data for all individuals of the study between the &quot;2013-08-15 15:00:00.000&quot; and &quot;2013-08-15 15:01:00.000&quot;</span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="dv">653</span>, <span class="dt">login=</span>loginStored, </a>
+<a class="sourceLine" id="cb19-3" title="3">                           <span class="dt">timestamp_start=</span><span class="st">&quot;20130815150000000&quot;</span>,</a>
+<a class="sourceLine" id="cb19-4" title="4">                           <span class="dt">timestamp_end=</span><span class="st">&quot;20130815150100000&quot;</span>)</a></code></pre></div>
 </div>
 <div id="download-location-data-including-locations-marked-as-outliers-in-movebank" class="section level2">
 <h2><span class="header-section-number">5.3</span> Download location data including locations marked as outliers in Movebank</h2>
 <p>There is also the option to include the locations marked as outliers in Movebank by setting the argument <code>includeOutliers=TRUE</code>. This is based on the column <code>visible</code> of the data. </br></p>
+</div>
+<div id="downloading-a-study-with-many-locations-1" class="section level2">
+<h2><span class="header-section-number">5.4</span> Downloading a study with many locations</h2>
+<p>If the study to be downloaded has many locations (probably in the order of 10s of millions, depends a bit on the available internet speed), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. Bellow some examples of how one could do this.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co">## fist get the animal names of the study</span></a>
+<a class="sourceLine" id="cb20-2" title="2">animalNames &lt;-<span class="st"> </span><span class="kw">getMovebankAnimals</span>(<span class="dt">study=</span><span class="dv">74496970</span>,<span class="dt">login=</span>loginStored)<span class="op">$</span>local_identifier</a>
+<a class="sourceLine" id="cb20-3" title="3"></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="co">## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the &quot;TryCatch&quot; function in case there are individuals with no data.</span></a>
+<a class="sourceLine" id="cb20-5" title="5">animalList &lt;-<span class="st"> </span><span class="kw">lapply</span>(animalNames, <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb20-6" title="6">  <span class="kw">print</span>(<span class="kw">paste0</span>(x,<span class="st">&quot; (&quot;</span>,<span class="kw">match</span>(x,animalNames), <span class="st">&quot; of &quot;</span>, <span class="kw">length</span>(animalNames),<span class="st">&quot;)&quot;</span>))</a>
+<a class="sourceLine" id="cb20-7" title="7">  <span class="kw">tryCatch</span>(<span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">animalName=</span>x, <span class="dt">sensorID=</span><span class="st">&quot;GPS&quot;</span>, <span class="dt">login=</span>loginStored), <span class="dt">error=</span><span class="cf">function</span>(e) <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb20-8" title="8">})</a>
+<a class="sourceLine" id="cb20-9" title="9">storksDF &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>, animalList)</a>
+<a class="sourceLine" id="cb20-10" title="10"></a>
+<a class="sourceLine" id="cb20-11" title="11"><span class="co">## OPTION 2: if the study is very large, loading and handling the large data.frame might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files. Use the &quot;TryCatch&quot; function in case there are individuals with no data.</span></a>
+<a class="sourceLine" id="cb20-12" title="12">animalList &lt;-<span class="st"> </span><span class="kw">lapply</span>(animalNames, <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb20-13" title="13">  <span class="kw">print</span>(<span class="kw">paste0</span>(x,<span class="st">&quot; (&quot;</span>,<span class="kw">match</span>(x,animalNames), <span class="st">&quot; of &quot;</span>, <span class="kw">length</span>(animalNames),<span class="st">&quot;)&quot;</span>))</a>
+<a class="sourceLine" id="cb20-14" title="14">  <span class="kw">tryCatch</span>({storkDF &lt;-<span class="st"> </span><span class="kw">getMovebankLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">animalName=</span>x, <span class="dt">sensorID=</span><span class="st">&quot;GPS&quot;</span>, <span class="dt">login=</span>loginStored)</a>
+<a class="sourceLine" id="cb20-15" title="15"> <span class="kw">save</span>(<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;/path/to/my/folder/StorkIndv/&quot;</span>,x,<span class="st">&quot;.RData&quot;</span>), storkDF)</a>
+<a class="sourceLine" id="cb20-16" title="16"> }, <span class="dt">error=</span><span class="cf">function</span>(e) <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb20-17" title="17">})</a></code></pre></div>
+<p></br></p>
 </div>
 </div>
 <div id="download-non-location-data-of-a-study-as-a-data.frame" class="section level1">
@@ -516,33 +574,55 @@ To get more details of the options of a specific function, see the functions hel
 <div id="download-non-location-data-of-a-study" class="section level2">
 <h2><span class="header-section-number">6.1</span> Download non-location data of a study</h2>
 <p>Download non location data for a specific individual for a specific sensor. A vector of several sensors can be stated in the argument <code>sensorID</code> and/or of several individuals in the argument <code>animalName</code>. If the <code>animalName</code> argument is left empty, the data of all individuals is downloaded. If the <code>sensorID</code> argument is left empty, the data of all available non location sensors of the study is downloaded:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="st">&quot;Acceleration&quot;</span>, </a>
-<a class="sourceLine" id="cb19-2" title="2">                           <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="st">&quot;Acceleration&quot;</span>, </a>
+<a class="sourceLine" id="cb21-2" title="2">                           <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>, <span class="dt">login=</span>loginStored)</a></code></pre></div>
 </p>
 </div>
 <div id="download-non-location-data-for-a-selected-time-range" class="section level2">
 <h2><span class="header-section-number">6.2</span> Download non-location data for a selected time range</h2>
 <p>Non location data can be also downloaded for a specific time range (See Section 4.3. for more details):</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># get acceleration data for all individuals of the study between the &quot;2013-08-15 15:00:00.000&quot; and &quot;2013-08-15 15:01:00.000&quot;</span></a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="dv">2365683</span>, <span class="dt">login=</span>loginStored, </a>
-<a class="sourceLine" id="cb20-3" title="3">                           <span class="dt">timestamp_start=</span><span class="st">&quot;20130815150000000&quot;</span>,</a>
-<a class="sourceLine" id="cb20-4" title="4">                           <span class="dt">timestamp_end=</span><span class="st">&quot;20130815150100000&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="co"># get acceleration data for all individuals of the study between the &quot;2013-08-15 15:00:00.000&quot; and &quot;2013-08-15 15:01:00.000&quot;</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span> , <span class="dt">sensorID=</span><span class="dv">2365683</span>, <span class="dt">login=</span>loginStored, </a>
+<a class="sourceLine" id="cb22-3" title="3">                           <span class="dt">timestamp_start=</span><span class="st">&quot;20130815150000000&quot;</span>,</a>
+<a class="sourceLine" id="cb22-4" title="4">                           <span class="dt">timestamp_end=</span><span class="st">&quot;20130815150100000&quot;</span>)</a></code></pre></div>
 </p>
 </div>
 <div id="download-non-location-data-with-the-getmovebankdata-function" class="section level2">
 <h2><span class="header-section-number">6.3</span> Download non-location data with the ‘getMovebankData’ function</h2>
 <p>There is also the option to download non-location data with the <code>getMovebankData()</code> function. With the argument <code>includeExtraSensors=TRUE</code> data of all non-location sensors available for that study will be downloaded and stored in the <code>unusedRecords</code> slot. With this option it is not possible to select specific sensors.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">mymove &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">login=</span>loginStored, </a>
-<a class="sourceLine" id="cb21-2" title="2">                          <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>,<span class="dt">includeExtraSensors=</span><span class="ot">TRUE</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="co">## to get a data.frame containing the data for the non-location sensors use the &quot;unUsedRecords&quot; function</span></a>
-<a class="sourceLine" id="cb22-2" title="2">nonlocation &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">unUsedRecords</span>(mymove))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">mymove &lt;-<span class="st"> </span><span class="kw">getMovebankData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">login=</span>loginStored, </a>
+<a class="sourceLine" id="cb23-2" title="2">                          <span class="dt">animalName=</span><span class="st">&quot;DER AR439&quot;</span>,<span class="dt">includeExtraSensors=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="co">## to get a data.frame containing the data for the non-location sensors use the &quot;unUsedRecords&quot; function</span></a>
+<a class="sourceLine" id="cb24-2" title="2">nonlocation &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">unUsedRecords</span>(mymove))</a></code></pre></div>
+<p></br></p>
+</div>
+<div id="downloading-a-study-with-a-lot-of-data" class="section level2">
+<h2><span class="header-section-number">6.4</span> Downloading a study with a lot of data</h2>
+<p>If the study to be downloaded has a lot of data (probably in the order of 10s of millions, depends a bit on the available internet speed), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. Bellow some examples of how one could do this.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="co">## fist get the animal names of the study</span></a>
+<a class="sourceLine" id="cb25-2" title="2">animalNames &lt;-<span class="st"> </span><span class="kw">getMovebankAnimals</span>(<span class="dt">study=</span><span class="dv">74496970</span>,<span class="dt">login=</span>loginStored)<span class="op">$</span>local_identifier</a>
+<a class="sourceLine" id="cb25-3" title="3"></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="co">## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the &quot;TryCatch&quot; function in case there are individuals with no data.</span></a>
+<a class="sourceLine" id="cb25-5" title="5">animalList &lt;-<span class="st"> </span><span class="kw">lapply</span>(animalNames, <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb25-6" title="6">  <span class="kw">print</span>(<span class="kw">paste0</span>(x,<span class="st">&quot; (&quot;</span>,<span class="kw">match</span>(x,animalNames), <span class="st">&quot; of &quot;</span>, <span class="kw">length</span>(animalNames),<span class="st">&quot;)&quot;</span>))</a>
+<a class="sourceLine" id="cb25-7" title="7">  <span class="kw">tryCatch</span>(<span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">animalName=</span>x, <span class="dt">sensorID=</span><span class="dv">2365683</span>, <span class="dt">login=</span>loginStored), <span class="dt">error=</span><span class="cf">function</span>(e) <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb25-8" title="8">})</a>
+<a class="sourceLine" id="cb25-9" title="9">storksACC &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>, animalList)</a>
+<a class="sourceLine" id="cb25-10" title="10"></a>
+<a class="sourceLine" id="cb25-11" title="11"><span class="co">## OPTION 2: if the study is very large, loading and handling the large data.frame might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files. Use the &quot;TryCatch&quot; function in case there are individuals with no data.</span></a>
+<a class="sourceLine" id="cb25-12" title="12">animalList &lt;-<span class="st"> </span><span class="kw">lapply</span>(animalNames, <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb25-13" title="13">  <span class="kw">print</span>(<span class="kw">paste0</span>(x,<span class="st">&quot; (&quot;</span>,<span class="kw">match</span>(x,animalNames), <span class="st">&quot; of &quot;</span>, <span class="kw">length</span>(animalNames),<span class="st">&quot;)&quot;</span>))</a>
+<a class="sourceLine" id="cb25-14" title="14">  <span class="kw">tryCatch</span>({storkACC &lt;-<span class="st"> </span><span class="kw">getMovebankNonLocationData</span>(<span class="dt">study=</span><span class="dv">74496970</span>, <span class="dt">animalName=</span>x, <span class="dt">sensorID=</span><span class="dv">2365683</span>, <span class="dt">login=</span>loginStored)</a>
+<a class="sourceLine" id="cb25-15" title="15"> <span class="kw">save</span>(<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;/path/to/my/folder/StorkIndv/&quot;</span>,x,<span class="st">&quot;.RData&quot;</span>), storkACC)</a>
+<a class="sourceLine" id="cb25-16" title="16"> }, <span class="dt">error=</span><span class="cf">function</span>(e) <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb25-17" title="17">})</a></code></pre></div>
 <p></br></p>
 </div>
 </div>
 <div id="download-data-from-the-movebank-data-repository-as-a-movemovestack-object" class="section level1">
 <h1><span class="header-section-number">7</span> Download data from the Movebank Data Repository as a ‘move/moveStack’ object</h1>
 <p>This function downloads data from the <a href="https://www.movebank.org/node/15294">‘Movebank Data Repository’</a>. It returns a <code>move</code> object (if only one individual is included) or a <code>moveStack</code> (if several individuals are included). If data of non-location sensors are included in the data set, these will be stored in the <code>unUsedRecords</code> slot of the move object.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">getDataRepositoryData</span>(<span class="st">&quot;doi:10.5441/001/1.2k536j54&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">getDataRepositoryData</span>(<span class="st">&quot;doi:10.5441/001/1.2k536j54&quot;</span>)</a></code></pre></div>
 <p>Visit the dataset’s repository page by preceding the DOI with <a href="https://dx.doi.org/" class="uri">https://dx.doi.org/</a>&lt;<span class="math inline">\(doi\)</span>&gt;, for example <a href="https://dx.doi.org/10.5441/001/1.2k536j54" class="uri">https://dx.doi.org/10.5441/001/1.2k536j54</a>. From here you can view citations and download a README that might contain additional details needed to properly understand and reference the data. If analyzing these published datasets, always consult the related papers and cite the paper and dataset. If preparing analysis for publication, also contact the data owner if possible for their contribution.</p>
 </div>
 

@@ -49,6 +49,9 @@ See \link{getMovebankSensors} to obtain all available sensors of the study of in
 
 \code{underscoreToDots}:\cr
 .csv files downloaded from the Movebank webpage contain dots in their column names, and .csv files downloaded via the API (like in the case of this function) contain instead underscores in their column names. Many of the functions in the \emph{Move} package were created based on the webpage csv downloaded data and rely on the column names with dots. If you would like to use function like e.g. \code{getDuplicatedTimestamps} or read in the csv file with \code{move} by stating the path to file, among others, than the column names have to be with dots.
+
+\emph{Downloading a study with many locations:}\cr
+If the study to be downloaded has many locations (probably in the order of 10s of millions), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. See more details and examples in the 'browseMovebank' vignette.
 }
 
 \value{
@@ -70,15 +73,15 @@ See the 'browseMovebank' vignette for more information about security and how to
 ## first create the login object 
 login <- movebankLogin()
 
-## get acceleration data for one individual
+## get GPS data for one individual
 str(getMovebankLocationData(study=74496970, sensorID="GPS",
                                animalName="DER AR439", login=login))
 
-## get acceleration data for one individual after the "2013-07-12 06:50:07.000"
+## get GPS data for one individual after the "2013-07-12 06:50:07.000"
 str(getMovebankLocationData(study=74496970, sensorID="GPS", animalName="DER AR439", 
                                login=login, timestamp_start="20130712065007000"))
 
-# get acceleration data for all individuals of the study between 
+# get GPS data for all individuals of the study between 
 # the "2013-08-15 15:00:00.000" and "2013-08-15 15:01:00.000"
 str(getMovebankLocationData(study=74496970, sensorID=653, 
                                login=login, timestamp_start="20130815150000000", 

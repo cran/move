@@ -68,6 +68,28 @@ knitr::opts_chunk$set(collapse = TRUE)
 #                                removeDuplicatedTimestamps=TRUE)
 
 ## ---- eval=F------------------------------------------------------------------
+#  ## fist get the animal names of the study
+#  animalDF <- getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
+#  animalNames <- animalDF$local_identifier[animalDF$number_of_events>0] ## to make sure only to include the animals that actually have locations
+#  
+#  ## if one is sure that all individuals in the study have locations, this is a shorter way to go
+#  # animalNames <- getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)$local_identifier
+#  
+#  ## OPTION 1: create a loop to download each individual and afterwards create a MoveStack (if study is very large, maybe option 2 is better)
+#  animalList <- lapply(animalNames, function(x){
+#    print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+#    getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName=x, login=loginStored, removeDuplicatedTimestamps=T)
+#  })
+#  ocelotsMS <- moveStack(animalList, forceTz="UTC")
+#  
+#  ## OPTION 2: if the study is very large, loading and handling the large moveStack might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files
+#  animalList <- lapply(animalNames, function(x){
+#    print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+#    ocelot <- getMovebankData(study="Ocelots on Barro Colorado Island, Panama", animalName=x, login=loginStored, removeDuplicatedTimestamps=T)
+#    save(file=paste0("/path/to/my/folder/OcelotsIndv/",x,".RData"), ocelot)
+#  })
+
+## ---- eval=F------------------------------------------------------------------
 #  getMovebankLocationData(study=74496970 , sensorID="GPS",
 #                             animalName="DER AR439", login=loginStored)
 
@@ -76,6 +98,25 @@ knitr::opts_chunk$set(collapse = TRUE)
 #  getMovebankLocationData(study=74496970 , sensorID=653, login=loginStored,
 #                             timestamp_start="20130815150000000",
 #                             timestamp_end="20130815150100000")
+
+## ---- eval=F------------------------------------------------------------------
+#  ## fist get the animal names of the study
+#  animalNames <- getMovebankAnimals(study=74496970,login=loginStored)$local_identifier
+#  
+#  ## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the "TryCatch" function in case there are individuals with no data.
+#  animalList <- lapply(animalNames, function(x){
+#    print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+#    tryCatch(getMovebankLocationData(study=74496970, animalName=x, sensorID="GPS", login=loginStored), error=function(e) NULL)
+#  })
+#  storksDF <- do.call("rbind", animalList)
+#  
+#  ## OPTION 2: if the study is very large, loading and handling the large data.frame might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files. Use the "TryCatch" function in case there are individuals with no data.
+#  animalList <- lapply(animalNames, function(x){
+#    print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+#    tryCatch({storkDF <- getMovebankLocationData(study=74496970, animalName=x, sensorID="GPS", login=loginStored)
+#   save(file=paste0("/path/to/my/folder/StorkIndv/",x,".RData"), storkDF)
+#   }, error=function(e) NULL)
+#  })
 
 ## ---- eval=F------------------------------------------------------------------
 #  getMovebankNonLocationData(study=74496970 , sensorID="Acceleration",
@@ -94,6 +135,25 @@ knitr::opts_chunk$set(collapse = TRUE)
 ## ---- eval=F------------------------------------------------------------------
 #  ## to get a data.frame containing the data for the non-location sensors use the "unUsedRecords" function
 #  nonlocation <- as.data.frame(unUsedRecords(mymove))
+
+## ---- eval=F------------------------------------------------------------------
+#  ## fist get the animal names of the study
+#  animalNames <- getMovebankAnimals(study=74496970,login=loginStored)$local_identifier
+#  
+#  ## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the "TryCatch" function in case there are individuals with no data.
+#  animalList <- lapply(animalNames, function(x){
+#    print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+#    tryCatch(getMovebankNonLocationData(study=74496970, animalName=x, sensorID=2365683, login=loginStored), error=function(e) NULL)
+#  })
+#  storksACC <- do.call("rbind", animalList)
+#  
+#  ## OPTION 2: if the study is very large, loading and handling the large data.frame might be very time consuming and somewhat frustrating. Therefore it might be a good idea to save each individual separately as e.g. a .RData file, and do subsequent analysis always looping through all the single individual files. Use the "TryCatch" function in case there are individuals with no data.
+#  animalList <- lapply(animalNames, function(x){
+#    print(paste0(x," (",match(x,animalNames), " of ", length(animalNames),")"))
+#    tryCatch({storkACC <- getMovebankNonLocationData(study=74496970, animalName=x, sensorID=2365683, login=loginStored)
+#   save(file=paste0("/path/to/my/folder/StorkIndv/",x,".RData"), storkACC)
+#   }, error=function(e) NULL)
+#  })
 
 ## ---- eval=F------------------------------------------------------------------
 #  getDataRepositoryData("doi:10.5441/001/1.2k536j54")

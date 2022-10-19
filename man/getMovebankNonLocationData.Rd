@@ -45,15 +45,19 @@ The definitions of the content of the columns of the returned \code{data.frame} 
 See \link{getMovebankSensors} to obtain all available sensors of the study of interest. The valid names for this argument are those of the the columns "name" or "id" of the table returned by \code{getMovebankSensors(login)}. The valid numeric Ids are also in the column "sensor_type_id" in the table returned for a specific study with \code{getMovebankSensors(study,login)}. This function only accepts non-location sensors which are marked as "false"" in the "is_location_sensor" column of the table returned by \code{getMovebankSensors(login)}.
 }
 
+\note{
+See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
+
+\emph{Downloading a study with a lot of data:}\cr
+If the study to be downloaded has many locations (probably in the order of 10s of millions), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. See more details and examples in the 'browseMovebank' vignette.
+}
+
 \value{
 '\code{data.frame}'
 }
 
 \author{
 Anne Scharf
-}
-\note{
-See the 'browseMovebank' vignette for more information about security and how to use Movebank from within R.
 }
 
 \seealso{

@@ -70,6 +70,9 @@ In Movebank outliers can be \href{https://www.movebank.org/node/42#mark_outliers
 \emph{Multiple sensors:}\cr
 The \code{getMovebankData} function downloads the data of all location sensors available in the study. If the study contains several location sensors, the resulting move/moveStack object can be separated into a move/moveStack object per sensor type: \cr
 \code{ x[x@sensor=="z"]} where "x" is a Move or a MoveStack object, and "z" is the name of the sensor e.g. "GPS", "Radio Transmitter", etc.\cr
+
+\emph{Downloading a study with many locations:}\cr
+If the study to be downloaded has many locations (probably in the order of 10s of millions), the download may take so long that the connection breaks, and the study cannot be downloaded. We recommend to download each individual separately to ensure a successfully download. See more details and examples in the 'browseMovebank' vignette.
 }
 
 \value{

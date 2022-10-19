@@ -2,7 +2,7 @@ context("move ade")
 test_that("moveAde", {
   skip_on_os("mac")
   skip_if_not(requireNamespace("adehabitatLT"))
-  
+
   data(fishers)
   data <- fishers[["Ricky.T"]]
   dataSp <- spTransform(data, center = T)
@@ -32,7 +32,7 @@ test_that("moveAde", {
   expect_equal(a, ma)
 
 
-data(leroy)
+  data(leroy)
 
   ## expect_equal(timestamps(leroy), timestamps(me)) ## embc transforms tz into local
 
@@ -78,7 +78,7 @@ test_that("ctmm conversion", {
   expect_equivalent(coordinates(leroy), coordinates(mc))
   expect_equal(timestamps(leroy), timestamps(mc))
 })
-test_that('amt conversion',{
+test_that("amt conversion", {
   data(leroy)
   skip_if_not(requireNamespace("amt"))
   atk <- amt::track(x = coordinates(leroy)[, 1], y = coordinates(leroy)[, 2], t = timestamps(leroy))
