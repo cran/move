@@ -1,3 +1,7 @@
+Version 4.1.12
+
+	* Rebuild example data to work with new raster package
+
 Version 4.1.10
 
         * Fix cran errors in example

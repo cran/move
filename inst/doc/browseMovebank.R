@@ -70,10 +70,10 @@ knitr::opts_chunk$set(collapse = TRUE)
 ## ---- eval=F------------------------------------------------------------------
 #  ## fist get the animal names of the study
 #  animalDF <- getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)
-#  animalNames <- animalDF$local_identifier[animalDF$number_of_events>0] ## to make sure only to include the animals that actually have locations
+#  animalNames <- unique(animalDF$local_identifier[animalDF$number_of_events>0]) ## to make sure only to include the animals that actually have locations
 #  
 #  ## if one is sure that all individuals in the study have locations, this is a shorter way to go
-#  # animalNames <- getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)$local_identifier
+#  # animalNames <- unique(getMovebankAnimals(study="Ocelots on Barro Colorado Island, Panama",login=loginStored)$local_identifier)
 #  
 #  ## OPTION 1: create a loop to download each individual and afterwards create a MoveStack (if study is very large, maybe option 2 is better)
 #  animalList <- lapply(animalNames, function(x){
@@ -101,7 +101,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 ## ---- eval=F------------------------------------------------------------------
 #  ## fist get the animal names of the study
-#  animalNames <- getMovebankAnimals(study=74496970,login=loginStored)$local_identifier
+#  animalNames <- unique(getMovebankAnimals(study=74496970,login=loginStored)$local_identifier)
 #  
 #  ## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the "TryCatch" function in case there are individuals with no data.
 #  animalList <- lapply(animalNames, function(x){
@@ -138,7 +138,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 ## ---- eval=F------------------------------------------------------------------
 #  ## fist get the animal names of the study
-#  animalNames <- getMovebankAnimals(study=74496970,login=loginStored)$local_identifier
+#  animalNames <- unique(getMovebankAnimals(study=74496970,login=loginStored)$local_identifier)
 #  
 #  ## OPTION 1: create a loop to download each individual and afterwards rbind into one large data.frame (if study is very large, maybe option 2 is better). Use the "TryCatch" function in case there are individuals with no data.
 #  animalList <- lapply(animalNames, function(x){

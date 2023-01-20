@@ -12,7 +12,7 @@
 
 <meta name="author" content="Marco Smolla, Bart Kranstauber &amp; Anne Scharf" />
 
-<meta name="date" content="2022-10-19" />
+<meta name="date" content="2023-01-20" />
 
 <title>Using the move package</title>
 
@@ -326,7 +326,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Using the move package</h1>
 <h4 class="author">Marco Smolla, Bart Kranstauber &amp; Anne Scharf</h4>
-<h4 class="date">2022-10-19</h4>
+<h4 class="date">2023-01-20</h4>
 
 
 <div id="TOC">
@@ -426,7 +426,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## indiv. value: 0 NA true gps Martes pennanti 74 Leroy Urban fisher GPS tracking Eastern Standard Time 
 ## unused rec. : 1071 
 ## study name  : Urban fisher GPS tracking 
-## date created: 2020-06-24 15:04:52</code></pre>
+## date created: 2023-01-20 16:56:43</code></pre>
 </div>
 <div id="import-movement-objects-of-other-packages" class="section level2">
 <h2><span class="header-section-number">1.4</span> Import movement objects of other packages</h2>
@@ -466,7 +466,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## max ID Data : NA, NA, true, gps, Martes pennanti, 1016, Ricky.T, Urban fisher GPS tracking, Eastern Standard Time, NA 
 ## individuals : Leroy, Ricky.T 
 ## unused rec. : 2959 
-## date created: 2022-10-19 17:19:50</code></pre>
+## date created: 2023-01-20 17:15:43</code></pre>
 <p>It is also possible to break down a <code>MoveStack</code> into a list of <code>Move</code> objects using the <code>split()</code> function. This is often useful to do calculations with functions that require lists as an input as e.g. <code>lapply()</code>. This list of <code>Move</code> objects can be transformed easily back into a <code>MoveStack</code> with the function <code>moveStack()</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">unstacked &lt;-<span class="st"> </span><span class="kw">split</span>(myStack)</a>
 <a class="sourceLine" id="cb8-2" title="2">myStack &lt;-<span class="st"> </span><span class="kw">moveStack</span>(unstacked, <span class="dt">forceTz=</span><span class="st">&quot;UTC&quot;</span>) </a></code></pre></div>
