@@ -1,10 +1,17 @@
+Version 4.2.0
+	* getDataRepositoryData is Defunct as movebank changed setup
+	* Import of rgdal droped
+	* In preparation for rgdal being retired spTransform now uses sf this might have consequencs for the consistency of attributes of for example bbox
+	* Proper forwarding of arguments in coridor function when called on stack (#77)
+	* Remove dependency on `maptools` by adopting some functions and working with `suncalc` in vignette
+
 Version 4.1.12
 
 	* Rebuild example data to work with new raster package
 
 Version 4.1.10
 
-        * Fix cran errors in example
+    * Fix cran errors in example
 	* Integrate download suggestions
 	* Style package
 	* Fix stacking timestamps in unused records
@@ -12,9 +19,9 @@ Version 4.1.10
 
 Version 4.1.8
 
-        * Check namespace requirements in examples and tests
-        * Clarify examples for emd and angles
-        * Change class inheritance checks
+    * Check namespace requirements in examples and tests
+    * Clarify examples for emd and angles
+    * Change class inheritance checks
 
 Version 4.1.6
 

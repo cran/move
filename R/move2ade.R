@@ -81,6 +81,7 @@ setAs("telemetry", "Move", function(from) {
     mv <- move(
       x = from$x, y = from$y,
       time = as.POSIXct(from$t, origin = "1970-01-01", tz = from@info$timezone),
+      data = data.frame(from),
       proj = if (is.null(from@info$projection)) {
         as.character(NA)
       } else {
@@ -105,6 +106,7 @@ setAs("list", "MoveStack", function(from) {
       mv <- move(
         x = x$x, y = x$y,
         time = as.POSIXct(x$t, origin = "1970-01-01", tz = x@info$timezone),
+        data = data.frame(x),
         proj = if (is.null(x@info$projection)) {
           as.character(NA)
         } else {

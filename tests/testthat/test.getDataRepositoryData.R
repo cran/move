@@ -1,5 +1,6 @@
 context("getDataRepositoryData")
 test_that("test if download works", {
+  skip("Function now defunct")
   skip_on_cran()
   expect_s4_class(
     ar <- getDataRepositoryData(
@@ -75,6 +76,7 @@ test_that("test if download works", {
   # expect_silent(suppressMessages(getDataRepositoryData("10.5441/001/1.k8s2g5v7")))
 })
 test_that("test some exceptions", {
+  skip("Function now defunct")
   skip_on_cran()
   expect_error(
     getDataRepositoryData(

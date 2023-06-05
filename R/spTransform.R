@@ -14,7 +14,8 @@ setMethod(
   f = "spTransform",
   signature = c(x = ".MoveTrack", CRSobj = "character"),
   function(x, CRSobj, center = FALSE, ...) {
-    spTransform(x = x, CRSobj = CRS(CRSobj), center = center)
+    x<-spTransform(x = x, CRSobj = CRS(CRSobj), center = center)
+    x
   }
 )
 
@@ -36,7 +37,12 @@ setMethod(
     }
 
     coordsnew <- spTransform(x = as(x, "SpatialPointsDataFrame"), CRSobj = CRSobj)
+
+    dimnames(coordsnew@coords)[[2]]<-dimnames(x@coords)[[2]]
+
+    dimnames(coordsnew@bbox)[[2]]<-dimnames(x@bbox)[[2]]
     x <- new(class(x), coordsnew, x)
+
     return(x)
   }
 )

@@ -1,17 +1,18 @@
 context("interpolate time")
 test_that("interpolateTime", {
+  sp::set_evolution_status(2L)
   data(leroy)
   data <- leroy
   dataP <- spTransform(data, center = T)
   expect_equal(data, interpolateTime(data, timestamps(data), spaceMethod = "gr"))
   expect_equal(data, interpolateTime(data, timestamps(data), spaceMethod = "rh"))
-  expect_equal(dataP, interpolateTime(dataP, timestamps(dataP), spaceMethod = "eu"))
+  expect_equal(dataP, interpolateTime(dataP, timestamps(dataP), spaceMethod = "eu"), check.attributes=FALSE)
   sl <- c(levels(data@sensor), "interpolateTime")
   dataS <- new("Move", data, sensor = factor(data@sensor, levels = sl), sensorUnUsedRecords = factor(data@sensorUnUsedRecords, levels = sl))
   rownames(dataS@coords) <- NULL
   expect_equal(dataS[c(1, n.locs(data)), ], interpolateTime(data, 30, spaceMethod = "gr")[c(1, 30), ])
   expect_equal(dataS[c(1, n.locs(data)), ], interpolateTime(data, 30, spaceMethod = "rh")[c(1, 30), ])
-  expect_equal(spTransform(dataS[c(1, n.locs(data)), ], proj4string(dataP)), interpolateTime(dataP, 30, spaceMethod = "eu")[c(1, 30), ])
+  expect_equal(spTransform(dataS[c(1, n.locs(data)), ], proj4string(dataP)), interpolateTime(dataP, 30, spaceMethod = "eu")[c(1, 30), ], check.attributes=FALSE)
   expect_equal(40, n.locs(interpolateTime(data, 40, spaceMethod = "g")))
   t <- move(0:1, 0:1, as.POSIXct(0:1, origin = "1970-1-1"))
   tt <- move(0:1, 0:1, as.POSIXct(c(0, 10), origin = "1970-1-1"))

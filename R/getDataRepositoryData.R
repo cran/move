@@ -50,6 +50,7 @@ setMethod(
   signature = c(x = "character"),
   definition =
     function(x, ...) {
+      .Defunct(msg="As the movebank data repository changed this function not working. This functionality won't be restored. Similar functionality might be provided in `move2`, please make an issue there with your requirements (https://gitlab.com/bartk/move2/-/issues).")
       stopifnot(length(x) == 1)
       metaData <- metaDataFromDoi(x)
       replace <- as.character(xml_contents(

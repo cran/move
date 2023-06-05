@@ -1,7 +1,7 @@
 Package: move
 Type: Package
 Title: Visualizing and Analyzing Animal Track Data
-Version: 4.1.12
+Version: 4.2.0
 Authors@R: c(person("Bart", "Kranstauber", role = c("aut", "cre"),
                      email = "b.kranstauber@uva.nl"),
               person("Marco", "Smolla", role = "aut"),
@@ -17,21 +17,20 @@ BugReports: https://gitlab.com/bartk/move/-/issues
 LazyLoad: yes
 LazyData: yes
 LazyDataCompression: xz
-Depends: geosphere (>= 1.4-3), methods, sp, raster (>= 3.6-14), rgdal,
-        R (>= 3.5.0)
+Depends: geosphere (>= 1.4-3), methods, sp, raster (>= 3.6-14), R (>=
+        3.5.0)
 Suggests: adehabitatHR, adehabitatLT, markdown, rmarkdown, circular,
-        ggmap, mapproj, maptools, testthat, knitr, ggplot2, leaflet,
-        lubridate, ctmm, amt, bcpa, EMbC
+        ggmap, mapproj, testthat, knitr, ggplot2, leaflet, lubridate,
+        ctmm, amt, bcpa, EMbC, suncalc
 Imports: httr, memoise, xml2, Rcpp
 LinkingTo: Rcpp
-SystemRequirements: C++11
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2023-01-20 16:17:04 UTC; bart
+Packaged: 2023-06-05 13:13:51 UTC; bart
 Author: Bart Kranstauber [aut, cre],
   Marco Smolla [aut],
   Anne K Scharf [aut]
 Maintainer: Bart Kranstauber <b.kranstauber@uva.nl>
 Repository: CRAN
-Date/Publication: 2023-01-20 18:00:02 UTC
+Date/Publication: 2023-06-05 18:20:06 UTC

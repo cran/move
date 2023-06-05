@@ -47,8 +47,8 @@ setMethod(
     colnames(df) <- c("color", "size", "x", "y")
     spdf <-
       SpatialPointsDataFrame(
-        coords = tmp, data = df[, 1:2],
-        proj4string = CRS(proj4string(object))
+        coords = tmp, data = df[, 1:2]#,
+#        proj4string = CRS(proj4string(object))
       )
 
     if (add) {
