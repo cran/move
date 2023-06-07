@@ -227,13 +227,9 @@ turnAngleGc(leroy)[1:5]
 str(turnAngleGc(myStack))
 
 ## ---- message=F---------------------------------------------------------------
-## night is defined here as the time between sunset and sunrise
-library(suncalc)
-DayNight <- rep("Day", n.locs(leroy))
-sun <- getSunlightTimes(data=data.frame(date = as.Date(timestamps(leroy)), lat = coordinates(leroy)[,2], lon = coordinates(leroy)[,1]), 
-                        keep=c("sunrise", "sunset")) 
-DayNight[timestamps(leroy) < sun$sunrise | timestamps(leroy) > sun$sunset] <- "Night"  
-        
+library(solartime)
+elev<-computeSunPosition(timestamps(leroy), coordinates(leroy)[,2],coordinates(leroy)[,1])[,'elevation']
+DayNight <- c("Night",'Day')[1+(elev>0)]
 ## assigning to each segment if it is during daytime or night
 leroy.burst <- burst(x=leroy, f=DayNight[-n.locs(leroy)])
 

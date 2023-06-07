@@ -1,4 +1,9 @@
+Version 4.2.2
+
+	* Resolve check errors on macos (skip suncalc for timezone bug)
+
 Version 4.2.0
+
 	* getDataRepositoryData is Defunct as movebank changed setup
 	* Import of rgdal droped
 	* In preparation for rgdal being retired spTransform now uses sf this might have consequencs for the consistency of attributes of for example bbox

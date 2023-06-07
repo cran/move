@@ -1,5 +1,5 @@
-f405881457e85967db18b08a16730688 *ChangeLog
-76f29d16c022de194f2233352dcebee1 *DESCRIPTION
+87b058d23fb0e740e4887d284ed7a2bb *ChangeLog
+ed1b4519d43fb26907e88082a219679c *DESCRIPTION
 70922fc95eb1ef27f383699e94fee5ad *NAMESPACE
 4dc0cdce23f2fddb477fee7ac343f73a *R/AAClass.R
 33344451a93ac655c8922080d84c37c4 *R/Summary.R
@@ -65,10 +65,10 @@ c18660b67b6eb303038a94a719e0d976 *data/fishers.RData
 c836b0ab9cfd163b8bff1948d490f8a9 *data/leroydbgb.RData
 214222afda6bef8aa84152853c250e3e *inst/doc/browseMovebank.R
 23966596cd73d28e7a394c2bc1082c7a *inst/doc/browseMovebank.Rmd
-30da4dce320262465464e67e8660595a *inst/doc/browseMovebank.html
-3ffe9eaf69b171ba7eeb590d1175f150 *inst/doc/move.R
-47bcbba2b495107b0c5b35df178b2f87 *inst/doc/move.Rmd
-6575f47227a8ba5ce65732126af2a794 *inst/doc/move.html
+2becb8e32d63ae24b458780ae7e6dfba *inst/doc/browseMovebank.html
+64a0161dcbc160eac6133714f6879337 *inst/doc/move.R
+7e03e84adb68a4f59c01d7e956912979 *inst/doc/move.Rmd
+12de667545d0a560eaf792e3d53b16dd *inst/doc/move.html
 23471b95d504213cbe3a98979eb0c308 *inst/extdata/createsRDataFile.R
 799fda3273b9fcbde9dc6f12205ad5dd *inst/extdata/fishersSubset.csv.gz
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
@@ -172,7 +172,7 @@ b8f1c686dd8bd1b56098f78162b538a7 *tests/testthat/test.angle.R
 8aab2de7365e6ad6b4cc335bba9d5f24 *tests/testthat/test.brownian.bridge.dyn.R
 ee210c992180a5b5b8c68a738a121a3b *tests/testthat/test.burst.R
 1b76d804db0cc681150090e2f048ba14 *tests/testthat/test.citations.R
-ab04bc9dfb3e4a1b20a72fb32b9bd361 *tests/testthat/test.corridor.R
+12bbeb30d22e89982a75b2910e7329d2 *tests/testthat/test.corridor.R
 b93e9c501d34fc11745049c3df76a1a6 *tests/testthat/test.dBGB.R
 a160128b6b6669dbb904b60290a83f06 *tests/testthat/test.emd.R
 39c413018fbe11812dfe614454254607 *tests/testthat/test.examples.R
@@ -202,4 +202,4 @@ b6601a5b0a245405d766d276e858904e *tests/testthat/test.udFunctions.R
 8948b7940b114f97d4e492a8dbfbdf38 *vignettes/a.Rdata
 b5f73b7a30e6915da83a4eda94627d5b *vignettes/base_map.RData
 23966596cd73d28e7a394c2bc1082c7a *vignettes/browseMovebank.Rmd
-47bcbba2b495107b0c5b35df178b2f87 *vignettes/move.Rmd
+7e03e84adb68a4f59c01d7e956912979 *vignettes/move.Rmd
