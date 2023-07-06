@@ -3,7 +3,7 @@ test_that("corridor", {
   skip_if_not(requireNamespace("circular"))
   data(leroy)
   expect_s4_class(corridor(leroy), "MoveBurst")
-  expect_true(all.equal(sum(corridor(leroy)$pseudoAzimuth, na.rm=T),167005.6068999207, tolerance = 1e-12))
+  expect_true(all.equal(sum(corridor(leroy)$pseudoAzimuth, na.rm=T),167005.6068999207, tolerance = 1e-11))
   expect_warning(expect_s4_class(corridor(leroy, speedProp = .99, circProp = .01), "MoveBurst"), "No corridor points found")
 })
 

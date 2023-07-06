@@ -1,11 +1,11 @@
-87b058d23fb0e740e4887d284ed7a2bb *ChangeLog
-ed1b4519d43fb26907e88082a219679c *DESCRIPTION
+58938e1fdeb5775e549212dc3a099ecb *ChangeLog
+9ce40110e245ea61a394dc3c4d3a1f86 *DESCRIPTION
 70922fc95eb1ef27f383699e94fee5ad *NAMESPACE
 4dc0cdce23f2fddb477fee7ac343f73a *R/AAClass.R
 33344451a93ac655c8922080d84c37c4 *R/Summary.R
 2466d789b1a2cfac910e5369455e6889 *R/UDStack.R
 0bddb4be4596636d50e06a76714f29ea *R/WebImport.R
-afc31f924f2b2edc157ab2a430f1b0bf *R/aaa.R
+7da78d30762dc3c2feca7af1421da263 *R/aaa.R
 a2ab1849151600a561ad691cbca1afe0 *R/angle.R
 27ca1af37040fde0d0bc7fd1facfb60d *R/brownianbridgedyn.R
 4bcca65aec165b469ed74f895375d192 *R/brownianmotionvariancedyn.R
@@ -18,7 +18,7 @@ ff178219b8e3ea4ea5b4fcb63d1d7540 *R/dBGB.R
 2f71849ae2d00e137422e031fdfde6d3 *R/data.frame.R
 fd0cef03be9146a7474f63fd33613908 *R/distance.R
 642d38d2ff88b0c4543c3278bdec5dec *R/emd.R
-46e159e59db5aa347e5a0b15f559a5ee *R/equalProj.R
+c3a3c51376f83ca11e4034cbdc1abb6e *R/equalProj.R
 bbd2b2f94056238df00e599910ccb5a2 *R/extcalc.R
 56ab14e9cdbdc86bd51e3089418b5a00 *R/getDataRepositoryData.R
 fde169f4b8acc5f2cd2d8a08a5c1742d *R/getDuplicatedTimestamps.R
@@ -65,10 +65,10 @@ c18660b67b6eb303038a94a719e0d976 *data/fishers.RData
 c836b0ab9cfd163b8bff1948d490f8a9 *data/leroydbgb.RData
 214222afda6bef8aa84152853c250e3e *inst/doc/browseMovebank.R
 23966596cd73d28e7a394c2bc1082c7a *inst/doc/browseMovebank.Rmd
-2becb8e32d63ae24b458780ae7e6dfba *inst/doc/browseMovebank.html
+c8458b9f0e0286e56e1283992851ffda *inst/doc/browseMovebank.html
 64a0161dcbc160eac6133714f6879337 *inst/doc/move.R
 7e03e84adb68a4f59c01d7e956912979 *inst/doc/move.Rmd
-12de667545d0a560eaf792e3d53b16dd *inst/doc/move.html
+997e219aba10f9ba48980e04a3a3420a *inst/doc/move.html
 23471b95d504213cbe3a98979eb0c308 *inst/extdata/createsRDataFile.R
 799fda3273b9fcbde9dc6f12205ad5dd *inst/extdata/fishersSubset.csv.gz
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
@@ -172,7 +172,7 @@ b8f1c686dd8bd1b56098f78162b538a7 *tests/testthat/test.angle.R
 8aab2de7365e6ad6b4cc335bba9d5f24 *tests/testthat/test.brownian.bridge.dyn.R
 ee210c992180a5b5b8c68a738a121a3b *tests/testthat/test.burst.R
 1b76d804db0cc681150090e2f048ba14 *tests/testthat/test.citations.R
-12bbeb30d22e89982a75b2910e7329d2 *tests/testthat/test.corridor.R
+4d6e2c8ddbdbc1e203ef6f8394e3084e *tests/testthat/test.corridor.R
 b93e9c501d34fc11745049c3df76a1a6 *tests/testthat/test.dBGB.R
 a160128b6b6669dbb904b60290a83f06 *tests/testthat/test.emd.R
 39c413018fbe11812dfe614454254607 *tests/testthat/test.examples.R

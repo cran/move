@@ -10,7 +10,7 @@ setMethod("equalProj",
       if (length(x) == 1) {
         return(T)
       } else {
-        return(all(unlist(lapply(x[-1], identicalCRS, x[[1]]))))
+        return(all(unlist(lapply(x[-1], terra::same.crs, x[[1]]))))
       }
     }
     #             if(!isClass(Class="Raster",x)) stop("The list contains objects that are not Rasters.")
