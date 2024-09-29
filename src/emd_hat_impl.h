@@ -34,7 +34,7 @@ NUM_T emd_hat_gd_metric<NUM_T,FLOW_TYPE>::operator()(const std::vector<NUM_T>& P
 
     if (FLOW_TYPE!=NO_FLOW) fillFWithZeros(*F);
         
-    if(!( (F!=NULL) || (FLOW_TYPE==NO_FLOW) )) error("emd internal error7");
+    if(!( (F!=NULL) || (FLOW_TYPE==NO_FLOW) )) Rf_error("emd internal error7");
     
     std::vector<NUM_T> P= Pc;
     std::vector<NUM_T> Q= Qc;
@@ -98,7 +98,7 @@ struct emd_hat_impl_integral_types {
 
     //-------------------------------------------------------
     NODE_T N= Pc.size();
-    if(Qc.size()!=N) error("emd internal error8");
+    if(Qc.size()!=N) Rf_error("emd internal error8");
 // toc timp; timp.tic();
     // Ensuring that the supplier - P, have more mass.
     std::vector<NUM_T> P;
@@ -152,7 +152,7 @@ struct emd_hat_impl_integral_types {
     NUM_T maxC= 0;
     {for (NODE_T i=0; i<N; ++i) {
         {for (NODE_T j=0; j<N; ++j) {
-                if(C[i][j]<0) error("emd internal error9");
+                if(C[i][j]<0) Rf_error("emd internal error9");
                 if ( C[i][j]>maxC ) maxC= C[i][j];
         }}
     }}
@@ -277,7 +277,7 @@ struct emd_hat_impl_integral_types {
     #ifndef NDEBUG
     NUM_T DEBUG_sum_bb= 0;
     for (NODE_T i=0; i<bb.size(); ++i) DEBUG_sum_bb+= bb[i];
-    if(DEBUG_sum_bb!=0) error("emd internal error 10");
+    if(DEBUG_sum_bb!=0) Rf_error("emd internal error 10");
     #endif
 
     //-------------------------------------------------------
@@ -313,7 +313,7 @@ struct emd_hat_impl_integral_types {
                     j= nodes_old_names[new_name_from]-N;
                 }
                 if (flow!=0&&(int) new_name_from!=nodes_new_names[THRESHOLD_NODE]&& (int) it->_to!=nodes_new_names[THRESHOLD_NODE]) {
-                    if(!(i<N&&j<N)) error("emd internal error 11");
+                    if(!(i<N&&j<N)) Rf_error("emd internal error 11");
                     if (needToSwapFlow) std::swap(i,j);
                     if (!reverseEdge) {
                         (*F)[i][j]+= flow;
@@ -411,7 +411,7 @@ struct emd_hat_impl<double,FLOW_TYPE> {
         std::vector< std::vector<NUM_T> >* F) {
         
     // TODO: static assert
-    if(!(sizeof(CONVERT_TO_T)>=8)) error("emd internal error 12");
+    if(!(sizeof(CONVERT_TO_T)>=8)) Rf_error("emd internal error 12");
     
     // This condition should hold:
     // ( 2^(sizeof(CONVERT_TO_T*8)) >= ( MULT_FACTOR^2 )

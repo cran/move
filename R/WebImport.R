@@ -972,7 +972,7 @@ setMethod(
       stop("The selected sensor(s): '", paste0(sensorTypes$name[sensorTypes$id %in% sensorID & sensorTypes$is_location_sensor == "false"], collapse = ", "), "' is a/are non-location sensor(s). Only location data can be downloaded with this function. Use 'getMovebankNonLocationData' to download non-location data.")
     }
 
-    sensorAnim <- getMovebankAnimals(study, login)[c("individual_id", "sensor_type_id", "taxon_canonical_name", "local_identifier")]
+    sensorAnim <- getMovebankAnimals(study, login)[c("individual_id", "sensor_type_id")]
     if (length(sensorID[!sensorID %in% unique(sensorAnim$sensor_type_id)]) > 0) {
       NoSens <- as.character(sensorTypes$name[sensorTypes$id %in% sensorID[!sensorID %in% unique(sensorAnim$sensor_type_id)]])
       stop("Sensor(s): '", paste0(NoSens, collapse = ", "), "' is/are not available for this study")

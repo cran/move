@@ -1,3 +1,7 @@
+Version 4.2.5
+	
+	* Fix no remap issue
+
 Version 4.2.4
 
 	* Change from sp::identicalCRS to terra::same.crs to prepare for future raster release

@@ -54,7 +54,7 @@ numeric vector with x coordinates if non-Movebank data are provided (e.g. \code{
 \item{y}{numeric vector with y coordinates if non-Movebank data are provided (e.g. \code{data$y}).}
 \item{time}{vector of time stamps with POSIXct conversion if non-Movebank data are provided, i.e. \code{as.POSIXct(data$timestamp, format="\%Y-\%m-\%d \%H:\%M:\%S", tz="UTC")}}
 \item{data}{extra data associated with the relocations, if empty it is filled with the coordinates and timestamps. Optional.}
-\item{proj}{projection method for non-Movebank data; requires a valid CRS (see \code{\link{CRS-class}}) object, e.g. CRS("+proj=longlat +ellps=WGS84"); default is NA. Optional.}
+\item{proj}{projection method for non-Movebank data; requires a valid CRS (see \code{\link[sp]{CRS-class}}) object, e.g. CRS("+proj=longlat +ellps=WGS84"); default is NA. Optional.}
 \item{sensor}{Sensor name(s), either single character or a vector with length of the number of coordinates. If multiple sensors are provided this has to be done as a vector with the same length as the number of coordinates. Optional.}
 \item{animal}{animal ID(s) or name(s), either single character or a vector with length of the number of coordinates. If multiple individuals are provided this has to be done as a vector with the same length as the number of coordinates. Optional.}
 \item{removeDuplicatedTimestamps}{logical; if TRUE duplicated timestamps values will be removed. Only available when reading in data from movebank via path to a .csv file.  Using this argument will retain the first of multiple records with the same animal ID and timestamp, and remove any subsequent duplicates. See 'Note'.}

@@ -1,24 +1,24 @@
-## ---- echo=FALSE, include=FALSE-----------------------------------------------
+## ----echo=FALSE, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(collapse = F, dpi=60, fig.retina = 1)
 options('rgdal_show_exportToProj4_warnings'='none')
 
-## ---- echo=F,message=F--------------------------------------------------------
+## ----echo=F,message=F---------------------------------------------------------
 library(move)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  library(move)
 #  myMoveObject <- move(x="C:/User/Documents/GPS_data.csv")
 #  myMoveEnv <- move(x="C:/User/Documents/GPS_data_Annotated.zip")
 #  
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  data <- read.csv(system.file("extdata","leroy.csv.gz",package="move"))
 #  leroy <- move(x=data$location.long, y=data$location.lat,
 #                time=as.POSIXct(data$timestamp, format="%Y-%m-%d %H:%M:%OS", tz="UTC"),
 #                proj=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"),
 #                data=data, animal=data$individual.local.identifier, sensor=data$sensor)
 
-## ---- eval=T------------------------------------------------------------------
+## ----eval=T-------------------------------------------------------------------
 leroy
 
 ## ----message=F, warning=F-----------------------------------------------------
@@ -28,14 +28,14 @@ data(leroy)
 leroyP<-spTransform(leroy, proj4string(ricky))
 myStack <- moveStack(list(leroyP, ricky),forceTz="UTC")
 
-## ---- eval=T------------------------------------------------------------------
+## ----eval=T-------------------------------------------------------------------
 myStack
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  unstacked <- split(myStack)
 #  myStack <- moveStack(unstacked, forceTz="UTC")
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  str(leroy)
 
 ## -----------------------------------------------------------------------------
@@ -93,7 +93,7 @@ leroy@dataUnUsedRecords[1:3,]
 levels(leroy@sensorUnUsedRecords)
 
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  coatis_bci <- getMovebankData(study="Coatis on BCI Panama (data from Powell et al. 2017)")
 #  
 #  ## the study name:
@@ -108,45 +108,45 @@ levels(leroy@sensorUnUsedRecords)
 #  licenseTerms(coatis_bci)
 #  # [1] "These data have been published by the Movebank Data Repository with DOI "http://dx.doi.org/10.5441/001/1.41076dq1"
 
-## ---- eval=T------------------------------------------------------------------
+## ----eval=T-------------------------------------------------------------------
 trackId(myStack)[1:3]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  rickyT <- myStack[["Ricky.T"]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  indv1 <- myStack[[1]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  leroyAndRicky <- myStack[[c("Leroy","Ricky.T")]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  twoInd <- myStack[[c(1,2)]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  noRickyT <- myStack[[-which(namesIndiv(myStack)=="Ricky.T")]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  noIndv1 <- myStack[[-1]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  noLeroyAndRicky <- myStack[[-which(namesIndiv(mv)%in%c("Leroy","Ricky.T"))]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  noOneAndTwo <- myStack[[-c(1,2)]]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## subset to locations 1-50
 #  leroySub <- leroy[1:50]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## select the locations 1-50 from a movestack. WARNING: this will just select the 50 first locations in order of occurrence, in this case they correspond to the first individual of the movestack
 #  myStackSub <- myStack[1:50]
 #  
 #  ## to select locations 1-50 from each individual
 #  myStackSubs <- moveStack(lapply(split(myStack), function(x){x[1:50]}))
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## selecting a specific day
 #  leroyOneDay <- leroy[as.Date(timestamps(leroy))==as.Date("2009-02-25")]
 #  ## selecting a range of days
@@ -166,7 +166,7 @@ projection(leroy)
 leroyProj <- spTransform(leroy, CRSobj="+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
 projection(leroyProj)
 
-## ---- fig.width=5, fig.height=5-----------------------------------------------
+## ----fig.width=5, fig.height=5------------------------------------------------
 plot(leroy, xlab="Longitude", ylab="Latitude", type="l", pch=16, lwd=0.5)
 points(leroy, pch=20, cex=0.5)
 plot(myStack, xlab="Longitude", ylab="Latitude",type="b", pch=16, cex=0.5, col=c("blue","magenta")[myStack@trackId])
@@ -181,7 +181,8 @@ ggplot(data = myStackDF, aes(x = location.long, y = location.lat, color = trackI
 #  library(ggmap)
 #  require(mapproj)
 #  leroyDF <- as.data.frame(leroy)
-#  m <- get_map(bbox(extent(leroy)*1.1), source="stamen", zoom=12)
+#  register_stadiamaps(your_stadia_key)
+#  m <- get_map(bbox(extent(leroy)*1.1),maptype="stamen_terrain", source="stadia", zoom=12)
 #  ggmap(m)+geom_path(data=leroyDF, aes(x=location.long, y=location.lat))
 
 ## ----fig.width=5, fig.height=5, echo=F, message=F-----------------------------
@@ -226,7 +227,7 @@ turnAngleGc(leroy)[1:5]
 ## from a moveStack object (a list of vectors is returned)
 str(turnAngleGc(myStack))
 
-## ---- message=F---------------------------------------------------------------
+## ----message=F----------------------------------------------------------------
 library(solartime)
 elev<-computeSunPosition(timestamps(leroy), coordinates(leroy)[,2],coordinates(leroy)[,1])[,'elevation']
 DayNight <- c("Night",'Day')[1+(elev>0)]
@@ -260,7 +261,7 @@ LeroyCorr <- corridor(leroy)
 plot(LeroyCorr, type="l", xlab="Longitude", ylab="Latitude", col=c("black", "grey"), lwd=c(1,2))
 legend("bottomleft", c("Corridor", "Non-corridor"), col=c("black", "grey"), lty=c(1,1), bty="n")
 
-## ---- message=F, warning=F----------------------------------------------------
+## ----message=F, warning=F-----------------------------------------------------
 leroyRed <- leroy[1:200] # reducing dataset for example
 leroy.prj <- spTransform(leroyRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
@@ -294,7 +295,7 @@ plot(ud95, main="UD95")
 ud50 <- UDleroy<=.5
 plot(ud50, main="UD50")
 
-## ---- fig.width=12, fig.height=8, message=F, warning=F------------------------
+## ----fig.width=12, fig.height=8, message=F, warning=F-------------------------
 leroyBRed <- leroy.burst[1:155] # reducing dataset for example
 leroyB.prj <- spTransform(leroyBRed, center=TRUE) # center=T: the center of the coordinate system is the center of the track. Units are in meters
 
@@ -334,13 +335,13 @@ plot(dBB.leroyB.night,nr=1)
 rickyRed <- ricky[1:100]
 summary(timeLag(rickyRed,"mins")) 
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ricky.prj <- spTransform(rickyRed, center=TRUE)
 #  
 #  ts <- median(timeLag(rickyRed,"mins"))
 #  BB.ricky <- brownian.bridge.dyn(ricky.prj, ext=.45, dimSize=100, location.error=20,time.step=ts/15)
 
-## ---- error=T,fig.width=10, fig.height=5,message=F, warning=F-----------------
+## ----error=T,fig.width=10, fig.height=5,message=F, warning=F------------------
 ## creating a gappy data set
 leroyWithGap <- leroy[-c(50:500,550:850)]
 leroyWithGap_p <- spTransform(leroyWithGap, center=TRUE)
@@ -383,7 +384,7 @@ plot(ud.corrected, main="UD with locations")
 points(leroyWithGap_p, col="red", cex=.5, pch=20)
 contour(ud.corrected, levels=c(0.5, 0.95), add=TRUE, lwd=c(0.5, 0.5), lty=c(2,1))
 
-## ---- message=F, warning=F----------------------------------------------------
+## ----message=F, warning=F-----------------------------------------------------
 ## e.g. compare the utilization distributions of the day and night UDs of Leroy
 dBB.leroyB <- brownian.bridge.dyn(leroyB.prj, ext=1.5, raster=500, location.error=20)
 leroyBud <- UDStack(dBB.leroyB)
@@ -394,7 +395,7 @@ leroyBud_2<-(leroyBud/cellStats(leroyBud,sum))
 emd(leroyBud_2)
 ## the result is an matrix of distances of the class 'dist'
 
-## ---- fig.width=5,fig.height=5, fig.show='hold'-------------------------------
+## ----fig.width=5,fig.height=5, fig.show='hold'--------------------------------
 ## providing the number of locations. In this case the interpolated trajectory will have 500 locations with a regular timelag
 interp500p <- interpolateTime(leroyRed, time=500, spaceMethod='greatcircle')
 plot(leroyRed, col="red",pch=20, main="By number of locations")
@@ -404,7 +405,7 @@ legend("bottomleft", c("True locations", "Interpolated locations"), col=c("red",
 
 summary(timeLag(interp500p, "mins"))
 
-## ---- fig.width=5,fig.height=5------------------------------------------------
+## ----fig.width=5,fig.height=5-------------------------------------------------
 ## providing a time interval. In this case the interpolated trajectory will have a location every 5mins
 interp5min <- interpolateTime(leroyRed, time=as.difftime(5, units="mins"), spaceMethod='greatcircle')
 plot(leroyRed, col="red",pch=20, main="By time interval")
@@ -412,7 +413,7 @@ points(interp5min)
 lines(leroyRed, col="red")
 legend("bottomleft", c("True locations", "Interpolated locations"), col=c("red", "black"), pch=c(20,1))
 
-## ---- fig.width=5,fig.height=5------------------------------------------------
+## ----fig.width=5,fig.height=5-------------------------------------------------
 ## providing a vector of timestamps
 ts <- as.POSIXct(c("2009-02-12 06:00:00", "2009-02-12 12:00:00", "2009-02-12 23:00:00",
                    "2009-02-14 06:00:00", "2009-02-14 12:00:00", "2009-02-14 23:00:00"),
@@ -433,37 +434,37 @@ thintime <- thinTrackTime(leroyRed, interval = as.difftime(45, units='mins'),
 ## -----------------------------------------------------------------------------
 data.frame(TL=timeLag(thintime,"mins"),burst=thintime@burstId)[15:25,]
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## selecting those segments that have a travel distance of ~300m in the original track
 #  thindist <- thinDistanceAlongTrack(leroyRed, interval = 300, tolerance = 10)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  leroyDF <- as.data.frame(leroy)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  leroySPDF <- as(leroy,"SpatialPointsDataFrame")
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  leroy.ltraj <- as(leroy,"ltraj")
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## save the Move* object as a RData file
 #  save(leroy, file="C:/User/Documents/leroy.RData")
 #  
 #  ## load an  Move* object saved as a RData file
 #  load("C:/User/Documents/leroy.RData")
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## save as a text file
 #  leroyDF <- as.data.frame(leroy)
 #  write.table(leroyDF, file="C:/User/Documents/leroyDF.csv", sep=",", row.names = FALSE)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## save as a shape file
 #  library(rgdal)
 #  writeOGR(leroy, "C:/User/Documents/leroySHP/", layer="leroy", driver="ESRI Shapefile")
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ## kml or kmz of movestack ##
 #  library(plotKML)
 #  ## open a file to write the content

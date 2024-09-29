@@ -25,7 +25,7 @@ The contour function creates a shape of the area in which the animal can be foun
 One or several probabilities can be set with \code{levels} (numeric or vector of values between 0 and 1). If no value is set all contour lines are returned.\cr 
 You can also use \code{nlevel} to set a number of fixed distance levels. \cr
 
-The \code{raster2contour} function creates a \link[=SpatialLinesDataFrame-class]{SpatialLinesDataFrame} from the input raster object. This allows to re-project the contours to different projections. 
+The \code{raster2contour} function creates a \link[sp:SpatialLinesDataFrame-class]{SpatialLinesDataFrame} from the input raster object. This allows to re-project the contours to different projections. 
 }
 
 \value{

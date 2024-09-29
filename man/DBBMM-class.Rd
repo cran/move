@@ -20,22 +20,22 @@ The DBBMM class
 
 \section{Slots}{
   \describe{
-    \item{crs}{part of the \link{Raster-class}}
-    \item{data}{part of the \link{Raster-class}}
+    \item{crs}{part of the \link[raster]{Raster-class}}
+    \item{data}{part of the \link[raster]{Raster-class}}
     \item{DBMvar}{Object of class "\link[=dBMvariance-class]{dBMvariance}": includes the window.size, margin, means, in.windows, break.list, and points of interest}
     \item{ext}{the extension factor set by the user}
-    \item{extent}{part of the \link{Raster-class}}
-    \item{file}{part of the \link{Raster-class}}
-    \item{history}{part of the \link{Raster-class}}
-    %\item{layernames}{part of the \link{Raster-class}}
-    \item{legend}{part of the \link{Raster-class}}
+    \item{extent}{part of the \link[raster]{Raster-class}}
+    \item{file}{part of the \link[raster]{Raster-class}}
+    \item{history}{part of the \link[raster]{Raster-class}}
+    %\item{layernames}{part of the \link[raster]{Raster-class}}
+    \item{legend}{part of the \link[raster]{Raster-class}}
     \item{method}{stores the method that was used to calculate the utilization distribution (UD), e.g. dynamic Brownian Bridge}
-    \item{ncols}{part of the \link{Raster-class}}
-    \item{nrows}{part of the \link{Raster-class}}
-    \item{rotated}{part of the \link{Raster-class}}
-    \item{rotation}{part of the \link{Raster-class}}
-    \item{title}{part of the \link{Raster-class}}
-    \item{z}{part of the \link{Raster-class}}
+    \item{ncols}{part of the \link[raster]{Raster-class}}
+    \item{nrows}{part of the \link[raster]{Raster-class}}
+    \item{rotated}{part of the \link[raster]{Raster-class}}
+    \item{rotation}{part of the \link[raster]{Raster-class}}
+    \item{title}{part of the \link[raster]{Raster-class}}
+    \item{z}{part of the \link[raster]{Raster-class}}
   }
 }
 

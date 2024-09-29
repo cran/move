@@ -11,20 +11,20 @@
 
 \section{Slots}{
   \describe{
-     \item{crs}{part of the \link{Raster-class}}
-     \item{data}{part of the \link{Raster-class}}
+     \item{crs}{part of the \link[raster]{Raster-class}}
+     \item{data}{part of the \link[raster]{Raster-class}}
      \item{var}{Object of class "\link[=dBGBvariance-class]{dBGBvariance}": includes the windowSize, margin, paraSd,orthSd, nEstim, segInterest}
-     \item{extent}{part of the \link{Raster-class}}
-     \item{file}{part of the \link{Raster-class}}
-     \item{history}{part of the \link{Raster-class}}
-     \item{legend}{part of the \link{Raster-class}}
+     \item{extent}{part of the \link[raster]{Raster-class}}
+     \item{file}{part of the \link[raster]{Raster-class}}
+     \item{history}{part of the \link[raster]{Raster-class}}
+     \item{legend}{part of the \link[raster]{Raster-class}}
      \item{method}{stores the method that was used to calculate the utilization distribution (UD), e.g. dynBGB}
-     \item{ncols}{part of the \link{Raster-class}}
-     \item{nrows}{part of the \link{Raster-class}}
-     \item{rotated}{part of the \link{Raster-class}}
-     \item{rotation}{part of the \link{Raster-class}}
-     \item{title}{part of the \link{Raster-class}}
-     \item{z}{part of the \link{Raster-class}}
+     \item{ncols}{part of the \link[raster]{Raster-class}}
+     \item{nrows}{part of the \link[raster]{Raster-class}}
+     \item{rotated}{part of the \link[raster]{Raster-class}}
+     \item{rotation}{part of the \link[raster]{Raster-class}}
+     \item{title}{part of the \link[raster]{Raster-class}}
+     \item{z}{part of the \link[raster]{Raster-class}}
   }
 }
 

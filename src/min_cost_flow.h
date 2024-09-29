@@ -87,8 +87,8 @@ public:
         //cout << endl;
         //tictoc_all_function.tic();
                 
-        if(e.size()!=c.size()) error("internal emd error1");
-        if(x.size()!=c.size()) error("internal emd error2");
+        if(e.size()!=c.size()) Rf_error("internal emd error1");
+        if(x.size()!=c.size()) Rf_error("internal emd error2");
         
         _num_nodes= e.size();
         _nodes_to_Q.resize(_num_nodes);
@@ -169,7 +169,7 @@ public:
                 NODE_T to= l;
                 do {
                     NODE_T from= prev[to];
-                    if(from==to) error("internal emd error3");
+                    if(from==to) Rf_error("internal emd error3");
                                         
                     // residual
                     typename std::list< edge2<NUM_T> >::iterator itccb= r_cost_cap_backward[from].begin();
@@ -189,7 +189,7 @@ public:
                 to= l;
                 do {
                     NODE_T from= prev[to];
-                    if(from==to) error("internal emd error4");
+                    if(from==to) Rf_error("internal emd error4");
                                         
                     // TODO - might do here O(n) can be done in O(1)
                     typename std::list<  edge0<NUM_T>  >::iterator itx= x[from].begin();
@@ -322,7 +322,7 @@ private:
             
             // neighbors of u    
             {for (typename std::list< edge1<NUM_T> >::const_iterator it= cost_forward[u].begin(); it!=cost_forward[u].end(); ++it) {
-                if (it->_reduced_cost<0) error("emd internal error5");
+                if (it->_reduced_cost<0) Rf_error("emd internal error5");
                 NUM_T alt= d[u]+it->_reduced_cost;
                 NODE_T v= it->_to;
                 if ( (_nodes_to_Q[v]<Q.size()) && (alt<Q[_nodes_to_Q[v]]._dist) ) {
@@ -333,7 +333,7 @@ private:
             }} //it
             {for (typename std::list< edge2<NUM_T> >::const_iterator it= cost_backward[u].begin(); it!=cost_backward[u].end(); ++it) {
                 if (it->_residual_capacity>0) {
-                    if (it->_reduced_cost<0) error("emd internal error6");
+                    if (it->_reduced_cost<0) Rf_error("emd internal error6");
                     NUM_T alt= d[u]+it->_reduced_cost;
                     NODE_T v= it->_to;
                     if ( (_nodes_to_Q[v]<Q.size()) && (alt<Q[_nodes_to_Q[v]]._dist) )  {

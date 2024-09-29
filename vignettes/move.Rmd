@@ -345,7 +345,8 @@ The tracks can also be plotted on a background map like open street map:
 library(ggmap)
 require(mapproj)
 leroyDF <- as.data.frame(leroy)
-m <- get_map(bbox(extent(leroy)*1.1), source="stamen", zoom=12)
+register_stadiamaps(your_stadia_key)
+m <- get_map(bbox(extent(leroy)*1.1),maptype="stamen_terrain", source="stadia", zoom=12)
 ggmap(m)+geom_path(data=leroyDF, aes(x=location.long, y=location.lat))
 ```
 

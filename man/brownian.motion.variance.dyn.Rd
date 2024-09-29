@@ -36,7 +36,7 @@
 
 
 \seealso{
-	\link{brownian.bridge.dyn}, link{dynBGBvariance}
+	\link{brownian.bridge.dyn}, \link{dynBGBvariance}
 }
 
 \examples{

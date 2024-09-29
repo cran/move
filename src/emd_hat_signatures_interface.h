@@ -73,7 +73,7 @@ NUM_T emd_hat_signature_interface(signature_tt<NUM_T>* Signature1, signature_tt<
     {for (int i=0; i<Signature1->n; ++i) {
         {for (int j=0; j<Signature2->n; ++j) {
             NUM_T dist= func( (Signature1->Features+i) , (Signature2->Features+j) );
-            if(dist<0) error("emd internal error");
+            if(dist<0) Rf_error("emd internal error");
             C[i][j+Signature1->n]= dist;
             C[j+Signature1->n][i]= dist;
         }}
