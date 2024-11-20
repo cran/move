@@ -4,7 +4,7 @@ test_that("basic functionality", {
   expect_null(getDuplicatedTimestamps(system.file("extdata", "leroy.csv.gz", package = "move")))
   expect_null(getDuplicatedTimestamps(df <- data.frame(individual.local.identifier = letters, timestamp = as.POSIXct(1:26, origin = "1970-1-1", tz = "UTC"), sensor.type = rep("gps", 26))))
   expect_equal(getDuplicatedTimestamps(df[c(1:3, 2, 4), ]), structure(list("b|1970-01-01 00:00:02.0000|gps" = c(2L, 4L)), .Names = "b|1970-01-01 00:00:02.0000|gps"))
-  expect_null(getDuplicatedTimestamps(df <- data.frame(individual.local.identifier = letters, timestamp = as.POSIXct(rep(1, 26), origin = "1970-1-1", tz = "EST"), sensor.type = rep("gps", 26))))
+  expect_null(getDuplicatedTimestamps(df <- data.frame(individual.local.identifier = letters, timestamp = as.POSIXct(rep(1, 26), origin = "1970-1-1", tz = "America/New_York"), sensor.type = rep("gps", 26))))
   df$individual.local.identifier[26] <- "a"
   expect_equal(getDuplicatedTimestamps(df), structure(list("a|1969-12-31 19:00:01.0000|gps" = c(1L, 26L)), .Names = "a|1969-12-31 19:00:01.0000|gps"))
   df2 <- df

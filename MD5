@@ -1,5 +1,5 @@
-1dff8c1b10c3de81091a1f96cc10df63 *ChangeLog
-0df87f4444e71d41f46739a14739b8e7 *DESCRIPTION
+eec3b819d0aed3d42c8bc41f5a21acc0 *ChangeLog
+5f09c90ca848c9a8630b39ad10abd76b *DESCRIPTION
 70922fc95eb1ef27f383699e94fee5ad *NAMESPACE
 4dc0cdce23f2fddb477fee7ac343f73a *R/AAClass.R
 33344451a93ac655c8922080d84c37c4 *R/Summary.R
@@ -65,10 +65,10 @@ c18660b67b6eb303038a94a719e0d976 *data/fishers.RData
 c836b0ab9cfd163b8bff1948d490f8a9 *data/leroydbgb.RData
 f1a5cd7c2e5f08d6b3640a1ea7c636df *inst/doc/browseMovebank.R
 23966596cd73d28e7a394c2bc1082c7a *inst/doc/browseMovebank.Rmd
-4b735df4ddf412d3dbfcaa0e6b2b9ce8 *inst/doc/browseMovebank.html
+f21ebfd2c2b6c242d2f2a1f53f5ad7f8 *inst/doc/browseMovebank.html
 d7e4a9c37bc3fa58db73cc9f786accbd *inst/doc/move.R
 b30802eab56f142419b1231676112b80 *inst/doc/move.Rmd
-8cd3a23d122e4da3fb7943882e69e710 *inst/doc/move.html
+be17e1f953c83fcddd290c533c605562 *inst/doc/move.html
 23471b95d504213cbe3a98979eb0c308 *inst/extdata/createsRDataFile.R
 799fda3273b9fcbde9dc6f12205ad5dd *inst/extdata/fishersSubset.csv.gz
 e10c2492c1f24b99c3d3531103c761d5 *inst/extdata/leroy.csv.gz
@@ -178,7 +178,7 @@ a160128b6b6669dbb904b60290a83f06 *tests/testthat/test.emd.R
 39c413018fbe11812dfe614454254607 *tests/testthat/test.examples.R
 f66caf656d1591690e52e8e8be628485 *tests/testthat/test.extentCalc.R
 6400fc5bfae87f396de079f156825204 *tests/testthat/test.getDataRepositoryData.R
-86a2ab81696cf6c8127337c59afc674a *tests/testthat/test.getDuplicatedTimestamps.R
+c169e4065571f9a2154e3226348e8205 *tests/testthat/test.getDuplicatedTimestamps.R
 b85a361ff2f028a0049ed1225fe19e4d *tests/testthat/test.getMotionVariance.R
 88814022adf548a6641a558806dcadcc *tests/testthat/test.getVolumeUD.R
 4c702fa192a5fbc889e4bea8230ff9e0 *tests/testthat/test.idData.R
