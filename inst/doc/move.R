@@ -6,17 +6,17 @@ options('rgdal_show_exportToProj4_warnings'='none')
 library(move)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  library(move)
-#  myMoveObject <- move(x="C:/User/Documents/GPS_data.csv")
-#  myMoveEnv <- move(x="C:/User/Documents/GPS_data_Annotated.zip")
-#  
+# library(move)
+# myMoveObject <- move(x="C:/User/Documents/GPS_data.csv")
+# myMoveEnv <- move(x="C:/User/Documents/GPS_data_Annotated.zip")
+# 
 
 ## ----eval=F-------------------------------------------------------------------
-#  data <- read.csv(system.file("extdata","leroy.csv.gz",package="move"))
-#  leroy <- move(x=data$location.long, y=data$location.lat,
-#                time=as.POSIXct(data$timestamp, format="%Y-%m-%d %H:%M:%OS", tz="UTC"),
-#                proj=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"),
-#                data=data, animal=data$individual.local.identifier, sensor=data$sensor)
+# data <- read.csv(system.file("extdata","leroy.csv.gz",package="move"))
+# leroy <- move(x=data$location.long, y=data$location.lat,
+#               time=as.POSIXct(data$timestamp, format="%Y-%m-%d %H:%M:%OS", tz="UTC"),
+#               proj=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"),
+#               data=data, animal=data$individual.local.identifier, sensor=data$sensor)
 
 ## ----eval=T-------------------------------------------------------------------
 leroy
@@ -32,11 +32,11 @@ myStack <- moveStack(list(leroyP, ricky),forceTz="UTC")
 myStack
 
 ## ----eval=F-------------------------------------------------------------------
-#  unstacked <- split(myStack)
-#  myStack <- moveStack(unstacked, forceTz="UTC")
+# unstacked <- split(myStack)
+# myStack <- moveStack(unstacked, forceTz="UTC")
 
 ## ----eval=F-------------------------------------------------------------------
-#  str(leroy)
+# str(leroy)
 
 ## -----------------------------------------------------------------------------
 timestamps(leroy)[1:3]
@@ -94,65 +94,65 @@ levels(leroy@sensorUnUsedRecords)
 
 
 ## ----eval=F-------------------------------------------------------------------
-#  coatis_bci <- getMovebankData(study="Coatis on BCI Panama (data from Powell et al. 2017)")
-#  
-#  ## the study name:
-#  coatis_bci@study
-#  # [1] "Coatis on BCI Panama (data from Powell et al. 2017)"
-#  
-#  ## how to cite the study:
-#  citations(coatis_bci)
-#  # [1] "Powell RA, Ellwood S, Kays R, Maran T (2017) Stink or swim: techniques to meet the challenges for the study and conservation of small critters that hide, swim, or climb, and may otherwise make themselves unpleasant. In Macdonald DW, Newman C, Harrington LA, eds, Biology and Conservation of Musteloids. Oxford University Press, Oxford. p 216–230. doi:10.1093/oso/9780198759805.003.0008"
-#  
-#  ## license terms of the study
-#  licenseTerms(coatis_bci)
-#  # [1] "These data have been published by the Movebank Data Repository with DOI "http://dx.doi.org/10.5441/001/1.41076dq1"
+# coatis_bci <- getMovebankData(study="Coatis on BCI Panama (data from Powell et al. 2017)")
+# 
+# ## the study name:
+# coatis_bci@study
+# # [1] "Coatis on BCI Panama (data from Powell et al. 2017)"
+# 
+# ## how to cite the study:
+# citations(coatis_bci)
+# # [1] "Powell RA, Ellwood S, Kays R, Maran T (2017) Stink or swim: techniques to meet the challenges for the study and conservation of small critters that hide, swim, or climb, and may otherwise make themselves unpleasant. In Macdonald DW, Newman C, Harrington LA, eds, Biology and Conservation of Musteloids. Oxford University Press, Oxford. p 216–230. doi:10.1093/oso/9780198759805.003.0008"
+# 
+# ## license terms of the study
+# licenseTerms(coatis_bci)
+# # [1] "These data have been published by the Movebank Data Repository with DOI "http://dx.doi.org/10.5441/001/1.41076dq1"
 
 ## ----eval=T-------------------------------------------------------------------
 trackId(myStack)[1:3]
 
 ## ----eval=F-------------------------------------------------------------------
-#  rickyT <- myStack[["Ricky.T"]]
+# rickyT <- myStack[["Ricky.T"]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  indv1 <- myStack[[1]]
+# indv1 <- myStack[[1]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  leroyAndRicky <- myStack[[c("Leroy","Ricky.T")]]
+# leroyAndRicky <- myStack[[c("Leroy","Ricky.T")]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  twoInd <- myStack[[c(1,2)]]
+# twoInd <- myStack[[c(1,2)]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  noRickyT <- myStack[[-which(namesIndiv(myStack)=="Ricky.T")]]
+# noRickyT <- myStack[[-which(namesIndiv(myStack)=="Ricky.T")]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  noIndv1 <- myStack[[-1]]
+# noIndv1 <- myStack[[-1]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  noLeroyAndRicky <- myStack[[-which(namesIndiv(mv)%in%c("Leroy","Ricky.T"))]]
+# noLeroyAndRicky <- myStack[[-which(namesIndiv(mv)%in%c("Leroy","Ricky.T"))]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  noOneAndTwo <- myStack[[-c(1,2)]]
+# noOneAndTwo <- myStack[[-c(1,2)]]
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## subset to locations 1-50
-#  leroySub <- leroy[1:50]
+# ## subset to locations 1-50
+# leroySub <- leroy[1:50]
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## select the locations 1-50 from a movestack. WARNING: this will just select the 50 first locations in order of occurrence, in this case they correspond to the first individual of the movestack
-#  myStackSub <- myStack[1:50]
-#  
-#  ## to select locations 1-50 from each individual
-#  myStackSubs <- moveStack(lapply(split(myStack), function(x){x[1:50]}))
+# ## select the locations 1-50 from a movestack. WARNING: this will just select the 50 first locations in order of occurrence, in this case they correspond to the first individual of the movestack
+# myStackSub <- myStack[1:50]
+# 
+# ## to select locations 1-50 from each individual
+# myStackSubs <- moveStack(lapply(split(myStack), function(x){x[1:50]}))
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## selecting a specific day
-#  leroyOneDay <- leroy[as.Date(timestamps(leroy))==as.Date("2009-02-25")]
-#  ## selecting a range of days
-#  leroy3Days <- leroy[as.Date(timestamps(leroy))%in%c(as.Date("2009-02-25"):as.Date("2009-02-28"))]
-#  ## selecting a specific month
-#  myStackMarch <- myStack[month(timestamps(myStack))==3]
+# ## selecting a specific day
+# leroyOneDay <- leroy[as.Date(timestamps(leroy))==as.Date("2009-02-25")]
+# ## selecting a range of days
+# leroy3Days <- leroy[as.Date(timestamps(leroy))%in%c(as.Date("2009-02-25"):as.Date("2009-02-28"))]
+# ## selecting a specific month
+# myStackMarch <- myStack[month(timestamps(myStack))==3]
 
 ## ----message=FALSE------------------------------------------------------------
 library(lubridate)
@@ -178,12 +178,12 @@ ggplot(data = myStackDF, aes(x = location.long, y = location.lat, color = trackI
   geom_path() + geom_point(size = 0.5) + theme_bw() + coord_cartesian()
 
 ## ----fig.width=5, fig.height=5, eval=F----------------------------------------
-#  library(ggmap)
-#  require(mapproj)
-#  leroyDF <- as.data.frame(leroy)
-#  register_stadiamaps(your_stadia_key)
-#  m <- get_map(bbox(extent(leroy)*1.1),maptype="stamen_terrain", source="stadia", zoom=12)
-#  ggmap(m)+geom_path(data=leroyDF, aes(x=location.long, y=location.lat))
+# library(ggmap)
+# require(mapproj)
+# leroyDF <- as.data.frame(leroy)
+# register_stadiamaps(your_stadia_key)
+# m <- get_map(bbox(extent(leroy)*1.1),maptype="stamen_terrain", source="stadia", zoom=12)
+# ggmap(m)+geom_path(data=leroyDF, aes(x=location.long, y=location.lat))
 
 ## ----fig.width=5, fig.height=5, echo=F, message=F-----------------------------
 library(ggmap)
@@ -336,10 +336,10 @@ rickyRed <- ricky[1:100]
 summary(timeLag(rickyRed,"mins")) 
 
 ## ----eval=F-------------------------------------------------------------------
-#  ricky.prj <- spTransform(rickyRed, center=TRUE)
-#  
-#  ts <- median(timeLag(rickyRed,"mins"))
-#  BB.ricky <- brownian.bridge.dyn(ricky.prj, ext=.45, dimSize=100, location.error=20,time.step=ts/15)
+# ricky.prj <- spTransform(rickyRed, center=TRUE)
+# 
+# ts <- median(timeLag(rickyRed,"mins"))
+# BB.ricky <- brownian.bridge.dyn(ricky.prj, ext=.45, dimSize=100, location.error=20,time.step=ts/15)
 
 ## ----error=T,fig.width=10, fig.height=5,message=F, warning=F------------------
 ## creating a gappy data set
@@ -435,55 +435,55 @@ thintime <- thinTrackTime(leroyRed, interval = as.difftime(45, units='mins'),
 data.frame(TL=timeLag(thintime,"mins"),burst=thintime@burstId)[15:25,]
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## selecting those segments that have a travel distance of ~300m in the original track
-#  thindist <- thinDistanceAlongTrack(leroyRed, interval = 300, tolerance = 10)
+# ## selecting those segments that have a travel distance of ~300m in the original track
+# thindist <- thinDistanceAlongTrack(leroyRed, interval = 300, tolerance = 10)
 
 ## ----eval=F-------------------------------------------------------------------
-#  leroyDF <- as.data.frame(leroy)
+# leroyDF <- as.data.frame(leroy)
 
 ## ----eval=F-------------------------------------------------------------------
-#  leroySPDF <- as(leroy,"SpatialPointsDataFrame")
+# leroySPDF <- as(leroy,"SpatialPointsDataFrame")
 
 ## ----eval=F-------------------------------------------------------------------
-#  leroy.ltraj <- as(leroy,"ltraj")
+# leroy.ltraj <- as(leroy,"ltraj")
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## save the Move* object as a RData file
-#  save(leroy, file="C:/User/Documents/leroy.RData")
-#  
-#  ## load an  Move* object saved as a RData file
-#  load("C:/User/Documents/leroy.RData")
+# ## save the Move* object as a RData file
+# save(leroy, file="C:/User/Documents/leroy.RData")
+# 
+# ## load an  Move* object saved as a RData file
+# load("C:/User/Documents/leroy.RData")
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## save as a text file
-#  leroyDF <- as.data.frame(leroy)
-#  write.table(leroyDF, file="C:/User/Documents/leroyDF.csv", sep=",", row.names = FALSE)
+# ## save as a text file
+# leroyDF <- as.data.frame(leroy)
+# write.table(leroyDF, file="C:/User/Documents/leroyDF.csv", sep=",", row.names = FALSE)
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## save as a shape file
-#  library(rgdal)
-#  writeOGR(leroy, "C:/User/Documents/leroySHP/", layer="leroy", driver="ESRI Shapefile")
+# ## save as a shape file
+# library(rgdal)
+# writeOGR(leroy, "C:/User/Documents/leroySHP/", layer="leroy", driver="ESRI Shapefile")
 
 ## ----eval=F-------------------------------------------------------------------
-#  ## kml or kmz of movestack ##
-#  library(plotKML)
-#  ## open a file to write the content
-#  kml_open('myStack.kml')
-#  ## write the movement data individual-wise
-#  for(i in levels(trackId(myStack))){
-#    kml_layer(as(myStack[[i]],'SpatialLines'))
-#  }
-#  ## close the file
-#  kml_close('myStack.kml')
-#  
-#  ## export KML using writeOGR ##
-#  for(i in 1:nrow(myStack@idData)){
-#    writeOGR(as(myStack[[i]], "SpatialPointsDataFrame"),
-#             paste(row.names(myStack@idData)[i], ".kml", sep=""),
-#             row.names(myStack@idData)[i], driver="KML")
-#  
-#    writeOGR(as(myStack[[i]], "SpatialLinesDataFrame"),
-#           paste(row.names(myStack@idData)[i], "-track.kml", sep=""),
-#           row.names(myStack@idData)[i], driver="KML")
-#  }
+# ## kml or kmz of movestack ##
+# library(plotKML)
+# ## open a file to write the content
+# kml_open('myStack.kml')
+# ## write the movement data individual-wise
+# for(i in levels(trackId(myStack))){
+#   kml_layer(as(myStack[[i]],'SpatialLines'))
+# }
+# ## close the file
+# kml_close('myStack.kml')
+# 
+# ## export KML using writeOGR ##
+# for(i in 1:nrow(myStack@idData)){
+#   writeOGR(as(myStack[[i]], "SpatialPointsDataFrame"),
+#            paste(row.names(myStack@idData)[i], ".kml", sep=""),
+#            row.names(myStack@idData)[i], driver="KML")
+# 
+#   writeOGR(as(myStack[[i]], "SpatialLinesDataFrame"),
+#          paste(row.names(myStack@idData)[i], "-track.kml", sep=""),
+#          row.names(myStack@idData)[i], driver="KML")
+# }
 

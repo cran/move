@@ -1,3 +1,7 @@
+Version 4.2.7
+  
+  * Fix tests on CRAN failing on dist class
+
 Version 4.2.6
   
   * Fix tests on CRAN for timezone
